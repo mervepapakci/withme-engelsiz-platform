@@ -49,19 +49,19 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label" for="konum">Konum (Opsiyonel)</label>
-            <input class="form-input" type="text" id="konum" name="konum" placeholder="Şehir veya ilçe girin...">
+            <label class="form-label" for="konum">Konum *</label>
+            <input class="form-input" type="text" id="konum" name="konum" placeholder="Şehir veya ilçe girin..." required>
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" for="isim">İsim Soyisim</label>
-            <input class="form-input" type="text" id="isim" name="isim" placeholder="Adınız ve soyadınız...">
+            <label class="form-label" for="isim">İsim Soyisim *</label>
+            <input class="form-input" type="text" id="isim" name="isim" placeholder="Adınız ve soyadınız..." required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="iletisim">İletişim (Telefon veya E-posta)</label>
-            <input class="form-input" type="text" id="iletisim" name="iletisim" placeholder="Telefon veya e-posta adresiniz...">
+            <label class="form-label" for="iletisim">İletişim (Telefon veya E-posta) *</label>
+            <input class="form-input" type="text" id="iletisim" name="iletisim" placeholder="Telefon veya e-posta adresiniz..." required>
           </div>
         </div>
 
@@ -109,8 +109,12 @@
         e.preventDefault();
 
         const aciklama = document.getElementById('aciklama').value.trim();
-        if (!aciklama) {
-          WithMeComponents.showToast('Lütfen açıklama alanını doldurun.', 'error');
+        const konum = document.getElementById('konum').value.trim();
+        const isim = document.getElementById('isim').value.trim();
+        const iletisim = document.getElementById('iletisim').value.trim();
+
+        if (!aciklama || !konum || !isim || !iletisim) {
+          WithMeComponents.showToast('Lütfen zorunlu alanları doldurun.', 'error');
           return;
         }
 
@@ -123,9 +127,9 @@
             baslik: document.getElementById('baslik').value.trim(),
             aciklama,
             engelTuru: document.getElementById('engel-turu').value,
-            konum: document.getElementById('konum').value.trim(),
-            isim: document.getElementById('isim').value.trim(),
-            iletisim: document.getElementById('iletisim').value.trim(),
+            konum,
+            isim,
+            iletisim,
             yasananTarih: document.getElementById('yasanan-tarih').value,
             anonim: document.getElementById('anonim').checked
           });
