@@ -22,7 +22,6 @@
     <main class="page-content">
       <div class="forum-top-row">
         <h1 class="desktop-title">Derdini Anlat</h1>
-        <h2 class="section-title" style="margin:0;">Paylaşımlar</h2>
         <a href="derdini-anlat/yeni/" class="btn btn-primary btn-sm">
           <i data-lucide="plus" aria-hidden="true"></i>
           Yeni
@@ -42,62 +41,9 @@
 
       <!-- Forum List -->
       <div class="forum-list mt-lg" id="forum-list">
-        <!-- Örnek kartlar - gerçek veriler JS ile yüklenecek -->
-
-        <article class="forum-card" data-category="Fiziksel Engelli">
-          <div class="forum-vote">
-            <button class="vote-btn" aria-label="Destekle">
-              <i data-lucide="arrow-big-up" aria-hidden="true"></i>
-            </button>
-            <span class="vote-count">24</span>
-          </div>
-          <div class="forum-body">
-            <h3>Toplu taşımada erişilebilirlik sorunu</h3>
-            <p>Metrobüs duraklarında asansörler sürekli arızalı. Tekerlekli sandalye kullanan bireyler için ulaşım çok zor.</p>
-            <div class="forum-meta">
-              <span class="forum-tag">Fiziksel</span>
-              <span class="forum-time">2 saat önce</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="forum-card" data-category="Ayrımcılık">
-          <div class="forum-vote">
-            <button class="vote-btn" aria-label="Destekle">
-              <i data-lucide="arrow-big-up" aria-hidden="true"></i>
-            </button>
-            <span class="vote-count">17</span>
-          </div>
-          <div class="forum-body">
-            <h3>İş başvurularında ayrımcılık</h3>
-            <p>Engelli kontenjanı olmasına rağmen firmalar mülakatta eleme yapıyor. Yasal haklarımız kağıt üzerinde kalıyor.</p>
-            <div class="forum-meta">
-              <span class="forum-tag">Ayrımcılık</span>
-              <span class="forum-time">5 saat önce</span>
-              <span class="forum-anon" title="Anonim paylaşım">
-                <i data-lucide="eye-off" aria-hidden="true"></i>
-              </span>
-            </div>
-          </div>
-        </article>
-
-        <article class="forum-card" data-category="Görme Engelli">
-          <div class="forum-vote">
-            <button class="vote-btn" aria-label="Destekle">
-              <i data-lucide="arrow-big-up" aria-hidden="true"></i>
-            </button>
-            <span class="vote-count">9</span>
-          </div>
-          <div class="forum-body">
-            <h3>Hastane randevu sistemi engelli dostu değil</h3>
-            <p>Online randevu sistemi ekran okuyucu ile uyumlu değil. Görme engelli bireyler yardımsız randevu alamıyor.</p>
-            <div class="forum-meta">
-              <span class="forum-tag">Görme</span>
-              <span class="forum-time">1 gün önce</span>
-            </div>
-          </div>
-        </article>
-
+        <div class="loading" id="forum-loading">
+          <div class="spinner"></div>
+        </div>
       </div>
     </main>
   </div>
@@ -106,11 +52,92 @@
   <script src="js/data.js"></script>
   <script src="js/components.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Filter chips
-      const filters = document.getElementById('forum-filters');
-      const cards = document.querySelectorAll('.forum-card');
+    // Göreli zaman hesaplama
+    function zamanOnce(tarihStr) {
+      if (!tarihStr) return '';
+      const now = Date.now();
+      const past = new Date(tarihStr).getTime();
+      const diff = now - past;
+      const dk = Math.floor(diff / 60000);
+      if (dk < 1) return 'Az önce';
+      if (dk < 60) return dk + ' dk önce';
+      const saat = Math.floor(dk / 60);
+      if (saat < 24) return saat + ' saat önce';
+      const gun = Math.floor(saat / 24);
+      if (gun < 30) return gun + ' gün önce';
+      const ay = Math.floor(gun / 30);
+      return ay + ' ay önce';
+    }
 
+    // Tek bir forum kartı oluştur (güvenli DOM)
+    function forumKartOlustur(item) {
+      const ce = (tag, attrs, children) => WithMeComponents.createElement(tag, attrs, children || []);
+
+      const card = ce('div', { className: 'forum-card', 'data-category': item.engelTuru || '', 'data-id': item.id || '' });
+
+      // Sol: Oy bölümü
+      const vote = ce('div', { className: 'forum-vote' });
+      const voteBtn = ce('button', { className: 'vote-btn', 'aria-label': 'Destek ver' });
+      voteBtn.appendChild(WithMeComponents.createIcon('arrow-up'));
+      vote.appendChild(voteBtn);
+      vote.appendChild(ce('span', { className: 'vote-count', textContent: String(item.destek || 0) }));
+      card.appendChild(vote);
+
+      // Sağ: İçerik
+      const body = ce('div', { className: 'forum-body' });
+      body.appendChild(ce('h3', { textContent: item.baslik || 'Başlıksız' }));
+
+      // Açıklamayı kısalt (200 karakter)
+      const aciklama = item.aciklama || '';
+      const kisa = aciklama.length > 200 ? aciklama.substring(0, 200) + '…' : aciklama;
+      body.appendChild(ce('p', { textContent: kisa }));
+
+      // Meta bilgiler
+      const meta = ce('div', { className: 'forum-meta' });
+      if (item.engelTuru) {
+        meta.appendChild(ce('span', { className: 'forum-tag', textContent: item.engelTuru }));
+      }
+      if (item.konum) {
+        meta.appendChild(ce('span', { className: 'forum-time', textContent: item.konum }));
+      }
+      meta.appendChild(ce('span', { className: 'forum-time', textContent: zamanOnce(item.tarih) }));
+      if (item.anonim === 'Evet') {
+        const anonSpan = ce('span', { className: 'forum-anon' });
+        anonSpan.appendChild(WithMeComponents.createIcon('eye-off'));
+        meta.appendChild(anonSpan);
+      }
+      body.appendChild(meta);
+      card.appendChild(body);
+
+      return card;
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const listEl = document.getElementById('forum-list');
+      const loadingEl = document.getElementById('forum-loading');
+      const filters = document.getElementById('forum-filters');
+      let activeFilter = 'all';
+
+      // Veriyi yükle ve kartları oluştur
+      try {
+        const dertler = await WithMeData.getDertler();
+        loadingEl.remove();
+
+        if (!dertler.length) {
+          const empty = WithMeComponents.createElement('div', { className: 'empty-state', textContent: 'Henüz paylaşım yok. İlk paylaşımı siz yapın!' });
+          listEl.appendChild(empty);
+        } else {
+          dertler.forEach(item => listEl.appendChild(forumKartOlustur(item)));
+        }
+
+        WithMeComponents.refreshIcons();
+      } catch (err) {
+        loadingEl.remove();
+        const errEl = WithMeComponents.createElement('div', { className: 'empty-state', textContent: 'Paylaşımlar yüklenirken bir hata oluştu.' });
+        listEl.appendChild(errEl);
+      }
+
+      // Filtre chips (event delegation - dinamik kartlar için)
       filters.addEventListener('click', (e) => {
         const chip = e.target.closest('.filter-chip');
         if (!chip) return;
@@ -122,20 +149,31 @@
         chip.classList.add('active');
         chip.setAttribute('aria-selected', 'true');
 
-        const filter = chip.dataset.filter;
-        cards.forEach(card => {
-          card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+        activeFilter = chip.dataset.filter;
+        listEl.querySelectorAll('.forum-card').forEach(card => {
+          card.style.display = (activeFilter === 'all' || card.dataset.category === activeFilter) ? '' : 'none';
         });
       });
 
-      // Upvote buttons
-      document.querySelectorAll('.vote-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const countEl = btn.parentElement.querySelector('.vote-count');
-          const isVoted = btn.classList.toggle('voted');
-          let count = parseInt(countEl.textContent);
-          countEl.textContent = isVoted ? count + 1 : count - 1;
-        });
+      // Destek butonu (event delegation)
+      listEl.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.vote-btn');
+        if (!btn) return;
+
+        const card = btn.closest('.forum-card');
+        const id = card.dataset.id;
+        const countEl = btn.parentElement.querySelector('.vote-count');
+        const isVoted = btn.classList.toggle('voted');
+        let count = parseInt(countEl.textContent);
+        countEl.textContent = isVoted ? count + 1 : count - 1;
+
+        try {
+          await WithMeData.destekleDert(id);
+        } catch (err) {
+          // Geri al
+          btn.classList.toggle('voted');
+          countEl.textContent = count;
+        }
       });
     });
   </script>

@@ -47,6 +47,7 @@
               <option value="Ayrımcılık">Ayrımcılık</option>
               <option value="Diğer">Diğer</option>
             </select>
+            <textarea class="form-textarea" id="engel-diger" name="engelDiger" placeholder="Engel türünü açıklayın..." style="display:none; height:60px; margin-top:6px;"></textarea>
           </div>
           <div class="form-group">
             <label class="form-label" for="konum">Konum *</label>
@@ -103,6 +104,14 @@
         now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
       document.getElementById('tarih-otomatik').value = formatted;
 
+      // Diğer engel türü textarea toggle
+      const engelSelect = document.getElementById('engel-turu');
+      const engelDiger = document.getElementById('engel-diger');
+      engelSelect.addEventListener('change', () => {
+        engelDiger.style.display = engelSelect.value === 'Diğer' ? '' : 'none';
+        if (engelSelect.value !== 'Diğer') engelDiger.value = '';
+      });
+
       const form = document.getElementById('dert-form');
 
       form.addEventListener('submit', async (e) => {
@@ -126,7 +135,7 @@
           await WithMeData.submitDert({
             baslik: document.getElementById('baslik').value.trim(),
             aciklama,
-            engelTuru: document.getElementById('engel-turu').value,
+            engelTuru: engelSelect.value === 'Diğer' ? 'Diğer: ' + engelDiger.value.trim() : engelSelect.value,
             konum,
             isim,
             iletisim,

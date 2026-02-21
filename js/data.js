@@ -9,6 +9,8 @@ const WithMeData = {
     etkinlikOlustur: 'https://YOUR_N8N_DOMAIN/webhook/etkinlik-olustur',
     birlikteGit: 'https://YOUR_N8N_DOMAIN/webhook/birlikte-git',
     derdiniAnlat: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat',
+    derdiniAnlatListele: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-listele',
+    derdiniAnlatDestek: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-destek',
     geriBildirim: 'https://n8n.fatiherencetin.com/webhook/geri-bildirim'
   },
 
@@ -87,6 +89,29 @@ const WithMeData = {
   // Derdini Anlat -> n8n
   async submitDert(formData) {
     return this.postToWebhook('derdiniAnlat', formData);
+  },
+
+  // Derdini Anlat paylaşımlarını listele
+  async getDertler() {
+    const url = this.N8N_WEBHOOKS.derdiniAnlatListele;
+    if (!url || url.includes('YOUR_N8N_DOMAIN')) {
+      console.warn('n8n listele webhook URL yapılandırılmamış');
+      return [];
+    }
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      console.error('Dertler yüklenemedi:', error);
+      return [];
+    }
+  },
+
+  // Derdini Anlat destek ver
+  async destekleDert(id) {
+    return this.postToWebhook('derdiniAnlatDestek', { id });
   },
 
   // Birlikte Gidelim -> n8n
