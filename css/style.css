@@ -5,19 +5,19 @@
 
 /* --- CSS Variables --- */
 :root {
-  /* Colors */
-  --bg-primary: #1A1D12;
-  --bg-secondary: #2A2D1F;
-  --bg-card: #333625;
-  --bg-header: #3A3D2C;
+  /* Light Mode Colors (default) */
+  --bg-primary: #FDF8F0;
+  --bg-secondary: #F5EDE0;
+  --bg-card: #FFFFFF;
+  --bg-header: #EDE6D6;
   --accent-primary: #8B9A3B;
-  --accent-hover: #9AAB44;
+  --accent-hover: #7A8934;
   --accent-light: #A4B34D;
-  --text-primary: #F0F0E8;
-  --text-secondary: #B0B0A0;
-  --text-muted: #808070;
-  --text-on-accent: #1A1D12;
-  --border-subtle: #3A3D2C;
+  --text-primary: #2A2D1F;
+  --text-secondary: #5C5E50;
+  --text-muted: #8A8A78;
+  --text-on-accent: #FFFFFF;
+  --border-subtle: #E0D8C8;
   --border-active: #8B9A3B;
   --danger: #E85555;
   --success: #4CAF50;
@@ -40,6 +40,23 @@
 
   /* Font */
   --font-family: 'DM Sans', sans-serif;
+}
+
+/* Dark Mode Colors */
+[data-theme="dark"] {
+  --bg-primary: #1A1D12;
+  --bg-secondary: #2A2D1F;
+  --bg-card: #333625;
+  --bg-header: #3A3D2C;
+  --accent-primary: #8B9A3B;
+  --accent-hover: #9AAB44;
+  --accent-light: #A4B34D;
+  --text-primary: #F0F0E8;
+  --text-secondary: #B0B0A0;
+  --text-muted: #808070;
+  --text-on-accent: #1A1D12;
+  --border-subtle: #3A3D2C;
+  --border-active: #8B9A3B;
 }
 
 /* --- Reset & Base --- */
@@ -408,10 +425,14 @@ h3 {
 
 .form-select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23808070' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%238A8A78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
   padding-right: 44px;
+}
+
+[data-theme="dark"] .form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23808070' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 /* --- Toggle Switch --- */
@@ -968,6 +989,86 @@ h3 {
   .toast {
     bottom: 40px;
   }
+}
+
+/* --- Theme Toggle --- */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: auto;
+  border: none;
+  background: none;
+  width: 100%;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.theme-toggle i {
+  font-size: 20px;
+  color: var(--text-muted);
+}
+
+/* Mobile theme toggle (fixed top-right) */
+.theme-toggle-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 10px;
+  right: 12px;
+  z-index: 150;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  color: var(--text-secondary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.theme-toggle-mobile i {
+  font-size: 18px;
+}
+
+@media (min-width: 768px) {
+  .theme-toggle-mobile {
+    display: none;
+  }
+}
+
+/* Smooth theme transition */
+body,
+.sidebar,
+.bottom-nav,
+.mobile-header,
+.card,
+.list-item,
+.detail-card,
+.form-input,
+.form-select,
+.form-textarea,
+.search-bar,
+.btn-secondary,
+.toast,
+.participant-section,
+.source-badge,
+.filter-chip,
+.centered-card,
+.form-card {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 /* --- Utility Classes --- */

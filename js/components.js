@@ -85,6 +85,9 @@ const WithMeComponents = {
     });
     sidebar.appendChild(nav);
 
+    // Tema toggle butonu (Geri Bildirim'in altında)
+    this.renderThemeToggle(sidebar);
+
     document.body.prepend(sidebar);
   },
 
@@ -151,10 +154,79 @@ const WithMeComponents = {
     }
   },
 
+  // Tema yönetimi
+  initTheme() {
+    const saved = localStorage.getItem('withme-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  },
+
+  toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('withme-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('withme-theme', 'dark');
+    }
+    this.updateThemeIcons();
+  },
+
+  updateThemeIcons() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const iconName = isDark ? 'sun' : 'moon';
+    const label = isDark ? 'Açık Mod' : 'Koyu Mod';
+
+    document.querySelectorAll('.theme-toggle-icon').forEach(el => {
+      el.setAttribute('data-lucide', iconName);
+    });
+    document.querySelectorAll('.theme-toggle-label').forEach(el => {
+      el.textContent = label;
+    });
+    this.refreshIcons();
+  },
+
+  // Sidebar tema toggle butonu
+  renderThemeToggle(container) {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const btn = this.createElement('button', {
+      className: 'theme-toggle',
+      'aria-label': 'Tema değiştir'
+    });
+    const icon = this.createIcon(isDark ? 'sun' : 'moon');
+    icon.classList.add('theme-toggle-icon');
+    btn.appendChild(icon);
+    const span = this.createElement('span', {
+      className: 'theme-toggle-label',
+      textContent: isDark ? 'Açık Mod' : 'Koyu Mod'
+    });
+    btn.appendChild(span);
+    btn.addEventListener('click', () => this.toggleTheme());
+    container.appendChild(btn);
+  },
+
+  // Mobil tema toggle butonu (sabit, sağ üst)
+  renderMobileThemeToggle() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const btn = this.createElement('button', {
+      className: 'theme-toggle-mobile',
+      'aria-label': 'Tema değiştir'
+    });
+    const icon = this.createIcon(isDark ? 'sun' : 'moon');
+    icon.classList.add('theme-toggle-icon');
+    btn.appendChild(icon);
+    btn.addEventListener('click', () => this.toggleTheme());
+    document.body.appendChild(btn);
+  },
+
   // Tüm ortak bileşenleri yükle
   init() {
+    this.initTheme();
     this.renderSidebar();
     this.renderBottomNav();
+    this.renderMobileThemeToggle();
     this.refreshIcons();
   }
 };
