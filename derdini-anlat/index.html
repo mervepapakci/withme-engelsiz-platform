@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../">
-  <title>WithMe - Derdini Anlat</title>
+  <title>BeVoys - Derdini Anlat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -37,6 +37,21 @@
         <button class="filter-chip" data-filter="İşitme Engelli" role="tab">İşitme</button>
         <button class="filter-chip" data-filter="Zihinsel Engelli" role="tab">Zihinsel</button>
         <button class="filter-chip" data-filter="Ayrımcılık" role="tab">Ayrımcılık</button>
+        <button class="filter-chip" data-filter="filtrele" role="tab" id="filter-advanced-btn">
+          <i data-lucide="sliders-horizontal" aria-hidden="true"></i> Filtrele
+        </button>
+      </div>
+
+      <!-- Advanced Filters (hidden by default) -->
+      <div id="advanced-filters" class="mt-md" style="display:none;">
+        <div style="display:flex; flex-wrap:wrap; gap:var(--spacing-sm);">
+          <select class="form-select" id="filter-sehir" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:120px;">
+            <option value="">Tüm Şehirler</option>
+          </select>
+          <select class="form-select" id="filter-engel" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:120px;">
+            <option value="">Tüm Engel Türleri</option>
+          </select>
+        </div>
       </div>
 
       <!-- Forum List -->
@@ -71,14 +86,14 @@
 
     // Tek bir forum kartı oluştur (güvenli DOM)
     function forumKartOlustur(item) {
-      const ce = (tag, attrs, children) => WithMeComponents.createElement(tag, attrs, children || []);
+      const ce = (tag, attrs, children) => BeVoysComponents.createElement(tag, attrs, children || []);
 
       const card = ce('div', { className: 'forum-card', 'data-category': item.engelTuru || '', 'data-id': item.id || '' });
 
       // Sol: Oy bölümü
       const vote = ce('div', { className: 'forum-vote' });
       const voteBtn = ce('button', { className: 'vote-btn', 'aria-label': 'Destek ver' });
-      voteBtn.appendChild(WithMeComponents.createIcon('arrow-up'));
+      voteBtn.appendChild(BeVoysComponents.createIcon('arrow-up'));
       vote.appendChild(voteBtn);
       vote.appendChild(ce('span', { className: 'vote-count', textContent: String(item.destek || 0) }));
       card.appendChild(vote);
@@ -103,7 +118,7 @@
       meta.appendChild(ce('span', { className: 'forum-time', textContent: zamanOnce(item.tarih) }));
       if (item.anonim === 'Evet') {
         const anonSpan = ce('span', { className: 'forum-anon' });
-        anonSpan.appendChild(WithMeComponents.createIcon('eye-off'));
+        anonSpan.appendChild(BeVoysComponents.createIcon('eye-off'));
         meta.appendChild(anonSpan);
       }
       body.appendChild(meta);
@@ -116,44 +131,108 @@
       const listEl = document.getElementById('forum-list');
       const loadingEl = document.getElementById('forum-loading');
       const filters = document.getElementById('forum-filters');
-      let activeFilter = 'all';
+      const advancedFilters = document.getElementById('advanced-filters');
+      const filterSehir = document.getElementById('filter-sehir');
+      const filterEngel = document.getElementById('filter-engel');
 
-      // Veriyi yükle ve kartları oluştur
-      try {
-        const dertler = await WithMeData.getDertler();
-        loadingEl.remove();
+      let activeChipFilter = 'all';
+      let allDertler = [];
 
-        if (!dertler.length) {
-          const empty = WithMeComponents.createElement('div', { className: 'empty-state', textContent: 'Henüz paylaşım yok. İlk paylaşımı siz yapın!' });
+      // Şehir çıkar (konum'un virgülden önceki kısmı)
+      function extractSehir(konum) {
+        if (!konum) return '';
+        return konum.split(',')[0].trim();
+      }
+
+      // Filtrelenmiş veriyi getir
+      function getFilteredData() {
+        const sehir = filterSehir.value;
+        const engel = filterEngel.value;
+
+        return allDertler.filter(item => {
+          // Chip filtresi
+          if (activeChipFilter !== 'all' && item.engelTuru !== activeChipFilter) return false;
+          // Şehir dropdown
+          if (sehir && extractSehir(item.konum) !== sehir) return false;
+          // Engel türü dropdown
+          if (engel && item.engelTuru !== engel) return false;
+          return true;
+        });
+      }
+
+      // Listeyi render et
+      function renderList(data) {
+        listEl.textContent = '';
+
+        if (!data.length) {
+          const empty = BeVoysComponents.createElement('div', { className: 'empty-state', textContent: 'Paylaşım bulunamadı.' });
           listEl.appendChild(empty);
-        } else {
-          dertler.forEach(item => listEl.appendChild(forumKartOlustur(item)));
+          return;
         }
 
-        WithMeComponents.refreshIcons();
+        data.forEach(item => listEl.appendChild(forumKartOlustur(item)));
+        BeVoysComponents.refreshIcons();
+      }
+
+      function applyFilters() {
+        renderList(getFilteredData());
+      }
+
+      // Veriyi yükle
+      try {
+        allDertler = await BeVoysData.getDertler();
+        loadingEl.remove();
+
+        // Dropdown'ları doldur
+        const sehirler = [...new Set(allDertler.map(d => extractSehir(d.konum)).filter(Boolean))].sort();
+        sehirler.forEach(s => {
+          filterSehir.appendChild(BeVoysComponents.createElement('option', { value: s, textContent: s }));
+        });
+
+        const engelTurleri = [...new Set(allDertler.map(d => d.engelTuru).filter(Boolean))].sort();
+        engelTurleri.forEach(t => {
+          filterEngel.appendChild(BeVoysComponents.createElement('option', { value: t, textContent: t }));
+        });
+
+        renderList(allDertler);
       } catch (err) {
         loadingEl.remove();
-        const errEl = WithMeComponents.createElement('div', { className: 'empty-state', textContent: 'Paylaşımlar yüklenirken bir hata oluştu.' });
+        const errEl = BeVoysComponents.createElement('div', { className: 'empty-state', textContent: 'Paylaşımlar yüklenirken bir hata oluştu.' });
         listEl.appendChild(errEl);
       }
 
-      // Filtre chips (event delegation - dinamik kartlar için)
+      // Filtre chips (event delegation)
       filters.addEventListener('click', (e) => {
         const chip = e.target.closest('.filter-chip');
         if (!chip) return;
 
+        const filter = chip.dataset.filter;
+
+        // Filtrele butonu → toggle advanced panel
+        if (filter === 'filtrele') {
+          const isVisible = advancedFilters.style.display !== 'none';
+          advancedFilters.style.display = isVisible ? 'none' : '';
+          chip.classList.toggle('active', !isVisible);
+          return;
+        }
+
+        // Kategori chip'leri
         filters.querySelectorAll('.filter-chip').forEach(c => {
-          c.classList.remove('active');
-          c.setAttribute('aria-selected', 'false');
+          if (c.dataset.filter !== 'filtrele') {
+            c.classList.remove('active');
+            c.setAttribute('aria-selected', 'false');
+          }
         });
         chip.classList.add('active');
         chip.setAttribute('aria-selected', 'true');
 
-        activeFilter = chip.dataset.filter;
-        listEl.querySelectorAll('.forum-card').forEach(card => {
-          card.style.display = (activeFilter === 'all' || card.dataset.category === activeFilter) ? '' : 'none';
-        });
+        activeChipFilter = filter;
+        applyFilters();
       });
+
+      // Dropdown filter change
+      filterSehir.addEventListener('change', applyFilters);
+      filterEngel.addEventListener('change', applyFilters);
 
       // Destek butonu (event delegation)
       listEl.addEventListener('click', async (e) => {
@@ -168,7 +247,7 @@
         countEl.textContent = isVoted ? count + 1 : count - 1;
 
         try {
-          await WithMeData.destekleDert(id);
+          await BeVoysData.destekleDert(id);
         } catch (err) {
           // Geri al
           btn.classList.toggle('voted');

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../">
-  <title>WithMe - Yasal Haklar</title>
+  <title>BeVoys - Yasal Haklar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -112,8 +112,8 @@
       const searchInput = document.getElementById('search-input');
       const modal = document.getElementById('hak-modal');
 
-      WithMeComponents.showLoading(listEl);
-      const haklar = await WithMeData.getHaklar();
+      BeVoysComponents.showLoading(listEl);
+      const haklar = await BeVoysData.getHaklar();
 
       function openModal(hak) {
         document.getElementById('modal-title').textContent = hak.baslik;
@@ -128,7 +128,7 @@
         }
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
-        WithMeComponents.refreshIcons();
+        BeVoysComponents.refreshIcons();
       }
 
       function closeModal() {
@@ -148,9 +148,9 @@
         listEl.textContent = '';
 
         if (data.length === 0) {
-          const empty = WithMeComponents.createElement('div', { className: 'empty-state' });
-          empty.appendChild(WithMeComponents.createIcon('scale'));
-          empty.appendChild(WithMeComponents.createElement('p', { textContent: 'Sonuç bulunamadı', className: 'text-secondary' }));
+          const empty = BeVoysComponents.createElement('div', { className: 'empty-state' });
+          empty.appendChild(BeVoysComponents.createIcon('scale'));
+          empty.appendChild(BeVoysComponents.createElement('p', { textContent: 'Sonuç bulunamadı', className: 'text-secondary' }));
           listEl.appendChild(empty);
           return;
         }
@@ -163,11 +163,11 @@
           item.style.textAlign = 'left';
           item.style.cursor = 'pointer';
 
-          const content = WithMeComponents.createElement('div', { className: 'list-item-content' });
-          content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-title', textContent: hak.baslik }));
-          content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-sub', textContent: hak.kategori }));
+          const content = BeVoysComponents.createElement('div', { className: 'list-item-content' });
+          content.appendChild(BeVoysComponents.createElement('span', { className: 'list-item-title', textContent: hak.baslik }));
+          content.appendChild(BeVoysComponents.createElement('span', { className: 'list-item-sub', textContent: hak.kategori }));
 
-          const chevron = WithMeComponents.createIcon('chevron-right', 'chevron');
+          const chevron = BeVoysComponents.createIcon('chevron-right', 'chevron');
 
           item.appendChild(content);
           item.appendChild(chevron);
@@ -177,7 +177,7 @@
       }
 
       renderList(haklar);
-      WithMeComponents.refreshIcons();
+      BeVoysComponents.refreshIcons();
 
       searchInput.addEventListener('input', () => {
         const q = searchInput.value.toLowerCase().trim();
@@ -186,7 +186,7 @@
           h.kategori.toLowerCase().includes(q)
         );
         renderList(filtered);
-        WithMeComponents.refreshIcons();
+        BeVoysComponents.refreshIcons();
       });
     });
   </script>

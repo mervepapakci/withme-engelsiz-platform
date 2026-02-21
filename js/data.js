@@ -1,9 +1,9 @@
 /**
- * WithMe App - Data Layer
+ * BeVoys App - Data Layer
  * JSON veri yükleme ve n8n webhook entegrasyonu
  */
 
-const WithMeData = {
+const BeVoysData = {
   // n8n Webhook URL'leri - Buraya kendi n8n instance URL'lerinizi yazın
   N8N_WEBHOOKS: {
     etkinlikOlustur: 'https://YOUR_N8N_DOMAIN/webhook/etkinlik-olustur',
@@ -42,7 +42,7 @@ const WithMeData = {
         body: JSON.stringify({
           ...data,
           timestamp: new Date().toISOString(),
-          source: 'withme-app'
+          source: 'bevoys-app'
         })
       });
 

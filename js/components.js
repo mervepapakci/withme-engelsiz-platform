@@ -1,12 +1,12 @@
 /**
- * WithMe App - Ortak Bileşenler
+ * BeVoys App - Ortak Bileşenler
  * Sidebar, Bottom Nav, Toast
  *
  * NOT: Bu dosyadaki tüm DOM içerikleri statik/güvenilir kaynaklardan
  * oluşturulmaktadır. Kullanıcı girdisi doğrudan DOM'a eklenmez.
  */
 
-const WithMeComponents = {
+const BeVoysComponents = {
 
   // Geçerli sayfayı belirle (klasör tabanlı URL'ler için)
   getCurrentPage() {
@@ -79,7 +79,7 @@ const WithMeComponents = {
     // Logo
     const logoDiv = this.createElement('div', { className: 'sidebar-logo' });
     logoDiv.appendChild(this.createIcon('heart-handshake'));
-    logoDiv.appendChild(this.createElement('span', { textContent: 'WithMe' }));
+    logoDiv.appendChild(this.createElement('span', { textContent: 'BeVoys' }));
     sidebar.appendChild(logoDiv);
 
     // Nav
@@ -161,7 +161,7 @@ const WithMeComponents = {
 
   // Tema yönetimi
   initTheme() {
-    const saved = localStorage.getItem('withme-theme');
+    const saved = localStorage.getItem('bevoys-theme');
     if (saved === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
@@ -171,10 +171,10 @@ const WithMeComponents = {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     if (isDark) {
       document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('withme-theme', 'light');
+      localStorage.setItem('bevoys-theme', 'light');
     } else {
       document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('withme-theme', 'dark');
+      localStorage.setItem('bevoys-theme', 'dark');
     }
     this.updateThemeIcons();
   },
@@ -238,5 +238,5 @@ const WithMeComponents = {
 
 // Sayfa yüklendiğinde bileşenleri oluştur
 document.addEventListener('DOMContentLoaded', () => {
-  WithMeComponents.init();
+  BeVoysComponents.init();
 });

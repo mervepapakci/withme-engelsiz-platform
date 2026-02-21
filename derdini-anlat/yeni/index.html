@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../../">
-  <title>WithMe - Yeni Paylaşım</title>
+  <title>BeVoys - Yeni Paylaşım</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -123,7 +123,7 @@
         const iletisim = document.getElementById('iletisim').value.trim();
 
         if (!aciklama || !konum || !isim || !iletisim) {
-          WithMeComponents.showToast('Lütfen zorunlu alanları doldurun.', 'error');
+          BeVoysComponents.showToast('Lütfen zorunlu alanları doldurun.', 'error');
           return;
         }
 
@@ -132,7 +132,7 @@
         submitBtn.textContent = 'Gönderiliyor...';
 
         try {
-          await WithMeData.submitDert({
+          await BeVoysData.submitDert({
             baslik: document.getElementById('baslik').value.trim(),
             aciklama,
             engelTuru: engelSelect.value === 'Diğer' ? 'Diğer: ' + engelDiger.value.trim() : engelSelect.value,
@@ -142,12 +142,12 @@
             yasananTarih: document.getElementById('yasanan-tarih').value,
             anonim: document.getElementById('anonim').checked
           });
-          WithMeComponents.showToast('Paylaşımınız başarıyla gönderildi!', 'success');
+          BeVoysComponents.showToast('Paylaşımınız başarıyla gönderildi!', 'success');
           setTimeout(() => {
             window.location.href = 'derdini-anlat/';
           }, 1500);
         } catch (error) {
-          WithMeComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+          BeVoysComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Paylaş';
         }

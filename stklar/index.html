@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../">
-  <title>WithMe - STKlar</title>
+  <title>BeVoys - STKlar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -77,8 +77,8 @@
     document.addEventListener('DOMContentLoaded', async () => {
       const listEl = document.getElementById('stk-list');
 
-      WithMeComponents.showLoading(listEl);
-      const stklar = await WithMeData.getStklar();
+      BeVoysComponents.showLoading(listEl);
+      const stklar = await BeVoysData.getStklar();
 
       listEl.textContent = '';
 
@@ -86,22 +86,22 @@
         const card = document.createElement('article');
         card.className = 'stk-card';
 
-        const title = WithMeComponents.createElement('h3', { textContent: stk.ad });
-        const desc = WithMeComponents.createElement('p', { textContent: stk.aciklama });
+        const title = BeVoysComponents.createElement('h3', { textContent: stk.ad });
+        const desc = BeVoysComponents.createElement('p', { textContent: stk.aciklama });
 
         const meta = document.createElement('div');
         meta.className = 'stk-meta';
 
         // Konum
-        const konumItem = WithMeComponents.createElement('div', { className: 'stk-meta-item' });
-        konumItem.appendChild(WithMeComponents.createIcon('map-pin'));
+        const konumItem = BeVoysComponents.createElement('div', { className: 'stk-meta-item' });
+        konumItem.appendChild(BeVoysComponents.createIcon('map-pin'));
         konumItem.appendChild(document.createTextNode(stk.konum));
         meta.appendChild(konumItem);
 
         // Website
-        const webItem = WithMeComponents.createElement('div', { className: 'stk-meta-item' });
-        webItem.appendChild(WithMeComponents.createIcon('globe'));
-        const link = WithMeComponents.createElement('a', {
+        const webItem = BeVoysComponents.createElement('div', { className: 'stk-meta-item' });
+        webItem.appendChild(BeVoysComponents.createIcon('globe'));
+        const link = BeVoysComponents.createElement('a', {
           href: stk.website,
           target: '_blank',
           rel: 'noopener noreferrer',
@@ -115,7 +115,7 @@
         card.appendChild(meta);
         listEl.appendChild(card);
       });
-      WithMeComponents.refreshIcons();
+      BeVoysComponents.refreshIcons();
     });
   </script>
 </body>

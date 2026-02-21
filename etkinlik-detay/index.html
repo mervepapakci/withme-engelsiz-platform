@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../">
-  <title>WithMe - Etkinlik Detayı</title>
+  <title>BeVoys - Etkinlik Detayı</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -53,31 +53,31 @@
         return;
       }
 
-      WithMeComponents.showLoading(container);
-      const etkinlik = await WithMeData.getEtkinlik(id);
+      BeVoysComponents.showLoading(container);
+      const etkinlik = await BeVoysData.getEtkinlik(id);
 
       if (!etkinlik) {
         container.textContent = '';
-        const empty = WithMeComponents.createElement('div', { className: 'empty-state' });
-        empty.appendChild(WithMeComponents.createIcon('calendar-x'));
-        empty.appendChild(WithMeComponents.createElement('p', { textContent: 'Etkinlik bulunamadı', className: 'text-secondary' }));
+        const empty = BeVoysComponents.createElement('div', { className: 'empty-state' });
+        empty.appendChild(BeVoysComponents.createIcon('calendar-x'));
+        empty.appendChild(BeVoysComponents.createElement('p', { textContent: 'Etkinlik bulunamadı', className: 'text-secondary' }));
         container.appendChild(empty);
-        WithMeComponents.refreshIcons();
+        BeVoysComponents.refreshIcons();
         return;
       }
 
       container.textContent = '';
 
       // Detail card
-      const card = WithMeComponents.createElement('div', { className: 'detail-card' });
+      const card = BeVoysComponents.createElement('div', { className: 'detail-card' });
 
       // Header
-      const header = WithMeComponents.createElement('div', { className: 'detail-card-header' });
-      header.appendChild(WithMeComponents.createElement('h2', { textContent: etkinlik.baslik }));
+      const header = BeVoysComponents.createElement('div', { className: 'detail-card-header' });
+      header.appendChild(BeVoysComponents.createElement('h2', { textContent: etkinlik.baslik }));
       card.appendChild(header);
 
       // Body
-      const body = WithMeComponents.createElement('div', { className: 'detail-card-body' });
+      const body = BeVoysComponents.createElement('div', { className: 'detail-card-body' });
 
       // Source badge
       const kaynakClass = etkinlik.kaynak === 'resmi' ? 'resmi' : 'topluluk';
@@ -86,8 +86,8 @@
         ? (etkinlik.kurum || 'Resmi') + ' - Resmi Kurum Etkinliği'
         : 'Topluluk Etkinliği';
 
-      const sourceBadge = WithMeComponents.createElement('div', { className: 'source-badge ' + kaynakClass });
-      sourceBadge.appendChild(WithMeComponents.createIcon(kaynakIcon));
+      const sourceBadge = BeVoysComponents.createElement('div', { className: 'source-badge ' + kaynakClass });
+      sourceBadge.appendChild(BeVoysComponents.createIcon(kaynakIcon));
       sourceBadge.appendChild(document.createTextNode(kaynakLabel));
       body.appendChild(sourceBadge);
 
@@ -102,25 +102,25 @@
       ];
 
       infoData.forEach((info, i) => {
-        const row = WithMeComponents.createElement('div', { className: 'info-row' });
-        row.appendChild(WithMeComponents.createIcon(info.icon));
+        const row = BeVoysComponents.createElement('div', { className: 'info-row' });
+        row.appendChild(BeVoysComponents.createIcon(info.icon));
 
-        const content = WithMeComponents.createElement('div', { className: 'info-row-content' });
-        content.appendChild(WithMeComponents.createElement('span', { className: 'info-row-label', textContent: info.label }));
-        content.appendChild(WithMeComponents.createElement('span', { className: 'info-row-value', textContent: info.value }));
+        const content = BeVoysComponents.createElement('div', { className: 'info-row-content' });
+        content.appendChild(BeVoysComponents.createElement('span', { className: 'info-row-label', textContent: info.label }));
+        content.appendChild(BeVoysComponents.createElement('span', { className: 'info-row-value', textContent: info.value }));
         row.appendChild(content);
         body.appendChild(row);
 
         if (i < infoData.length - 1) {
-          body.appendChild(WithMeComponents.createElement('div', { className: 'divider' }));
+          body.appendChild(BeVoysComponents.createElement('div', { className: 'divider' }));
         }
       });
 
       // Divider + Açıklama
-      body.appendChild(WithMeComponents.createElement('div', { className: 'divider' }));
-      body.appendChild(WithMeComponents.createElement('span', { className: 'info-row-label', textContent: 'Açıklama' }));
+      body.appendChild(BeVoysComponents.createElement('div', { className: 'divider' }));
+      body.appendChild(BeVoysComponents.createElement('span', { className: 'info-row-label', textContent: 'Açıklama' }));
 
-      const descP = WithMeComponents.createElement('p', {
+      const descP = BeVoysComponents.createElement('p', {
         textContent: etkinlik.aciklama,
         className: 'info-row-value'
       });
@@ -130,12 +130,12 @@
       // Etkinlik Linki (if available)
       const eventLink = etkinlik.link || etkinlik.etkinlikLinki;
       if (eventLink) {
-        body.appendChild(WithMeComponents.createElement('div', { className: 'divider' }));
-        const linkRow = WithMeComponents.createElement('div', { className: 'info-row' });
-        linkRow.appendChild(WithMeComponents.createIcon('external-link'));
-        const linkContent = WithMeComponents.createElement('div', { className: 'info-row-content' });
-        linkContent.appendChild(WithMeComponents.createElement('span', { className: 'info-row-label', textContent: 'Etkinlik Linki' }));
-        const linkAnchor = WithMeComponents.createElement('a', {
+        body.appendChild(BeVoysComponents.createElement('div', { className: 'divider' }));
+        const linkRow = BeVoysComponents.createElement('div', { className: 'info-row' });
+        linkRow.appendChild(BeVoysComponents.createIcon('external-link'));
+        const linkContent = BeVoysComponents.createElement('div', { className: 'info-row-content' });
+        linkContent.appendChild(BeVoysComponents.createElement('span', { className: 'info-row-label', textContent: 'Etkinlik Linki' }));
+        const linkAnchor = BeVoysComponents.createElement('a', {
           className: 'info-row-link',
           href: eventLink,
           target: '_blank',
@@ -151,13 +151,13 @@
 
       // Sosyal Medya (if available)
       if (etkinlik.sosyalMedya) {
-        body.appendChild(WithMeComponents.createElement('div', { className: 'divider' }));
-        const smRow = WithMeComponents.createElement('div', { className: 'info-row' });
-        smRow.appendChild(WithMeComponents.createIcon('share-2'));
-        const smContent = WithMeComponents.createElement('div', { className: 'info-row-content' });
-        smContent.appendChild(WithMeComponents.createElement('span', { className: 'info-row-label', textContent: 'Sosyal Medya' }));
+        body.appendChild(BeVoysComponents.createElement('div', { className: 'divider' }));
+        const smRow = BeVoysComponents.createElement('div', { className: 'info-row' });
+        smRow.appendChild(BeVoysComponents.createIcon('share-2'));
+        const smContent = BeVoysComponents.createElement('div', { className: 'info-row-content' });
+        smContent.appendChild(BeVoysComponents.createElement('span', { className: 'info-row-label', textContent: 'Sosyal Medya' }));
         const smUrl = etkinlik.sosyalMedya.startsWith('http') ? etkinlik.sosyalMedya : 'https://' + etkinlik.sosyalMedya;
-        const smAnchor = WithMeComponents.createElement('a', {
+        const smAnchor = BeVoysComponents.createElement('a', {
           className: 'info-row-link',
           href: smUrl,
           target: '_blank',
@@ -170,33 +170,33 @@
       }
 
       // Haritada Aç butonu
-      const mapBtn = WithMeComponents.createElement('a', {
+      const mapBtn = BeVoysComponents.createElement('a', {
         className: 'btn btn-primary',
         href: 'https://maps.google.com/?q=' + encodeURIComponent(etkinlik.konum),
         target: '_blank',
         rel: 'noopener noreferrer'
       });
-      mapBtn.appendChild(WithMeComponents.createIcon('map'));
+      mapBtn.appendChild(BeVoysComponents.createIcon('map'));
       mapBtn.appendChild(document.createTextNode('Haritada Aç'));
       body.appendChild(mapBtn);
 
       // Participant section
       if (etkinlik.katilimciSayisi > 0) {
-        const partSection = WithMeComponents.createElement('div', { className: 'participant-section' });
+        const partSection = BeVoysComponents.createElement('div', { className: 'participant-section' });
 
-        const partHeader = WithMeComponents.createElement('div', { className: 'participant-header' });
-        partHeader.appendChild(WithMeComponents.createIcon('users'));
-        partHeader.appendChild(WithMeComponents.createElement('span', {
+        const partHeader = BeVoysComponents.createElement('div', { className: 'participant-header' });
+        partHeader.appendChild(BeVoysComponents.createIcon('users'));
+        partHeader.appendChild(BeVoysComponents.createElement('span', {
           textContent: etkinlik.katilimciSayisi + ' kişi birlikte gitmek istiyor'
         }));
         partSection.appendChild(partHeader);
 
         // Avatar circles
-        const avatarRow = WithMeComponents.createElement('div', { className: 'avatar-row' });
+        const avatarRow = BeVoysComponents.createElement('div', { className: 'avatar-row' });
         const colors = ['#8B9A3B', '#5B9BD5', '#4CAF50', '#FFC107', '#808070', '#E85555'];
         const count = Math.min(etkinlik.katilimciSayisi, 6);
         for (let i = 0; i < count; i++) {
-          const circle = WithMeComponents.createElement('div', { className: 'avatar-circle' });
+          const circle = BeVoysComponents.createElement('div', { className: 'avatar-circle' });
           circle.style.backgroundColor = colors[i % colors.length];
           avatarRow.appendChild(circle);
         }
@@ -205,30 +205,30 @@
       }
 
       // Birlikte Gidelim butonu
-      const birlikteBtn = WithMeComponents.createElement('button', { className: 'btn btn-birlikte' });
-      birlikteBtn.appendChild(WithMeComponents.createIcon('hand-heart'));
+      const birlikteBtn = BeVoysComponents.createElement('button', { className: 'btn btn-birlikte' });
+      birlikteBtn.appendChild(BeVoysComponents.createIcon('hand-heart'));
       birlikteBtn.appendChild(document.createTextNode('Birlikte Gidelim'));
       birlikteBtn.addEventListener('click', async () => {
         birlikteBtn.disabled = true;
         birlikteBtn.textContent = 'Gönderiliyor...';
         try {
-          await WithMeData.birlikteGit({ etkinlikId: etkinlik.id, etkinlikBaslik: etkinlik.baslik });
-          WithMeComponents.showToast('Teklif gönderildi! Diğer katılımcılar bilgilendirilecek.', 'success');
+          await BeVoysData.birlikteGit({ etkinlikId: etkinlik.id, etkinlikBaslik: etkinlik.baslik });
+          BeVoysComponents.showToast('Teklif gönderildi! Diğer katılımcılar bilgilendirilecek.', 'success');
           birlikteBtn.textContent = 'Teklif Gönderildi';
         } catch (err) {
-          WithMeComponents.showToast('Bir hata oluştu, tekrar deneyin.', 'error');
+          BeVoysComponents.showToast('Bir hata oluştu, tekrar deneyin.', 'error');
           birlikteBtn.disabled = false;
           birlikteBtn.textContent = '';
-          birlikteBtn.appendChild(WithMeComponents.createIcon('hand-heart'));
+          birlikteBtn.appendChild(BeVoysComponents.createIcon('hand-heart'));
           birlikteBtn.appendChild(document.createTextNode('Birlikte Gidelim'));
-          WithMeComponents.refreshIcons();
+          BeVoysComponents.refreshIcons();
         }
       });
       body.appendChild(birlikteBtn);
 
       card.appendChild(body);
       container.appendChild(card);
-      WithMeComponents.refreshIcons();
+      BeVoysComponents.refreshIcons();
     });
   </script>
 </body>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../">
-  <title>WithMe - Etkinlikler</title>
+  <title>BeVoys - Etkinlikler</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -86,18 +86,18 @@
 
       let activeKaynakFilter = 'all';
 
-      WithMeComponents.showLoading(listEl);
-      const etkinlikler = await WithMeData.getEtkinlikler();
+      BeVoysComponents.showLoading(listEl);
+      const etkinlikler = await BeVoysData.getEtkinlikler();
 
       // Populate filter dropdowns from data
       const sehirler = [...new Set(etkinlikler.map(e => e.konum.split(',')[0].trim()))].sort();
       sehirler.forEach(s => {
-        filterSehir.appendChild(WithMeComponents.createElement('option', { value: s, textContent: s }));
+        filterSehir.appendChild(BeVoysComponents.createElement('option', { value: s, textContent: s }));
       });
 
       const engelTurleri = [...new Set(etkinlikler.map(e => e.engelTuru))].sort();
       engelTurleri.forEach(t => {
-        filterEngel.appendChild(WithMeComponents.createElement('option', { value: t, textContent: t }));
+        filterEngel.appendChild(BeVoysComponents.createElement('option', { value: t, textContent: t }));
       });
 
       function getFilteredData() {
@@ -124,9 +124,9 @@
         listEl.textContent = '';
 
         if (data.length === 0) {
-          const empty = WithMeComponents.createElement('div', { className: 'empty-state' });
-          empty.appendChild(WithMeComponents.createIcon('calendar-x'));
-          empty.appendChild(WithMeComponents.createElement('p', { textContent: 'Etkinlik bulunamadı', className: 'text-secondary' }));
+          const empty = BeVoysComponents.createElement('div', { className: 'empty-state' });
+          empty.appendChild(BeVoysComponents.createIcon('calendar-x'));
+          empty.appendChild(BeVoysComponents.createElement('p', { textContent: 'Etkinlik bulunamadı', className: 'text-secondary' }));
           listEl.appendChild(empty);
           return;
         }
@@ -137,16 +137,16 @@
           item.className = 'list-item';
           item.setAttribute('role', 'listitem');
 
-          const content = WithMeComponents.createElement('div', { className: 'list-item-content' });
-          content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-date', textContent: formatTarih(e.tarih) + ' - ' + e.saat }));
-          content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-title', textContent: e.baslik }));
-          content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-sub', textContent: e.konum }));
+          const content = BeVoysComponents.createElement('div', { className: 'list-item-content' });
+          content.appendChild(BeVoysComponents.createElement('span', { className: 'list-item-date', textContent: formatTarih(e.tarih) + ' - ' + e.saat }));
+          content.appendChild(BeVoysComponents.createElement('span', { className: 'list-item-title', textContent: e.baslik }));
+          content.appendChild(BeVoysComponents.createElement('span', { className: 'list-item-sub', textContent: e.konum }));
 
           // Event link row (if available)
           const eventLink = e.link || e.etkinlikLinki;
           if (eventLink) {
-            const linkRow = WithMeComponents.createElement('span', { className: 'list-item-link' });
-            linkRow.appendChild(WithMeComponents.createIcon('external-link'));
+            const linkRow = BeVoysComponents.createElement('span', { className: 'list-item-link' });
+            linkRow.appendChild(BeVoysComponents.createIcon('external-link'));
             let shortUrl = eventLink.replace(/^https?:\/\/(www\.)?/, '');
             if (shortUrl.length > 40) shortUrl = shortUrl.substring(0, 40) + '...';
             linkRow.appendChild(document.createTextNode(shortUrl));
@@ -154,27 +154,27 @@
           }
 
           // Source tag + participant count row
-          const meta = WithMeComponents.createElement('div', { className: 'list-item-meta' });
+          const meta = BeVoysComponents.createElement('div', { className: 'list-item-meta' });
 
-          const sourceTag = WithMeComponents.createElement('span', { className: 'source-tag ' + (e.kaynak || 'topluluk') });
+          const sourceTag = BeVoysComponents.createElement('span', { className: 'source-tag ' + (e.kaynak || 'topluluk') });
           const sourceIcon = e.kaynak === 'resmi' ? 'building-2' : 'user';
           const sourceLabel = e.kaynak === 'resmi' ? (e.kurum || 'Resmi') : 'Topluluk';
-          sourceTag.appendChild(WithMeComponents.createIcon(sourceIcon));
+          sourceTag.appendChild(BeVoysComponents.createIcon(sourceIcon));
           sourceTag.appendChild(document.createTextNode(sourceLabel));
           meta.appendChild(sourceTag);
 
-          meta.appendChild(WithMeComponents.createElement('span', { className: 'spacer' }));
+          meta.appendChild(BeVoysComponents.createElement('span', { className: 'spacer' }));
 
           if (e.katilimciSayisi) {
-            const pCount = WithMeComponents.createElement('span', { className: 'participant-count' });
-            pCount.appendChild(WithMeComponents.createIcon('users'));
+            const pCount = BeVoysComponents.createElement('span', { className: 'participant-count' });
+            pCount.appendChild(BeVoysComponents.createIcon('users'));
             pCount.appendChild(document.createTextNode(e.katilimciSayisi));
             meta.appendChild(pCount);
           }
 
           content.appendChild(meta);
 
-          const chevron = WithMeComponents.createIcon('chevron-right', 'chevron');
+          const chevron = BeVoysComponents.createIcon('chevron-right', 'chevron');
 
           item.appendChild(content);
           item.appendChild(chevron);
@@ -184,7 +184,7 @@
 
       function applyFilters() {
         renderList(getFilteredData());
-        WithMeComponents.refreshIcons();
+        BeVoysComponents.refreshIcons();
       }
 
       // Filter chip click
@@ -222,7 +222,7 @@
       searchInput.addEventListener('input', applyFilters);
 
       renderList(etkinlikler);
-      WithMeComponents.refreshIcons();
+      BeVoysComponents.refreshIcons();
     });
   </script>
 </body>

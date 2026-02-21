@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../">
-  <title>WithMe - Geri Bildirim</title>
+  <title>BeVoys - Geri Bildirim</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -101,7 +101,7 @@
         e.preventDefault();
 
         if (selectedRating === 0) {
-          WithMeComponents.showToast('Lütfen bir puan verin.', 'error');
+          BeVoysComponents.showToast('Lütfen bir puan verin.', 'error');
           return;
         }
 
@@ -110,18 +110,18 @@
         submitBtn.textContent = 'Gönderiliyor...';
 
         try {
-          await WithMeData.submitGeriBildirim({
+          await BeVoysData.submitGeriBildirim({
             puan: selectedRating,
             yorum: document.getElementById('yorum').value.trim()
           });
-          WithMeComponents.showToast('Geri bildiriminiz için teşekkürler!', 'success');
+          BeVoysComponents.showToast('Geri bildiriminiz için teşekkürler!', 'success');
           form.reset();
           selectedRating = 0;
           updateStars(0);
           submitBtn.disabled = false;
           submitBtn.textContent = 'Gönder';
         } catch (error) {
-          WithMeComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+          BeVoysComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Gönder';
         }

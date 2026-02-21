@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../">
-  <title>WithMe - Etkinlik Oluştur</title>
+  <title>BeVoys - Etkinlik Oluştur</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -201,7 +201,7 @@
         const engelTuru = document.getElementById('engelTuru').value;
 
         if (!baslik || !aciklama || !organizator || !eposta || !konum || !tarih || !saat) {
-          WithMeComponents.showToast('Lütfen zorunlu alanları doldurun.', 'error');
+          BeVoysComponents.showToast('Lütfen zorunlu alanları doldurun.', 'error');
           return;
         }
 
@@ -210,7 +210,7 @@
         submitBtn.textContent = 'Gönderiliyor...';
 
         try {
-          await WithMeData.createEtkinlik({
+          await BeVoysData.createEtkinlik({
             baslik,
             aciklama,
             organizator,
@@ -226,10 +226,10 @@
             engelTuru,
             kaynak: 'topluluk'
           });
-          WithMeComponents.showToast('Etkinlik başarıyla oluşturuldu!', 'success');
+          BeVoysComponents.showToast('Etkinlik başarıyla oluşturuldu!', 'success');
           setTimeout(() => { window.location.href = 'etkinlikler/'; }, 1500);
         } catch (error) {
-          WithMeComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+          BeVoysComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Etkinliği Oluştur';
         }
