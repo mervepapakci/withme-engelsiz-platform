@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <title>WithMe - Etkinlik Oluştur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="mobile-header">
+      <a href="etkinlikler/" class="back-btn" aria-label="Geri">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+      </a>
+      <h1>Etkinlik Oluştur</h1>
+    </header>
+
+    <main class="page-content">
+      <h1 class="desktop-title">Etkinlik Oluştur</h1>
+      <p class="desktop-subtitle">Yeni bir etkinlik oluşturun ve toplulukla paylaşın.</p>
+
+      <form id="etkinlik-form" class="form-card" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="baslik">Etkinlik Başlığı</label>
+          <input class="form-input" type="text" id="baslik" name="baslik" placeholder="Etkinlik başlığını girin..." required>
+        </div>
+
+        <div class="form-group mt-lg">
+          <label class="form-label" for="aciklama">Açıklama</label>
+          <textarea class="form-textarea" id="aciklama" name="aciklama" placeholder="Etkinlik açıklamasını yazın..." required></textarea>
+        </div>
+
+        <div class="form-group mt-lg">
+          <label class="form-label" for="konum">Konum</label>
+          <input class="form-input" type="text" id="konum" name="konum" placeholder="Etkinlik konumunu girin..." required>
+        </div>
+
+        <div class="date-row mt-lg">
+          <div class="form-group">
+            <label class="form-label" for="tarih">Tarih</label>
+            <input class="form-input" type="date" id="tarih" name="tarih" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="saat">Saat</label>
+            <input class="form-input" type="time" id="saat" name="saat" required>
+          </div>
+        </div>
+
+        <div class="form-group mt-lg">
+          <span class="form-label">Etkinlik Türü</span>
+          <div class="type-selector" role="radiogroup" aria-label="Etkinlik türü">
+            <button type="button" class="type-option active" data-value="Yüz Yüze" role="radio" aria-checked="true">Yüz Yüze</button>
+            <button type="button" class="type-option" data-value="Çevrimiçi" role="radio" aria-checked="false">Çevrimiçi</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-xl">
+          <i data-lucide="send" aria-hidden="true"></i>
+          Etkinliği Oluştur
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <style>
+    @media (max-width: 767px) {
+      .date-row {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-lg);
+      }
+      .form-card {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  </style>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('etkinlik-form');
+      let selectedTur = 'Yüz Yüze';
+
+      // Tür seçici
+      document.querySelectorAll('.type-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.type-option').forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-checked', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-checked', 'true');
+          selectedTur = btn.dataset.value;
+        });
+      });
+
+      // Form gönderimi -> n8n webhook
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const baslik = document.getElementById('baslik').value.trim();
+        const aciklama = document.getElementById('aciklama').value.trim();
+        const konum = document.getElementById('konum').value.trim();
+        const tarih = document.getElementById('tarih').value;
+        const saat = document.getElementById('saat').value;
+
+        if (!baslik || !aciklama || !konum || !tarih || !saat) {
+          WithMeComponents.showToast('Lütfen tüm alanları doldurun.', 'error');
+          return;
+        }
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Gönderiliyor...';
+
+        try {
+          await WithMeData.createEtkinlik({
+            baslik,
+            aciklama,
+            konum,
+            tarih,
+            saat,
+            tur: selectedTur,
+            engelTuru: 'Tüm Engel Grupları',
+            kaynak: 'topluluk'
+          });
+          WithMeComponents.showToast('Etkinlik başarıyla oluşturuldu!', 'success');
+          setTimeout(() => { window.location.href = 'etkinlikler/'; }, 1500);
+        } catch (error) {
+          WithMeComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Etkinliği Oluştur';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

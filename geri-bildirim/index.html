@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <title>WithMe - Geri Bildirim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="mobile-header">
+      <a href="./" class="back-btn" aria-label="Geri">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+      </a>
+      <h1>Geri Bildirim</h1>
+    </header>
+
+    <main class="page-content" style="display:flex; align-items:center; justify-content:center; min-height:calc(100vh - 128px);">
+      <form id="feedback-form" class="centered-card" novalidate>
+        <h2 style="font-size:28px; margin-bottom:var(--spacing-sm);">Geri Bildirim</h2>
+        <p class="text-secondary" style="font-size:15px; margin-bottom:var(--spacing-xl);">
+          Uygulama hakkında düşüncelerinizi bizimle paylaşın. Geri bildiriminiz bizim için çok değerli!
+        </p>
+
+        <div class="form-group" style="align-items:center;">
+          <span class="form-label">Puanınız</span>
+          <div class="star-rating" id="star-rating" role="radiogroup" aria-label="Puan verin">
+            <i data-lucide="star" data-value="1" role="radio" aria-label="1 yıldız" tabindex="0"></i>
+            <i data-lucide="star" data-value="2" role="radio" aria-label="2 yıldız" tabindex="0"></i>
+            <i data-lucide="star" data-value="3" role="radio" aria-label="3 yıldız" tabindex="0"></i>
+            <i data-lucide="star" data-value="4" role="radio" aria-label="4 yıldız" tabindex="0"></i>
+            <i data-lucide="star" data-value="5" role="radio" aria-label="5 yıldız" tabindex="0"></i>
+          </div>
+        </div>
+
+        <div class="form-group mt-xl" style="text-align:left;">
+          <label class="form-label" for="yorum">Yorumunuz</label>
+          <textarea class="form-textarea" id="yorum" name="yorum" placeholder="Düşüncelerinizi buraya yazın..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-xl">
+          <i data-lucide="send" aria-hidden="true"></i>
+          Gönder
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('feedback-form');
+      const stars = document.querySelectorAll('#star-rating i');
+      let selectedRating = 0;
+
+      // Yıldız rating
+      function updateStars(rating) {
+        stars.forEach((star, index) => {
+          if (index < rating) {
+            star.classList.add('active');
+            star.setAttribute('aria-checked', 'true');
+          } else {
+            star.classList.remove('active');
+            star.setAttribute('aria-checked', 'false');
+          }
+        });
+      }
+
+      stars.forEach(star => {
+        star.addEventListener('click', () => {
+          selectedRating = parseInt(star.dataset.value);
+          updateStars(selectedRating);
+        });
+
+        star.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectedRating = parseInt(star.dataset.value);
+            updateStars(selectedRating);
+          }
+        });
+
+        // Hover efekti
+        star.addEventListener('mouseenter', () => {
+          updateStars(parseInt(star.dataset.value));
+        });
+      });
+
+      document.getElementById('star-rating').addEventListener('mouseleave', () => {
+        updateStars(selectedRating);
+      });
+
+      // Form gönderimi -> n8n webhook
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (selectedRating === 0) {
+          WithMeComponents.showToast('Lütfen bir puan verin.', 'error');
+          return;
+        }
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Gönderiliyor...';
+
+        try {
+          await WithMeData.submitGeriBildirim({
+            puan: selectedRating,
+            yorum: document.getElementById('yorum').value.trim()
+          });
+          WithMeComponents.showToast('Geri bildiriminiz için teşekkürler!', 'success');
+          form.reset();
+          selectedRating = 0;
+          updateStars(0);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Gönder';
+        } catch (error) {
+          WithMeComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Gönder';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

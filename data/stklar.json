@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "ad": "TOFD (Türkiye Omurilik Felçlileri Derneği)",
+    "aciklama": "Omurilik felçlileri başta olmak üzere ortopedik engelli bireylerin rehabilitasyonu, sosyal projeler, eğitim ve destek hizmetleri sunar.",
+    "konum": "İstanbul",
+    "website": "https://tofd.org.tr/",
+    "hizmetTuru": "Sosyal destek, rehabilitasyon, proje"
+  },
+  {
+    "id": 2,
+    "ad": "Türkiye Beyazay Derneği",
+    "aciklama": "Görme engelli bireylerin ve diğer engellilerin sosyal hayata katılımını, eğitim ve bilinçlendirmeyi destekler.",
+    "konum": "İstanbul",
+    "website": "https://www.beyazay.org.tr/",
+    "hizmetTuru": "Hak savunuculuğu, eğitim, bilinçlendirme"
+  },
+  {
+    "id": 3,
+    "ad": "İstanbul Engelli Aileleri Dayanışma Derneği (İEADD)",
+    "aciklama": "Engelli bireyler ve ailelere tedavi rehberliği, ayni yardım, burs, hukuki destek, eğitim ve farkındalık etkinlikleri sağlar.",
+    "konum": "İstanbul",
+    "website": "https://ieadd.org.tr/",
+    "hizmetTuru": "Sosyal destek, etkinlikler"
+  },
+  {
+    "id": 4,
+    "ad": "Removing Barriers Movement (Engelleri Kaldır Hareketi)",
+    "aciklama": "Engelli hakları ve sosyal katılım için medya farkındalığı, kampanyalar ve hukuk alanında çalışmalar yürüten sivil hareket.",
+    "konum": "İstanbul",
+    "website": "https://engellerikaldir.com/",
+    "hizmetTuru": "Hak savunuculuğu, farkındalık kampanyaları"
+  },
+  {
+    "id": 5,
+    "ad": "Pendik Engelsiz Yaşam Merkezi",
+    "aciklama": "Pendik Belediyesi tarafından engelli bireyler ve aileleri için sunulan destek merkezi. Rehabilitasyon, sosyal etkinlik ve danışmanlık hizmetleri verir.",
+    "konum": "İstanbul",
+    "website": "https://www.pendik.bel.tr/yer/detay/pendik-engelsiz-yasam-merkezi",
+    "hizmetTuru": "Sosyal destek, günlük yaşam desteği"
+  },
+  {
+    "id": 6,
+    "ad": "GÜNIŞIĞI Engelliler Derneği",
+    "aciklama": "Pendik'te faaliyet gösteren engelliler dernek işletmesi. Genel sivil toplum yapısı içinde engelli bireylere hizmet sunar.",
+    "konum": "İstanbul",
+    "website": "https://www.find.com.tr/Company/gunisigiengellilerdernegiiktisadiisletmesi",
+    "hizmetTuru": "Dernek işletmesi"
+  },
+  {
+    "id": 7,
+    "ad": "Türkiye Sakatlar Derneği",
+    "aciklama": "Engelli bireylerin haklarını savunan, sosyal yaşama katılımlarını destekleyen ve farkındalık çalışmaları yürüten Türkiye'nin en köklü engelli kuruluşu.",
+    "konum": "Ankara",
+    "website": "https://www.tsd.org.tr"
+  },
+  {
+    "id": 8,
+    "ad": "Engelli Hakları Derneği",
+    "aciklama": "Engelli bireylerin hukuki haklarını korumak, erişilebilirlik sorunlarını çözmek ve toplumsal farkındalık yaratmak amacıyla faaliyet gösteren sivil toplum kuruluşu.",
+    "konum": "İstanbul",
+    "website": "https://www.engellihakları.org"
+  },
+  {
+    "id": 9,
+    "ad": "Görme Engelliler Federasyonu",
+    "aciklama": "Görme engelli bireylerin eğitim, istihdam ve sosyal yaşam alanlarında desteklenmesini sağlayan, braille eğitim materyalleri üreten federasyon.",
+    "konum": "İstanbul",
+    "website": "https://www.gormefed.org"
+  },
+  {
+    "id": 10,
+    "ad": "İşitme Engelliler Derneği",
+    "aciklama": "İşitme engelli bireylere işaret dili eğitimi, mesleki eğitim ve sosyal destek hizmetleri sunan, toplumsal entegrasyonu hedefleyen kuruluş.",
+    "konum": "İzmir",
+    "website": "https://www.isitmeengelliler.org"
+  },
+  {
+    "id": 11,
+    "ad": "Zihinsel Engelliler Vakfı",
+    "aciklama": "Zihinsel engelli bireylerin bakımı, eğitimi ve topluma kazandırılması için çalışan, aile destek programları yürüten vakıf.",
+    "konum": "Ankara",
+    "website": "https://www.zihinselengelliler.org.tr"
+  },
+  {
+    "id": 12,
+    "ad": "Erişilebilir Yaşam Derneği",
+    "aciklama": "Kentsel erişilebilirlik, dijital erişilebilirlik ve evrensel tasarım ilkeleri doğrultusunda projeler geliştiren sivil toplum kuruluşu.",
+    "konum": "Bursa",
+    "website": "https://www.erisilebiliryasam.org"
+  }
+]

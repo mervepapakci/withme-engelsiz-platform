@@ -1,0 +1,184 @@
+[
+  {
+    "id": 1,
+    "baslik": "Engelli Sağlık Kurulu Raporu",
+    "kategori": "Sağlık",
+    "ozet": "Resmi engel oranı belirlenir. Tüm sosyal hakların temelidir.",
+    "icerik": "Engelli Sağlık Kurulu Raporu, engelli bireylerin resmi engel oranını belirleyen temel belgedir. Bu rapor, tüm sosyal hakların ve devlet desteklerinin temelidir.\n\nKimler İçin: Tüm engelliler\nEngel Grubu: Tüm engel grupları\n\nBaşvuru için tam teşekküllü devlet hastanelerine başvurulabilir. Rapor, engelli kimlik kartı, ücretsiz ulaşım, vergi indirimi ve diğer tüm haklar için gereklidir.",
+    "kimlerIcin": "Tüm engelliler",
+    "engelGrubu": "Tüm",
+    "link": "https://www.turkiye.gov.tr"
+  },
+  {
+    "id": 2,
+    "baslik": "Engelli Kimlik Kartı",
+    "kategori": "Resmi İşler",
+    "ozet": "Ücretsiz ulaşım ve kamu hizmetlerinde indirim sağlar.",
+    "icerik": "Engelli Kimlik Kartı, engelli bireylerin kamu hizmetlerinden yararlanmasını kolaylaştıran resmi bir belgedir.\n\nKimler İçin: Tüm engelliler\nEngel Grubu: Tüm engel grupları\n\nBu kart ile ücretsiz toplu taşıma, kamu hizmetlerinde indirim ve çeşitli sosyal haklardan yararlanılabilir. Engelli Sağlık Kurulu Raporu ile başvuru yapılır.",
+    "kimlerIcin": "Tüm engelliler",
+    "engelGrubu": "Tüm",
+    "link": "https://www.turkiye.gov.tr"
+  },
+  {
+    "id": 3,
+    "baslik": "Ücretsiz Toplu Taşıma",
+    "kategori": "Ulaşım",
+    "ozet": "Belediye ve devlet toplu taşıma araçlarından ücretsiz yararlanılır.",
+    "icerik": "Engel oranı %40 ve üzeri olan bireyler, belediye ve devlet toplu taşıma araçlarından ücretsiz yararlanma hakkına sahiptir.\n\nKimler İçin: %40 ve üzeri engelliler\nEngel Grubu: Tüm engel grupları\n\nBu hak şehir içi otobüs, metro, tramvay ve deniz ulaşımını kapsar. Engelli kimlik kartı veya HES kodu ile kullanılabilir.",
+    "kimlerIcin": "%40 ve üzeri engelliler",
+    "engelGrubu": "Tüm",
+    "link": "https://www.turkiye.gov.tr"
+  },
+  {
+    "id": 4,
+    "baslik": "Özel Eğitim ve Rehabilitasyon",
+    "kategori": "Eğitim",
+    "ozet": "RAM raporu ile ücretsiz özel eğitim desteği alınır.",
+    "icerik": "Otizmli çocuklar başta olmak üzere özel gereksinimli bireyler, Rehberlik ve Araştırma Merkezi (RAM) raporu ile ücretsiz özel eğitim ve rehabilitasyon hizmeti alabilir.\n\nKimler İçin: Otizmli çocuklar\nEngel Grubu: Otizm\n\nMEB onaylı özel eğitim merkezlerinde bireysel ve grup eğitimleri verilir. Başvuru için RAM raporu gereklidir.",
+    "kimlerIcin": "Otizmli çocuklar",
+    "engelGrubu": "Otizm",
+    "link": "https://www.turkiye.gov.tr/meb-ram-randevu"
+  },
+  {
+    "id": 5,
+    "baslik": "Kaynaştırma Eğitimi",
+    "kategori": "Eğitim",
+    "ozet": "Devlet okulunda destek eğitim hakkı vardır.",
+    "icerik": "Otizmli öğrenciler ve diğer özel gereksinimli bireyler, devlet okullarında kaynaştırma eğitimi kapsamında destek eğitim odası hizmetinden yararlanabilir.\n\nKimler İçin: Otizmli öğrenciler\nEngel Grubu: Otizm\n\nKaynaştırma eğitimi, öğrencinin akranlarıyla birlikte eğitim almasını sağlarken, ek destek hizmetleri de sunar.",
+    "kimlerIcin": "Otizmli öğrenciler",
+    "engelGrubu": "Otizm",
+    "link": "https://www.meb.gov.tr"
+  },
+  {
+    "id": 6,
+    "baslik": "Evde Eğitim Hizmeti",
+    "kategori": "Eğitim",
+    "ozet": "Okula gidemeyen öğrencilere evde öğretmen görevlendirilir.",
+    "icerik": "Ağır düzeyde engeli olan ve okula gidemeyen öğrenciler için evde eğitim hizmeti sağlanır. MEB tarafından öğretmen görevlendirilir.\n\nKimler İçin: Ağır düzey çocuklar\nEngel Grubu: Ağır Engelli\n\nEğitim müfredatı bireysel olarak uyarlanır ve öğrenci evinde uygulanır.",
+    "kimlerIcin": "Ağır düzey çocuklar",
+    "engelGrubu": "Ağır Engelli",
+    "link": "https://www.turkiye.gov.tr"
+  },
+  {
+    "id": 7,
+    "baslik": "Evde Bakım Maaşı",
+    "kategori": "Sosyal ve Maddi Destek",
+    "ozet": "Aile bireyine aylık bakım ücreti ödenir.",
+    "icerik": "Bakıma muhtaç engelli bireylerin bakımını üstlenen aile bireyine aylık bakım ücreti ödenmektedir.\n\nKimler İçin: Bakıma muhtaç bireyler ve aileleri\nEngel Grubu: Ağır Engelli\n\nBaşvuru, Aile ve Sosyal Hizmetler İl Müdürlüğü'ne yapılır. Gelir testi ve sağlık raporu gereklidir.",
+    "kimlerIcin": "Bakıma muhtaç bireyler ve aileleri",
+    "engelGrubu": "Ağır Engelli",
+    "link": "https://www.turkiye.gov.tr/evde-bakim-yardimi"
+  },
+  {
+    "id": 8,
+    "baslik": "Engelli Aylığı (2022 Sayılı Kanun)",
+    "kategori": "Sosyal ve Maddi Destek",
+    "ozet": "Sosyal güvencesi olmayan bireylere maaş bağlanır.",
+    "icerik": "2022 sayılı Kanun kapsamında, gelir kriterini sağlayan ve sosyal güvencesi olmayan engelli bireylere aylık maaş bağlanmaktadır.\n\nKimler İçin: Gelir kriterini sağlayan engelliler\nEngel Grubu: Tüm engel grupları\n\nEngel oranı %40-69 arası olanlara düşük oranlı, %70 ve üzeri olanlara yüksek oranlı aylık ödenir.",
+    "kimlerIcin": "Gelir kriterini sağlayan engelliler",
+    "engelGrubu": "Tüm",
+    "link": "https://www.aile.gov.tr"
+  },
+  {
+    "id": 9,
+    "baslik": "Vergi İndirimi",
+    "kategori": "Finansal Haklar",
+    "ozet": "Gelir vergisi indirimi ve erken emeklilik avantajı sağlar.",
+    "icerik": "Çalışabilir engelli bireyler, gelir vergisi indirimi hakkına sahiptir. Ayrıca erken emeklilik avantajından yararlanabilirler.\n\nKimler İçin: Çalışabilir engelliler\nEngel Grubu: Çalışabilir\n\nBirinci derece engelli: Aylık 2.000 TL indirim\nİkinci derece engelli: Aylık 1.170 TL indirim\nÜçüncü derece engelli: Aylık 500 TL indirim",
+    "kimlerIcin": "Çalışabilir engelliler",
+    "engelGrubu": "Çalışabilir",
+    "link": "https://www.gib.gov.tr"
+  },
+  {
+    "id": 10,
+    "baslik": "İşte Kota Hakkı",
+    "kategori": "İstihdam",
+    "ozet": "Kamu ve özel sektörde engelli çalıştırma zorunluluğu vardır.",
+    "icerik": "4857 sayılı İş Kanunu gereğince, 50 ve üzeri çalışanı olan özel sektör işyerlerinde %3, kamu işyerlerinde %4 oranında engelli çalıştırma zorunluluğu bulunmaktadır.\n\nKimler İçin: Çalışabilir engelliler\nEngel Grubu: Çalışabilir\n\nİŞKUR aracılığıyla engelli bireylere özel iş bulma hizmetleri sunulmaktadır.",
+    "kimlerIcin": "Çalışabilir engelliler",
+    "engelGrubu": "Çalışabilir",
+    "link": "https://www.iskur.gov.tr"
+  },
+  {
+    "id": 11,
+    "baslik": "ÖTV Muafiyetli Araç",
+    "kategori": "Ulaşım",
+    "ozet": "ÖTV indirimi ile araç satın alma hakkı.",
+    "icerik": "Belirli engel oranını sağlayan bireyler, ÖTV (Özel Tüketim Vergisi) muafiyeti ile araç satın alma hakkına sahiptir.\n\nKimler İçin: Belirli oranı sağlayan engelliler\nEngel Grubu: Tüm engel grupları\n\nAraç alımında önemli miktarda vergi avantajı sağlar. Detaylı bilgi için Gelir İdaresi Başkanlığı'na başvurulabilir.",
+    "kimlerIcin": "Belirli oranı sağlayan engelliler",
+    "engelGrubu": "Tüm",
+    "link": "https://www.gib.gov.tr"
+  },
+  {
+    "id": 12,
+    "baslik": "Refakatçi Hakkı",
+    "kategori": "Sağlık",
+    "ozet": "Hastane ve resmi işlemlerde refakatçi hakkı vardır.",
+    "icerik": "Ağır engelli bireyler, hastane ziyaretleri ve resmi işlemler sırasında yanlarında bir refakatçi bulundurma hakkına sahiptir.\n\nKimler İçin: Ağır engelli bireyler\nEngel Grubu: Ağır Engelli\n\nRefakatçinin ulaşım ve konaklama masrafları da bazı durumlarda karşılanabilir.",
+    "kimlerIcin": "Ağır engelli bireyler",
+    "engelGrubu": "Ağır Engelli",
+    "link": "https://www.saglik.gov.tr"
+  },
+  {
+    "id": 13,
+    "baslik": "Psikolojik Danışmanlık",
+    "kategori": "Sağlık",
+    "ozet": "Devlet kurumlarında ücretsiz veya düşük ücretli destek.",
+    "icerik": "Otizmli bireyler ve aileleri, devlet kurumlarında ücretsiz veya düşük ücretli psikolojik danışmanlık hizmeti alabilir.\n\nKimler İçin: Otizmli birey ve aileleri\nEngel Grubu: Otizm\n\nToplum Sağlığı Merkezleri (TRSM) ve Aile Danışma Merkezleri üzerinden başvuru yapılabilir.",
+    "kimlerIcin": "Otizmli birey ve aileleri",
+    "engelGrubu": "Otizm",
+    "link": "https://www.turkiye.gov.tr"
+  },
+  {
+    "id": 14,
+    "baslik": "Eğitim Materyali Desteği",
+    "kategori": "Eğitim",
+    "ozet": "MEB tarafından ücretsiz materyal sağlanabilir.",
+    "icerik": "Özel gereksinimli çocuklar için Milli Eğitim Bakanlığı tarafından ücretsiz eğitim materyalleri sağlanabilir.\n\nKimler İçin: Özel gereksinimli çocuklar\nEngel Grubu: Otizm\n\nÖzel Eğitim ve Rehberlik Hizmetleri Genel Müdürlüğü aracılığıyla başvuru yapılabilir.",
+    "kimlerIcin": "Özel gereksinimli çocuklar",
+    "engelGrubu": "Otizm",
+    "link": "https://orgm.meb.gov.tr"
+  },
+  {
+    "id": 15,
+    "baslik": "Eğitim Hakkı",
+    "kategori": "Temel Haklar",
+    "ozet": "Engelli bireylerin eğitim haklarına ilişkin yasal düzenlemeler",
+    "icerik": "5378 sayılı Engelliler Hakkında Kanun'un 15. maddesi gereğince, engelli bireyler hiçbir gerekçeyle eğitim haklarından mahrum bırakılamaz. Eğitim kurumları, engelli öğrenciler için gerekli fiziksel düzenlemeleri yapmak ve uygun eğitim materyalleri sağlamakla yükümlüdür.\n\nÖzel eğitim hizmetleri, Milli Eğitim Bakanlığı tarafından ücretsiz olarak sağlanır. Engelli bireyler, kaynaştırma eğitimi veya özel eğitim kurumlarından yararlanma hakkına sahiptir.\n\nÜniversite sınavlarında engel durumuna uygun koşullar sağlanması zorunludur."
+  },
+  {
+    "id": 16,
+    "baslik": "İstihdam Hakkı",
+    "kategori": "Çalışma Hakları",
+    "ozet": "İş yerlerinde engelli kotası ve çalışma hakları",
+    "icerik": "4857 sayılı İş Kanunu'nun 30. maddesine göre, 50 ve üzeri çalışanı olan özel sektör işyerlerinde %3, kamu işyerlerinde %4 oranında engelli çalıştırma zorunluluğu bulunmaktadır.\n\nEngelli bireylerin işe alım süreçlerinde ayrımcılığa uğraması yasaktır. İşverenler, engelli çalışanlar için gerekli iş yeri düzenlemelerini yapmakla yükümlüdür.\n\nİŞKUR aracılığıyla engelli bireylere özel iş bulma hizmetleri sunulmaktadır."
+  },
+  {
+    "id": 17,
+    "baslik": "Sağlık Hakkı",
+    "kategori": "Sağlık Hakları",
+    "ozet": "Ücretsiz sağlık hizmetleri ve tıbbi destek hakları",
+    "icerik": "Engelli bireyler, Genel Sağlık Sigortası kapsamında sağlık hizmetlerinden yararlanma hakkına sahiptir. Engel oranı %40 ve üzeri olan bireyler, sağlık hizmetlerinden muafiyet kapsamında faydalanır.\n\nOrtez, protez ve tıbbi cihaz giderleri SGK tarafından karşılanır. Rehabilitasyon hizmetleri de bu kapsam dahilindedir.\n\nEvde bakım hizmeti almaya hak kazanan engelli bireylere aylık bakım ücreti ödenmektedir."
+  },
+  {
+    "id": 18,
+    "baslik": "Ulaşım Hakkı",
+    "kategori": "Erişilebilirlik Hakları",
+    "ozet": "Ücretsiz ve erişilebilir toplu taşıma hakları",
+    "icerik": "Engelli bireyler, şehir içi toplu taşıma araçlarından ücretsiz olarak yararlanma hakkına sahiptir. Bu hak, engelli bireyin yanında bulunan bir refakatçi için de geçerlidir.\n\n5378 sayılı Kanun gereğince, tüm toplu taşıma araçları ve durakları erişilebilir hale getirilmelidir.\n\nEngelli bireylerin özel araç alımında ÖTV muafiyeti bulunmaktadır. Ayrıca engelli park yeri kullanım hakkı yasal güvence altındadır."
+  },
+  {
+    "id": 19,
+    "baslik": "Sosyal Yardım Hakkı",
+    "kategori": "Sosyal Haklar",
+    "ozet": "Engelli aylığı, bakım desteği ve sosyal yardımlar",
+    "icerik": "2022 sayılı Kanun kapsamında, muhtaç durumda olan engelli bireylere aylık engelli maaşı bağlanmaktadır. Engel oranı %40-69 arası olanlara düşük oranlı, %70 ve üzeri olanlara yüksek oranlı aylık ödenir.\n\nEvde bakım hizmeti alan engelli bireylerin yakınlarına bakım ücreti ödenmektedir.\n\nBelediyelerin sunduğu sosyal hizmetlerden (gıda yardımı, yakacak yardımı, vs.) engelli bireyler öncelikli olarak yararlanır."
+  },
+  {
+    "id": 20,
+    "baslik": "Vergi İndirimi Hakkı",
+    "kategori": "Mali Haklar",
+    "ozet": "Engelli vergi indirimi ve muafiyet hakları",
+    "icerik": "193 sayılı Gelir Vergisi Kanunu'na göre engelli bireyler, çalışma gelirlerinden engelli vergi indirimi almaya hak kazanır.\n\nBirinci derece engelli: Aylık 2.000 TL indirim\nİkinci derece engelli: Aylık 1.170 TL indirim\nÜçüncü derece engelli: Aylık 500 TL indirim\n\nAyrıca engelli bireylerin araç alımında ÖTV ve KDV muafiyeti, konut alımında KDV indirimi hakları bulunmaktadır."
+  }
+]

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <title>WithMe - Etkinlik Detayı</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="mobile-header">
+      <a href="etkinlikler/" class="back-btn" aria-label="Geri">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+      </a>
+      <h1>Etkinlik Detayı</h1>
+    </header>
+
+    <main class="page-content">
+      <div style="display:flex; align-items:center; gap:var(--spacing-lg); margin-bottom:var(--spacing-2xl);" class="desktop-only-flex">
+        <a href="etkinlikler/" aria-label="Geri" style="color:var(--text-primary); display:none;" class="desktop-back">
+          <i data-lucide="arrow-left" aria-hidden="true" style="font-size:24px;"></i>
+        </a>
+        <h1 class="desktop-title" style="margin-bottom:0;">Etkinlik Detayı</h1>
+      </div>
+
+      <div id="detay-content">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </main>
+  </div>
+
+  <style>
+    @media (min-width: 768px) {
+      .desktop-back { display: flex !important; }
+      .desktop-only-flex { display: flex !important; }
+    }
+  </style>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const container = document.getElementById('detay-content');
+      const id = getParam('id');
+
+      if (!id) {
+        container.textContent = 'Etkinlik bulunamadı.';
+        return;
+      }
+
+      WithMeComponents.showLoading(container);
+      const etkinlik = await WithMeData.getEtkinlik(id);
+
+      if (!etkinlik) {
+        container.textContent = '';
+        const empty = WithMeComponents.createElement('div', { className: 'empty-state' });
+        empty.appendChild(WithMeComponents.createIcon('calendar-x'));
+        empty.appendChild(WithMeComponents.createElement('p', { textContent: 'Etkinlik bulunamadı', className: 'text-secondary' }));
+        container.appendChild(empty);
+        WithMeComponents.refreshIcons();
+        return;
+      }
+
+      container.textContent = '';
+
+      // Detail card
+      const card = WithMeComponents.createElement('div', { className: 'detail-card' });
+
+      // Header
+      const header = WithMeComponents.createElement('div', { className: 'detail-card-header' });
+      header.appendChild(WithMeComponents.createElement('h2', { textContent: etkinlik.baslik }));
+      card.appendChild(header);
+
+      // Body
+      const body = WithMeComponents.createElement('div', { className: 'detail-card-body' });
+
+      // Source badge
+      const kaynakClass = etkinlik.kaynak === 'resmi' ? 'resmi' : 'topluluk';
+      const kaynakIcon = etkinlik.kaynak === 'resmi' ? 'building-2' : 'user';
+      const kaynakLabel = etkinlik.kaynak === 'resmi'
+        ? (etkinlik.kurum || 'Resmi') + ' - Resmi Kurum Etkinliği'
+        : 'Topluluk Etkinliği';
+
+      const sourceBadge = WithMeComponents.createElement('div', { className: 'source-badge ' + kaynakClass });
+      sourceBadge.appendChild(WithMeComponents.createIcon(kaynakIcon));
+      sourceBadge.appendChild(document.createTextNode(kaynakLabel));
+      body.appendChild(sourceBadge);
+
+      // Info rows
+      const infoData = [
+        { icon: 'map-pin', label: 'Konum', value: etkinlik.konum },
+        { icon: 'accessibility', label: 'Engel Türü', value: etkinlik.engelTuru },
+        { icon: 'calendar', label: 'Tarih', value: formatTarih(etkinlik.tarih) + ' - ' + etkinlik.saat }
+      ];
+
+      infoData.forEach((info, i) => {
+        const row = WithMeComponents.createElement('div', { className: 'info-row' });
+        row.appendChild(WithMeComponents.createIcon(info.icon));
+
+        const content = WithMeComponents.createElement('div', { className: 'info-row-content' });
+        content.appendChild(WithMeComponents.createElement('span', { className: 'info-row-label', textContent: info.label }));
+        content.appendChild(WithMeComponents.createElement('span', { className: 'info-row-value', textContent: info.value }));
+        row.appendChild(content);
+        body.appendChild(row);
+
+        if (i < infoData.length - 1) {
+          body.appendChild(WithMeComponents.createElement('div', { className: 'divider' }));
+        }
+      });
+
+      // Divider + Açıklama
+      body.appendChild(WithMeComponents.createElement('div', { className: 'divider' }));
+      body.appendChild(WithMeComponents.createElement('span', { className: 'info-row-label', textContent: 'Açıklama' }));
+
+      const descP = WithMeComponents.createElement('p', {
+        textContent: etkinlik.aciklama,
+        className: 'info-row-value'
+      });
+      descP.style.lineHeight = '1.6';
+      body.appendChild(descP);
+
+      // Haritada Aç butonu
+      const mapBtn = WithMeComponents.createElement('a', {
+        className: 'btn btn-primary',
+        href: 'https://maps.google.com/?q=' + encodeURIComponent(etkinlik.konum),
+        target: '_blank',
+        rel: 'noopener noreferrer'
+      });
+      mapBtn.appendChild(WithMeComponents.createIcon('map'));
+      mapBtn.appendChild(document.createTextNode('Haritada Aç'));
+      body.appendChild(mapBtn);
+
+      // Participant section
+      if (etkinlik.katilimciSayisi > 0) {
+        const partSection = WithMeComponents.createElement('div', { className: 'participant-section' });
+
+        const partHeader = WithMeComponents.createElement('div', { className: 'participant-header' });
+        partHeader.appendChild(WithMeComponents.createIcon('users'));
+        partHeader.appendChild(WithMeComponents.createElement('span', {
+          textContent: etkinlik.katilimciSayisi + ' kişi birlikte gitmek istiyor'
+        }));
+        partSection.appendChild(partHeader);
+
+        // Avatar circles
+        const avatarRow = WithMeComponents.createElement('div', { className: 'avatar-row' });
+        const colors = ['#8B9A3B', '#5B9BD5', '#4CAF50', '#FFC107', '#808070', '#E85555'];
+        const count = Math.min(etkinlik.katilimciSayisi, 6);
+        for (let i = 0; i < count; i++) {
+          const circle = WithMeComponents.createElement('div', { className: 'avatar-circle' });
+          circle.style.backgroundColor = colors[i % colors.length];
+          avatarRow.appendChild(circle);
+        }
+        partSection.appendChild(avatarRow);
+        body.appendChild(partSection);
+      }
+
+      // Birlikte Gidelim butonu
+      const birlikteBtn = WithMeComponents.createElement('button', { className: 'btn btn-birlikte' });
+      birlikteBtn.appendChild(WithMeComponents.createIcon('hand-heart'));
+      birlikteBtn.appendChild(document.createTextNode('Birlikte Gidelim'));
+      birlikteBtn.addEventListener('click', async () => {
+        birlikteBtn.disabled = true;
+        birlikteBtn.textContent = 'Gönderiliyor...';
+        try {
+          await WithMeData.birlikteGit({ etkinlikId: etkinlik.id, etkinlikBaslik: etkinlik.baslik });
+          WithMeComponents.showToast('Teklif gönderildi! Diğer katılımcılar bilgilendirilecek.', 'success');
+          birlikteBtn.textContent = 'Teklif Gönderildi';
+        } catch (err) {
+          WithMeComponents.showToast('Bir hata oluştu, tekrar deneyin.', 'error');
+          birlikteBtn.disabled = false;
+          birlikteBtn.textContent = '';
+          birlikteBtn.appendChild(WithMeComponents.createIcon('hand-heart'));
+          birlikteBtn.appendChild(document.createTextNode('Birlikte Gidelim'));
+          WithMeComponents.refreshIcons();
+        }
+      });
+      body.appendChild(birlikteBtn);
+
+      card.appendChild(body);
+      container.appendChild(card);
+      WithMeComponents.refreshIcons();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <title>WithMe - Derdini Anlat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="mobile-header">
+      <a href="./" class="back-btn" aria-label="Geri">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+      </a>
+      <h1>Derdini Anlat</h1>
+    </header>
+
+    <main class="page-content">
+      <h1 class="desktop-title">Derdini Anlat</h1>
+      <p class="desktop-subtitle">Yaşadığınız zorlukları, karşılaştığınız engelleri buradan paylaşabilirsiniz. Sesinizi duyurun!</p>
+
+      <form id="dert-form" class="form-card" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="baslik">Başlık</label>
+          <input class="form-input" type="text" id="baslik" name="baslik" placeholder="Başlığınızı yazın...">
+        </div>
+
+        <div class="form-group mt-lg">
+          <label class="form-label" for="aciklama">Açıklama *</label>
+          <textarea class="form-textarea" id="aciklama" name="aciklama" placeholder="Yaşadığınız durumu detaylı olarak açıklayın..." required></textarea>
+        </div>
+
+        <div class="form-group mt-lg">
+          <label class="form-label" for="engel-turu">Engel Türü (Opsiyonel)</label>
+          <select class="form-select" id="engel-turu" name="engelTuru">
+            <option value="">Engel türü seçin...</option>
+            <option value="Fiziksel Engelli">Fiziksel Engelli</option>
+            <option value="Görme Engelli">Görme Engelli</option>
+            <option value="İşitme Engelli">İşitme Engelli</option>
+            <option value="Zihinsel Engelli">Zihinsel Engelli</option>
+            <option value="Kronik Hastalık">Kronik Hastalık</option>
+            <option value="Diğer">Diğer</option>
+          </select>
+        </div>
+
+        <div class="toggle-row mt-lg">
+          <span class="toggle-label">Anonim olarak paylaş</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="anonim" name="anonim" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-xl">
+          <i data-lucide="send" aria-hidden="true"></i>
+          Paylaş
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <style>
+    @media (max-width: 767px) {
+      .form-card {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  </style>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('dert-form');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const aciklama = document.getElementById('aciklama').value.trim();
+        if (!aciklama) {
+          WithMeComponents.showToast('Lütfen açıklama alanını doldurun.', 'error');
+          return;
+        }
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Gönderiliyor...';
+
+        try {
+          await WithMeData.submitDert({
+            baslik: document.getElementById('baslik').value.trim(),
+            aciklama,
+            engelTuru: document.getElementById('engel-turu').value,
+            anonim: document.getElementById('anonim').checked
+          });
+          WithMeComponents.showToast('Paylaşımınız başarıyla gönderildi!', 'success');
+          form.reset();
+          document.getElementById('anonim').checked = true;
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Paylaş';
+        } catch (error) {
+          WithMeComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Paylaş';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

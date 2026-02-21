@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <title>WithMe - STKlar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .stk-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+    .stk-card h3 {
+      font-size: 16px;
+    }
+    .stk-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .stk-meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-sm);
+    }
+    .stk-meta-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .stk-meta-item i {
+      font-size: 16px;
+      color: var(--accent-primary);
+    }
+    .stk-meta-item a {
+      color: var(--accent-primary);
+      font-size: 13px;
+    }
+    .stk-meta-item a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="mobile-header">
+      <h1>STKlar</h1>
+    </header>
+
+    <main class="page-content">
+      <h1 class="desktop-title">Sivil Toplum Kuruluşları</h1>
+      <p class="desktop-subtitle">Destek alabileceğiniz sivil toplum kuruluşları</p>
+
+      <div class="card-grid" id="stk-list" aria-label="STK listesi">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const listEl = document.getElementById('stk-list');
+
+      WithMeComponents.showLoading(listEl);
+      const stklar = await WithMeData.getStklar();
+
+      listEl.textContent = '';
+
+      stklar.forEach(stk => {
+        const card = document.createElement('article');
+        card.className = 'stk-card';
+
+        const title = WithMeComponents.createElement('h3', { textContent: stk.ad });
+        const desc = WithMeComponents.createElement('p', { textContent: stk.aciklama });
+
+        const meta = document.createElement('div');
+        meta.className = 'stk-meta';
+
+        // Konum
+        const konumItem = WithMeComponents.createElement('div', { className: 'stk-meta-item' });
+        konumItem.appendChild(WithMeComponents.createIcon('map-pin'));
+        konumItem.appendChild(document.createTextNode(stk.konum));
+        meta.appendChild(konumItem);
+
+        // Website
+        const webItem = WithMeComponents.createElement('div', { className: 'stk-meta-item' });
+        webItem.appendChild(WithMeComponents.createIcon('globe'));
+        const link = WithMeComponents.createElement('a', {
+          href: stk.website,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          textContent: 'Web Sitesini Ziyaret Et'
+        });
+        webItem.appendChild(link);
+        meta.appendChild(webItem);
+
+        card.appendChild(title);
+        card.appendChild(desc);
+        card.appendChild(meta);
+        listEl.appendChild(card);
+      });
+      WithMeComponents.refreshIcons();
+    });
+  </script>
+</body>
+</html>

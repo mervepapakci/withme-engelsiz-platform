@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <title>WithMe - Etkinlikler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="mobile-header">
+      <h1>Etkinlikler</h1>
+    </header>
+
+    <main class="page-content">
+      <h1 class="desktop-title">Etkinlikler</h1>
+
+      <!-- Search -->
+      <div class="search-bar mb-lg">
+        <i data-lucide="search" aria-hidden="true"></i>
+        <input type="search" id="search-input" placeholder="Etkinlik ara..." aria-label="Etkinlik ara">
+      </div>
+
+      <!-- Filter Chips -->
+      <div class="filter-chips mb-lg" role="tablist" aria-label="Etkinlik filtresi">
+        <button class="filter-chip active" data-filter="all" role="tab" aria-selected="true">Tümü</button>
+        <button class="filter-chip" data-filter="resmi" role="tab" aria-selected="false">
+          <i data-lucide="building-2" aria-hidden="true"></i> Resmi
+        </button>
+        <button class="filter-chip" data-filter="topluluk" role="tab" aria-selected="false">
+          <i data-lucide="user" aria-hidden="true"></i> Topluluk
+        </button>
+        <button class="filter-chip" data-filter="filtrele" role="tab" aria-selected="false" id="filter-advanced-btn">
+          <i data-lucide="sliders-horizontal" aria-hidden="true"></i> Filtrele
+        </button>
+      </div>
+
+      <!-- Advanced Filters (hidden by default) -->
+      <div id="advanced-filters" class="mb-lg" style="display:none;">
+        <div style="display:flex; flex-wrap:wrap; gap:var(--spacing-sm);">
+          <select class="form-select" id="filter-sehir" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:120px;">
+            <option value="">Tüm Şehirler</option>
+          </select>
+          <select class="form-select" id="filter-engel" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:120px;">
+            <option value="">Tüm Engel Türleri</option>
+          </select>
+          <select class="form-select" id="filter-tur" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:120px;">
+            <option value="">Tüm Türler</option>
+            <option value="Yüz Yüze">Yüz Yüze</option>
+            <option value="Çevrimiçi">Çevrimiçi</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Etkinlik Oluştur butonu -->
+      <div class="mb-xl">
+        <a href="etkinlik-olustur/" class="btn btn-primary" style="max-width:280px;">
+          <i data-lucide="plus" aria-hidden="true"></i>
+          Etkinlik Oluştur
+        </a>
+      </div>
+
+      <!-- List -->
+      <div class="list-gap" id="etkinlik-list" role="list" aria-label="Etkinlik listesi">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const listEl = document.getElementById('etkinlik-list');
+      const searchInput = document.getElementById('search-input');
+      const filterChips = document.querySelectorAll('.filter-chip[data-filter]');
+      const advancedFilters = document.getElementById('advanced-filters');
+      const filterSehir = document.getElementById('filter-sehir');
+      const filterEngel = document.getElementById('filter-engel');
+      const filterTur = document.getElementById('filter-tur');
+
+      let activeKaynakFilter = 'all';
+
+      WithMeComponents.showLoading(listEl);
+      const etkinlikler = await WithMeData.getEtkinlikler();
+
+      // Populate filter dropdowns from data
+      const sehirler = [...new Set(etkinlikler.map(e => e.konum.split(',')[0].trim()))].sort();
+      sehirler.forEach(s => {
+        filterSehir.appendChild(WithMeComponents.createElement('option', { value: s, textContent: s }));
+      });
+
+      const engelTurleri = [...new Set(etkinlikler.map(e => e.engelTuru))].sort();
+      engelTurleri.forEach(t => {
+        filterEngel.appendChild(WithMeComponents.createElement('option', { value: t, textContent: t }));
+      });
+
+      function getFilteredData() {
+        const q = searchInput.value.toLowerCase().trim();
+        const sehir = filterSehir.value;
+        const engel = filterEngel.value;
+        const tur = filterTur.value;
+
+        return etkinlikler.filter(e => {
+          if (activeKaynakFilter !== 'all' && e.kaynak !== activeKaynakFilter) return false;
+          if (sehir && !e.konum.startsWith(sehir)) return false;
+          if (engel && e.engelTuru !== engel) return false;
+          if (tur && e.tur !== tur) return false;
+          if (q && !(
+            e.baslik.toLowerCase().includes(q) ||
+            e.konum.toLowerCase().includes(q) ||
+            e.engelTuru.toLowerCase().includes(q)
+          )) return false;
+          return true;
+        });
+      }
+
+      function renderList(data) {
+        listEl.textContent = '';
+
+        if (data.length === 0) {
+          const empty = WithMeComponents.createElement('div', { className: 'empty-state' });
+          empty.appendChild(WithMeComponents.createIcon('calendar-x'));
+          empty.appendChild(WithMeComponents.createElement('p', { textContent: 'Etkinlik bulunamadı', className: 'text-secondary' }));
+          listEl.appendChild(empty);
+          return;
+        }
+
+        data.forEach(e => {
+          const item = document.createElement('a');
+          item.href = 'etkinlik-detay/?id=' + e.id;
+          item.className = 'list-item';
+          item.setAttribute('role', 'listitem');
+
+          const content = WithMeComponents.createElement('div', { className: 'list-item-content' });
+          content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-date', textContent: formatTarih(e.tarih) + ' - ' + e.saat }));
+          content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-title', textContent: e.baslik }));
+          content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-sub', textContent: e.konum }));
+
+          // Source tag + participant count row
+          const meta = WithMeComponents.createElement('div', { className: 'list-item-meta' });
+
+          const sourceTag = WithMeComponents.createElement('span', { className: 'source-tag ' + (e.kaynak || 'topluluk') });
+          const sourceIcon = e.kaynak === 'resmi' ? 'building-2' : 'user';
+          const sourceLabel = e.kaynak === 'resmi' ? (e.kurum || 'Resmi') : 'Topluluk';
+          sourceTag.appendChild(WithMeComponents.createIcon(sourceIcon));
+          sourceTag.appendChild(document.createTextNode(sourceLabel));
+          meta.appendChild(sourceTag);
+
+          meta.appendChild(WithMeComponents.createElement('span', { className: 'spacer' }));
+
+          if (e.katilimciSayisi) {
+            const pCount = WithMeComponents.createElement('span', { className: 'participant-count' });
+            pCount.appendChild(WithMeComponents.createIcon('users'));
+            pCount.appendChild(document.createTextNode(e.katilimciSayisi));
+            meta.appendChild(pCount);
+          }
+
+          content.appendChild(meta);
+
+          const chevron = WithMeComponents.createIcon('chevron-right', 'chevron');
+
+          item.appendChild(content);
+          item.appendChild(chevron);
+          listEl.appendChild(item);
+        });
+      }
+
+      function applyFilters() {
+        renderList(getFilteredData());
+        WithMeComponents.refreshIcons();
+      }
+
+      // Filter chip click
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          const filter = chip.dataset.filter;
+
+          if (filter === 'filtrele') {
+            const isVisible = advancedFilters.style.display !== 'none';
+            advancedFilters.style.display = isVisible ? 'none' : '';
+            chip.classList.toggle('active', !isVisible);
+            return;
+          }
+
+          // Kaynak filter
+          filterChips.forEach(c => {
+            if (c.dataset.filter !== 'filtrele') {
+              c.classList.remove('active');
+              c.setAttribute('aria-selected', 'false');
+            }
+          });
+          chip.classList.add('active');
+          chip.setAttribute('aria-selected', 'true');
+          activeKaynakFilter = filter;
+          applyFilters();
+        });
+      });
+
+      // Advanced filter change
+      filterSehir.addEventListener('change', applyFilters);
+      filterEngel.addEventListener('change', applyFilters);
+      filterTur.addEventListener('change', applyFilters);
+
+      // Search
+      searchInput.addEventListener('input', applyFilters);
+
+      renderList(etkinlikler);
+      WithMeComponents.refreshIcons();
+    });
+  </script>
+</body>
+</html>
