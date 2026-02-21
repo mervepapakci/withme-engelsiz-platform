@@ -11,9 +11,14 @@ const WithMeComponents = {
   // Geçerli sayfayı belirle (klasör tabanlı URL'ler için)
   getCurrentPage() {
     const path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\/$/, '');
-    const lastSegment = path.split('/').pop();
+    const segments = path.split('/').filter(Boolean);
+    const lastSegment = segments[segments.length - 1];
     const pages = ['etkinlikler', 'etkinlik-detay', 'etkinlik-olustur', 'stklar', 'haklar', 'derdini-anlat', 'geri-bildirim'];
-    return pages.includes(lastSegment) ? lastSegment : 'index';
+    if (pages.includes(lastSegment)) return lastSegment;
+    // Sub-pages: derdini-anlat/yeni → derdini-anlat
+    const parentSegment = segments[segments.length - 2];
+    if (parentSegment && pages.includes(parentSegment)) return parentSegment;
+    return 'index';
   },
 
   // Güvenli element oluşturma yardımcısı

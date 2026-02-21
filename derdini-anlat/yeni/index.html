@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../../">
+  <title>WithMe - Yeni Paylaşım</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="mobile-header">
+      <a href="derdini-anlat/" class="back-btn" aria-label="Geri">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+      </a>
+      <h1>Yeni Paylaşım</h1>
+    </header>
+
+    <main class="page-content">
+      <h1 class="desktop-title">Yeni Paylaşım</h1>
+      <p class="desktop-subtitle">Yaşadığınız zorlukları ve karşılaştığınız engelleri paylaşın.</p>
+
+      <form id="dert-form" class="form-card" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="baslik">Başlık</label>
+          <input class="form-input" type="text" id="baslik" name="baslik" placeholder="Başlığınızı yazın...">
+        </div>
+
+        <div class="form-group mt-md">
+          <label class="form-label" for="aciklama">Açıklama *</label>
+          <textarea class="form-textarea" id="aciklama" name="aciklama" placeholder="Yaşadığınız durumu detaylı olarak açıklayın..." required></textarea>
+        </div>
+
+        <div class="form-group mt-md">
+          <label class="form-label" for="engel-turu">Engel Türü (Opsiyonel)</label>
+          <select class="form-select" id="engel-turu" name="engelTuru">
+            <option value="">Engel türü seçin...</option>
+            <option value="Fiziksel Engelli">Fiziksel Engelli</option>
+            <option value="Görme Engelli">Görme Engelli</option>
+            <option value="İşitme Engelli">İşitme Engelli</option>
+            <option value="Zihinsel Engelli">Zihinsel Engelli</option>
+            <option value="Kronik Hastalık">Kronik Hastalık</option>
+            <option value="Ayrımcılık">Ayrımcılık</option>
+            <option value="Diğer">Diğer</option>
+          </select>
+        </div>
+
+        <div class="form-group mt-md">
+          <label class="form-label" for="konum">Konum (Opsiyonel)</label>
+          <input class="form-input" type="text" id="konum" name="konum" placeholder="Şehir veya ilçe girin...">
+        </div>
+
+        <div class="form-group mt-md">
+          <label class="form-label" for="isim">İsim Soyisim</label>
+          <input class="form-input" type="text" id="isim" name="isim" placeholder="Adınız ve soyadınız...">
+        </div>
+
+        <div class="form-group mt-md">
+          <label class="form-label" for="iletisim">İletişim (Telefon veya E-posta)</label>
+          <input class="form-input" type="text" id="iletisim" name="iletisim" placeholder="Telefon veya e-posta adresiniz...">
+        </div>
+
+        <div class="form-group mt-md">
+          <label class="form-label" for="yasanan-tarih">Yaşanan Tarih</label>
+          <input class="form-input" type="date" id="yasanan-tarih" name="yasananTarih">
+        </div>
+
+        <div class="form-group mt-md">
+          <label class="form-label">Tarih (otomatik)</label>
+          <input class="form-input" type="text" id="tarih-otomatik" disabled>
+        </div>
+
+        <div class="toggle-row mt-md">
+          <span class="toggle-label">Anonim paylaş</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="anonim" name="anonim" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-lg">
+          <i data-lucide="send" aria-hidden="true"></i>
+          Paylaş
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Otomatik tarih
+      const now = new Date();
+      const formatted = now.toLocaleDateString('tr-TR') + ' - ' +
+        now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('tarih-otomatik').value = formatted;
+
+      const form = document.getElementById('dert-form');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const aciklama = document.getElementById('aciklama').value.trim();
+        if (!aciklama) {
+          WithMeComponents.showToast('Lütfen açıklama alanını doldurun.', 'error');
+          return;
+        }
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Gönderiliyor...';
+
+        try {
+          await WithMeData.submitDert({
+            baslik: document.getElementById('baslik').value.trim(),
+            aciklama,
+            engelTuru: document.getElementById('engel-turu').value,
+            konum: document.getElementById('konum').value.trim(),
+            isim: document.getElementById('isim').value.trim(),
+            iletisim: document.getElementById('iletisim').value.trim(),
+            yasananTarih: document.getElementById('yasanan-tarih').value,
+            anonim: document.getElementById('anonim').checked
+          });
+          WithMeComponents.showToast('Paylaşımınız başarıyla gönderildi!', 'success');
+          setTimeout(() => {
+            window.location.href = 'derdini-anlat/';
+          }, 1500);
+        } catch (error) {
+          WithMeComponents.showToast('Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Paylaş';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
