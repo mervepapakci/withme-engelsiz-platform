@@ -6,7 +6,7 @@
 /* --- CSS Variables --- */
 :root {
   /* Light Mode Colors (default) - Dark mode ile aynı, sadece bg-primary farklı */
-  --bg-primary: #EDE6D6;
+  --bg-primary: #F5EDE0;
   --bg-secondary: #2A2D1F;
   --bg-card: #333625;
   --bg-header: #3A3D2C;
