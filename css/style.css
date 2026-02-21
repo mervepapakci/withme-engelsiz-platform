@@ -386,14 +386,23 @@ h3 {
 }
 
 /* --- Form Elements --- */
+.form-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: 6px;
 }
 
 .form-label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -403,8 +412,8 @@ h3 {
 .form-textarea {
   background: var(--bg-secondary);
   border-radius: var(--radius-sm);
-  padding: 0 var(--spacing-lg);
-  height: 44px;
+  padding: 0 var(--spacing-md);
+  height: 40px;
   color: var(--text-primary);
   font-size: 14px;
   border: 1px solid transparent;
@@ -424,9 +433,15 @@ h3 {
 }
 
 .form-textarea {
-  height: 120px;
-  padding: var(--spacing-lg);
+  height: 100px;
+  padding: var(--spacing-md);
   resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
 .form-select {
@@ -1040,6 +1055,12 @@ h3 {
   color: var(--text-muted);
 }
 
+/* --- Desktop-only elements (hidden on mobile) --- */
+.desktop-title,
+.desktop-subtitle {
+  display: none;
+}
+
 /* ========================================
    Desktop Layout (768px+)
    ======================================== */
@@ -1063,12 +1084,14 @@ h3 {
   }
 
   .desktop-title {
+    display: block;
     font-size: 28px;
     font-weight: 700;
     margin-bottom: var(--spacing-sm);
   }
 
   .desktop-subtitle {
+    display: block;
     font-size: 15px;
     color: var(--text-secondary);
     margin-bottom: var(--spacing-xl);
@@ -1076,10 +1099,18 @@ h3 {
 
   /* Desktop form card */
   .form-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
     padding: var(--spacing-2xl);
     max-width: 640px;
+    gap: var(--spacing-lg);
+  }
+
+  .form-row {
+    flex-direction: row;
+    gap: var(--spacing-lg);
+  }
+
+  .form-row > .form-group {
+    flex: 1;
   }
 
   /* Desktop grid layouts */
