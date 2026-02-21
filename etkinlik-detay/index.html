@@ -95,7 +95,10 @@
       const infoData = [
         { icon: 'map-pin', label: 'Konum', value: etkinlik.konum },
         { icon: 'accessibility', label: 'Engel Türü', value: etkinlik.engelTuru },
-        { icon: 'calendar', label: 'Tarih', value: formatTarih(etkinlik.tarih) + ' - ' + etkinlik.saat }
+        { icon: 'calendar', label: 'Tarih', value: formatTarih(etkinlik.tarih) + ' - ' + etkinlik.saat },
+        { icon: 'user', label: 'Organizatör', value: etkinlik.organizator || etkinlik.kurum || '-' },
+        { icon: 'mail', label: 'İletişim', value: [etkinlik.eposta, etkinlik.telefon].filter(Boolean).join(' • ') || '-' },
+        { icon: 'monitor', label: 'Etkinlik Şekli', value: etkinlik.tur || 'Yüz Yüze' }
       ];
 
       infoData.forEach((info, i) => {
@@ -123,6 +126,48 @@
       });
       descP.style.lineHeight = '1.6';
       body.appendChild(descP);
+
+      // Etkinlik Linki (if available)
+      const eventLink = etkinlik.link || etkinlik.etkinlikLinki;
+      if (eventLink) {
+        body.appendChild(WithMeComponents.createElement('div', { className: 'divider' }));
+        const linkRow = WithMeComponents.createElement('div', { className: 'info-row' });
+        linkRow.appendChild(WithMeComponents.createIcon('external-link'));
+        const linkContent = WithMeComponents.createElement('div', { className: 'info-row-content' });
+        linkContent.appendChild(WithMeComponents.createElement('span', { className: 'info-row-label', textContent: 'Etkinlik Linki' }));
+        const linkAnchor = WithMeComponents.createElement('a', {
+          className: 'info-row-link',
+          href: eventLink,
+          target: '_blank',
+          rel: 'noopener noreferrer'
+        });
+        let shortUrl = eventLink.replace(/^https?:\/\/(www\.)?/, '');
+        if (shortUrl.length > 50) shortUrl = shortUrl.substring(0, 50) + '...';
+        linkAnchor.textContent = shortUrl;
+        linkContent.appendChild(linkAnchor);
+        linkRow.appendChild(linkContent);
+        body.appendChild(linkRow);
+      }
+
+      // Sosyal Medya (if available)
+      if (etkinlik.sosyalMedya) {
+        body.appendChild(WithMeComponents.createElement('div', { className: 'divider' }));
+        const smRow = WithMeComponents.createElement('div', { className: 'info-row' });
+        smRow.appendChild(WithMeComponents.createIcon('share-2'));
+        const smContent = WithMeComponents.createElement('div', { className: 'info-row-content' });
+        smContent.appendChild(WithMeComponents.createElement('span', { className: 'info-row-label', textContent: 'Sosyal Medya' }));
+        const smUrl = etkinlik.sosyalMedya.startsWith('http') ? etkinlik.sosyalMedya : 'https://' + etkinlik.sosyalMedya;
+        const smAnchor = WithMeComponents.createElement('a', {
+          className: 'info-row-link',
+          href: smUrl,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          textContent: etkinlik.sosyalMedya
+        });
+        smContent.appendChild(smAnchor);
+        smRow.appendChild(smContent);
+        body.appendChild(smRow);
+      }
 
       // Haritada Aç butonu
       const mapBtn = WithMeComponents.createElement('a', {

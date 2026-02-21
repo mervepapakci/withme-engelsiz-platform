@@ -24,22 +24,78 @@
       <p class="desktop-subtitle">Yeni bir etkinlik oluşturun ve toplulukla paylaşın.</p>
 
       <form id="etkinlik-form" class="form-card" novalidate>
+        <!-- 1. Etkinlik Türü -->
+        <div class="form-group">
+          <span class="form-label">Etkinlik Türü</span>
+          <div class="type-selector" id="etkinlik-turu-selector" role="radiogroup" aria-label="Etkinlik türü">
+            <button type="button" class="type-option active" data-value="birlikte" role="radio" aria-checked="true">Birlikte Gidelim mi?</button>
+            <button type="button" class="type-option" data-value="duzenliyorum" role="radio" aria-checked="false">Düzenliyorum</button>
+          </div>
+        </div>
+
+        <!-- 2. Etkinlik Başlığı -->
         <div class="form-group">
           <label class="form-label" for="baslik">Etkinlik Başlığı</label>
           <input class="form-input" type="text" id="baslik" name="baslik" placeholder="Etkinlik başlığını girin..." required>
         </div>
 
-        <div class="form-group mt-lg">
+        <!-- 3. Açıklama -->
+        <div class="form-group">
           <label class="form-label" for="aciklama">Açıklama</label>
           <textarea class="form-textarea" id="aciklama" name="aciklama" placeholder="Etkinlik açıklamasını yazın..." required></textarea>
         </div>
 
-        <div class="form-group mt-lg">
-          <label class="form-label" for="konum">Konum</label>
-          <input class="form-input" type="text" id="konum" name="konum" placeholder="Etkinlik konumunu girin..." required>
+        <!-- 4. Organizatör -->
+        <div class="form-group">
+          <label class="form-label" for="organizator">Organizatör / Oluşturan</label>
+          <input class="form-input" type="text" id="organizator" name="organizator" placeholder="Ad Soyad veya Kuruluş Adı" required>
         </div>
 
-        <div class="date-row mt-lg">
+        <!-- 5. İletişim (E-posta) -->
+        <div class="form-group">
+          <label class="form-label" for="eposta">İletişim (E-posta)</label>
+          <input class="form-input" type="email" id="eposta" name="eposta" placeholder="E-posta adresi" required>
+        </div>
+
+        <!-- 6. İletişim (Telefon) -->
+        <div class="form-group">
+          <label class="form-label" for="telefon">İletişim (Telefon)</label>
+          <input class="form-input" type="tel" id="telefon" name="telefon" placeholder="Telefon numarası">
+        </div>
+
+        <!-- 7. Sosyal Medya (opsiyonel) -->
+        <div class="form-group">
+          <label class="form-label" for="sosyalMedya">Sosyal Medya <span class="text-muted" style="font-weight:400;">(opsiyonel)</span></label>
+          <input class="form-input" type="text" id="sosyalMedya" name="sosyalMedya" placeholder="instagram.com/kullaniciadi">
+        </div>
+
+        <!-- 8. Etkinlik Linki (opsiyonel) -->
+        <div class="form-group">
+          <label class="form-label" for="etkinlikLinki">Etkinlik Linki <span class="text-muted" style="font-weight:400;">(opsiyonel)</span></label>
+          <input class="form-input" type="url" id="etkinlikLinki" name="etkinlikLinki" placeholder="https://etkinlik-linki.com">
+        </div>
+
+        <!-- 9. Etkinlik Şekli -->
+        <div class="form-group">
+          <span class="form-label">Etkinlik Şekli</span>
+          <div class="type-selector" id="etkinlik-sekli-selector" role="radiogroup" aria-label="Etkinlik şekli">
+            <button type="button" class="type-option active" data-value="Yüz Yüze" role="radio" aria-checked="true">Yüz Yüze</button>
+            <button type="button" class="type-option" data-value="Çevrimiçi" role="radio" aria-checked="false">Çevrimiçi</button>
+          </div>
+        </div>
+
+        <!-- 10. Konum -->
+        <div class="form-group">
+          <label class="form-label" for="konum">Konum</label>
+          <input class="form-input" type="text" id="konum" name="konum" placeholder="Şehir, İlçe, Mahalle, Sokak..." required>
+          <button type="button" class="google-maps-btn" id="google-maps-btn">
+            <i data-lucide="map-pin" aria-hidden="true"></i>
+            Google Maps'ten Seç
+          </button>
+        </div>
+
+        <!-- 11. Tarih / Saat -->
+        <div class="date-row">
           <div class="form-group">
             <label class="form-label" for="tarih">Tarih</label>
             <input class="form-input" type="date" id="tarih" name="tarih" required>
@@ -50,15 +106,21 @@
           </div>
         </div>
 
-        <div class="form-group mt-lg">
-          <span class="form-label">Etkinlik Türü</span>
-          <div class="type-selector" role="radiogroup" aria-label="Etkinlik türü">
-            <button type="button" class="type-option active" data-value="Yüz Yüze" role="radio" aria-checked="true">Yüz Yüze</button>
-            <button type="button" class="type-option" data-value="Çevrimiçi" role="radio" aria-checked="false">Çevrimiçi</button>
-          </div>
+        <!-- 12. Engel Türü -->
+        <div class="form-group">
+          <label class="form-label" for="engelTuru">Engel Türü</label>
+          <select class="form-select" id="engelTuru" name="engelTuru">
+            <option value="Tüm Engel Grupları">Tüm Engel Grupları</option>
+            <option value="Fiziksel Engelli">Fiziksel</option>
+            <option value="Görme Engelli">Görme</option>
+            <option value="İşitme Engelli">İşitme</option>
+            <option value="Zihinsel Engelli">Zihinsel</option>
+            <option value="Çalışabilir Engelliler">Çalışabilir Engelliler</option>
+          </select>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-xl">
+        <!-- 13. Gönder -->
+        <button type="submit" class="btn btn-primary mt-lg">
           <i data-lucide="send" aria-hidden="true"></i>
           Etkinliği Oluştur
         </button>
@@ -86,19 +148,40 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('etkinlik-form');
-      let selectedTur = 'Yüz Yüze';
+      let selectedEtkinlikTuru = 'birlikte';
+      let selectedSekil = 'Yüz Yüze';
 
-      // Tür seçici
-      document.querySelectorAll('.type-option').forEach(btn => {
+      // Etkinlik Türü seçici (Birlikte Gidelim mi? / Düzenliyorum)
+      document.querySelectorAll('#etkinlik-turu-selector .type-option').forEach(btn => {
         btn.addEventListener('click', () => {
-          document.querySelectorAll('.type-option').forEach(b => {
+          document.querySelectorAll('#etkinlik-turu-selector .type-option').forEach(b => {
             b.classList.remove('active');
             b.setAttribute('aria-checked', 'false');
           });
           btn.classList.add('active');
           btn.setAttribute('aria-checked', 'true');
-          selectedTur = btn.dataset.value;
+          selectedEtkinlikTuru = btn.dataset.value;
         });
+      });
+
+      // Etkinlik Şekli seçici (Yüz Yüze / Çevrimiçi)
+      document.querySelectorAll('#etkinlik-sekli-selector .type-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#etkinlik-sekli-selector .type-option').forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-checked', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-checked', 'true');
+          selectedSekil = btn.dataset.value;
+        });
+      });
+
+      // Google Maps butonu
+      document.getElementById('google-maps-btn').addEventListener('click', () => {
+        const konumInput = document.getElementById('konum');
+        const query = konumInput.value.trim() || 'Türkiye';
+        window.open('https://www.google.com/maps/search/' + encodeURIComponent(query), '_blank');
       });
 
       // Form gönderimi -> n8n webhook
@@ -107,12 +190,18 @@
 
         const baslik = document.getElementById('baslik').value.trim();
         const aciklama = document.getElementById('aciklama').value.trim();
+        const organizator = document.getElementById('organizator').value.trim();
+        const eposta = document.getElementById('eposta').value.trim();
+        const telefon = document.getElementById('telefon').value.trim();
+        const sosyalMedya = document.getElementById('sosyalMedya').value.trim();
+        const etkinlikLinki = document.getElementById('etkinlikLinki').value.trim();
         const konum = document.getElementById('konum').value.trim();
         const tarih = document.getElementById('tarih').value;
         const saat = document.getElementById('saat').value;
+        const engelTuru = document.getElementById('engelTuru').value;
 
-        if (!baslik || !aciklama || !konum || !tarih || !saat) {
-          WithMeComponents.showToast('Lütfen tüm alanları doldurun.', 'error');
+        if (!baslik || !aciklama || !organizator || !eposta || !konum || !tarih || !saat) {
+          WithMeComponents.showToast('Lütfen zorunlu alanları doldurun.', 'error');
           return;
         }
 
@@ -124,11 +213,17 @@
           await WithMeData.createEtkinlik({
             baslik,
             aciklama,
+            organizator,
+            eposta,
+            telefon,
+            sosyalMedya,
+            etkinlikLinki,
             konum,
             tarih,
             saat,
-            tur: selectedTur,
-            engelTuru: 'Tüm Engel Grupları',
+            tur: selectedSekil,
+            etkinlikTuru: selectedEtkinlikTuru,
+            engelTuru,
             kaynak: 'topluluk'
           });
           WithMeComponents.showToast('Etkinlik başarıyla oluşturuldu!', 'success');

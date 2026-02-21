@@ -142,6 +142,17 @@
           content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-title', textContent: e.baslik }));
           content.appendChild(WithMeComponents.createElement('span', { className: 'list-item-sub', textContent: e.konum }));
 
+          // Event link row (if available)
+          const eventLink = e.link || e.etkinlikLinki;
+          if (eventLink) {
+            const linkRow = WithMeComponents.createElement('span', { className: 'list-item-link' });
+            linkRow.appendChild(WithMeComponents.createIcon('external-link'));
+            let shortUrl = eventLink.replace(/^https?:\/\/(www\.)?/, '');
+            if (shortUrl.length > 40) shortUrl = shortUrl.substring(0, 40) + '...';
+            linkRow.appendChild(document.createTextNode(shortUrl));
+            content.appendChild(linkRow);
+          }
+
           // Source tag + participant count row
           const meta = WithMeComponents.createElement('div', { className: 'list-item-meta' });
 

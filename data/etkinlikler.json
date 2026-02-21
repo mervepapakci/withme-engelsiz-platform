@@ -11,7 +11,11 @@
     "link": "https://engelsiz.iskur.gov.tr/etkinlikler/engelli-toplu-is-goeruesmesi-25022026/",
     "kaynak": "resmi",
     "kurum": "İŞKUR",
-    "katilimciSayisi": 5
+    "katilimciSayisi": 5,
+    "etkinlikTuru": "duzenliyorum",
+    "organizator": "İŞKUR Gaziantep İl Müdürlüğü",
+    "eposta": "gaziantep@iskur.gov.tr",
+    "telefon": "0342 230 10 10"
   },
   {
     "id": 2,
@@ -25,7 +29,11 @@
     "link": "https://engelsiz.iskur.gov.tr/etkinlikler/engelli-toplu-is-goeruesmesi-18022026/",
     "kaynak": "resmi",
     "kurum": "İŞKUR",
-    "katilimciSayisi": 3
+    "katilimciSayisi": 3,
+    "etkinlikTuru": "duzenliyorum",
+    "organizator": "İŞKUR Zonguldak İl Müdürlüğü",
+    "eposta": "zonguldak@iskur.gov.tr",
+    "telefon": "0372 251 00 00"
   },
   {
     "id": 3,
@@ -39,7 +47,11 @@
     "link": "https://engelsiz.iskur.gov.tr/etkinlikler/engelli-toplu-is-goeruesmesi-17022026/",
     "kaynak": "resmi",
     "kurum": "İŞKUR",
-    "katilimciSayisi": 8
+    "katilimciSayisi": 8,
+    "etkinlikTuru": "duzenliyorum",
+    "organizator": "İŞKUR Kayseri İl Müdürlüğü",
+    "eposta": "kayseri@iskur.gov.tr",
+    "telefon": "0352 222 10 10"
   },
   {
     "id": 4,
@@ -53,7 +65,12 @@
     "link": "https://engelsizkariyer.com/AKADEMI/Engelsiz-Kariyer-Gunleri/Turkiyenin-En-Buyuk-Engelli-Istihdami-Bulusmasi-Engelsiz-Kariyer-Gunleri-2392",
     "kaynak": "resmi",
     "kurum": "Engelsiz Kariyer",
-    "katilimciSayisi": 12
+    "katilimciSayisi": 12,
+    "etkinlikTuru": "duzenliyorum",
+    "organizator": "Engelsiz Kariyer Derneği",
+    "eposta": "info@engelsizkariyer.com",
+    "telefon": "0216 400 00 00",
+    "sosyalMedya": "instagram.com/engelsizkariyer"
   },
   {
     "id": 5,
@@ -65,7 +82,11 @@
     "engelTuru": "Tüm Engel Grupları",
     "tur": "Yüz Yüze",
     "kaynak": "topluluk",
-    "katilimciSayisi": 7
+    "katilimciSayisi": 7,
+    "etkinlikTuru": "birlikte",
+    "organizator": "Ayşe Yılmaz",
+    "eposta": "ayse.yilmaz@email.com",
+    "telefon": "0532 100 20 30"
   },
   {
     "id": 6,
@@ -77,7 +98,11 @@
     "engelTuru": "İşitme Engelli",
     "tur": "Yüz Yüze",
     "kaynak": "topluluk",
-    "katilimciSayisi": 4
+    "katilimciSayisi": 4,
+    "etkinlikTuru": "duzenliyorum",
+    "organizator": "İşitme Engelliler Derneği",
+    "eposta": "info@isitmeengelliler.org",
+    "telefon": "0312 400 50 50"
   },
   {
     "id": 7,
@@ -89,7 +114,12 @@
     "engelTuru": "Görme Engelli",
     "tur": "Çevrimiçi",
     "kaynak": "topluluk",
-    "katilimciSayisi": 15
+    "katilimciSayisi": 15,
+    "etkinlikTuru": "duzenliyorum",
+    "organizator": "Görme Engelliler Teknoloji Topluluğu",
+    "eposta": "tech@gormeengelliler.org",
+    "telefon": "0532 700 80 90",
+    "etkinlikLinki": "https://zoom.us/j/1234567890"
   },
   {
     "id": 8,
@@ -101,7 +131,11 @@
     "engelTuru": "Fiziksel Engelli",
     "tur": "Yüz Yüze",
     "kaynak": "topluluk",
-    "katilimciSayisi": 9
+    "katilimciSayisi": 9,
+    "etkinlikTuru": "birlikte",
+    "organizator": "Mehmet Kaya",
+    "eposta": "mehmet.kaya@email.com",
+    "telefon": "0555 300 40 50"
   },
   {
     "id": 9,
@@ -113,6 +147,11 @@
     "engelTuru": "Tüm Engel Grupları",
     "tur": "Yüz Yüze",
     "kaynak": "topluluk",
-    "katilimciSayisi": 6
+    "katilimciSayisi": 6,
+    "etkinlikTuru": "duzenliyorum",
+    "organizator": "Engelli Hakları Platformu",
+    "eposta": "iletisim@engellihakları.org",
+    "telefon": "0224 500 60 70",
+    "sosyalMedya": "instagram.com/engellihakları"
   }
 ]
