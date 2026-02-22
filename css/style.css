@@ -527,15 +527,15 @@ h3 {
   justify-content: center;
 }
 
-.star-rating i {
+.star-rating .star-item {
   font-size: 36px;
   cursor: pointer;
   color: var(--text-muted);
   transition: color 0.15s;
 }
 
-.star-rating i.active,
-.star-rating i:hover {
+.star-rating .star-item.active,
+.star-rating .star-item:hover {
   color: var(--accent-primary);
 }
 

@@ -33,11 +33,11 @@
         <div class="form-group" style="align-items:center;">
           <span class="form-label">Puanınız</span>
           <div class="star-rating" id="star-rating" role="radiogroup" aria-label="Puan verin">
-            <i data-lucide="star" data-value="1" role="radio" aria-label="1 yıldız" tabindex="0"></i>
-            <i data-lucide="star" data-value="2" role="radio" aria-label="2 yıldız" tabindex="0"></i>
-            <i data-lucide="star" data-value="3" role="radio" aria-label="3 yıldız" tabindex="0"></i>
-            <i data-lucide="star" data-value="4" role="radio" aria-label="4 yıldız" tabindex="0"></i>
-            <i data-lucide="star" data-value="5" role="radio" aria-label="5 yıldız" tabindex="0"></i>
+            <span class="star-item" data-value="1" role="radio" aria-label="1 yıldız" tabindex="0"><i data-lucide="star"></i></span>
+            <span class="star-item" data-value="2" role="radio" aria-label="2 yıldız" tabindex="0"><i data-lucide="star"></i></span>
+            <span class="star-item" data-value="3" role="radio" aria-label="3 yıldız" tabindex="0"><i data-lucide="star"></i></span>
+            <span class="star-item" data-value="4" role="radio" aria-label="4 yıldız" tabindex="0"><i data-lucide="star"></i></span>
+            <span class="star-item" data-value="5" role="radio" aria-label="5 yıldız" tabindex="0"><i data-lucide="star"></i></span>
           </div>
         </div>
 
@@ -60,7 +60,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('feedback-form');
-      const stars = document.querySelectorAll('#star-rating i');
+      const stars = document.querySelectorAll('#star-rating .star-item');
       let selectedRating = 0;
 
       // Yıldız rating
