@@ -101,10 +101,9 @@ const BeVoysComponents = {
     const current = this.getCurrentPage();
     const tabs = [
       { href: './', icon: 'house', label: 'Ana Sayfa', page: 'index' },
+      { href: 'derdini-anlat/', icon: 'message-square', label: 'Sesini Duyur', page: 'derdini-anlat' },
       { href: 'etkinlikler/', icon: 'calendar', label: 'Etkinlikler', pages: ['etkinlikler', 'etkinlik-detay', 'etkinlik-olustur'] },
-      { href: 'haklar/', icon: 'scale', label: 'Haklar', page: 'haklar' },
-      { href: 'stklar/', icon: 'users', label: 'STKlar', page: 'stklar' },
-      { href: 'geri-bildirim/', icon: 'message-circle', label: 'Daha Fazla', pages: ['geri-bildirim', 'derdini-anlat'] }
+      { href: 'geri-bildirim/', icon: 'message-circle', label: 'Geri Bildirim', page: 'geri-bildirim' }
     ];
 
     const nav = this.createElement('nav', {
