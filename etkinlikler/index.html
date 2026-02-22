@@ -90,7 +90,7 @@
       const etkinlikler = await BeVoysData.getEtkinlikler();
 
       // Populate filter dropdowns from data
-      const sehirler = [...new Set(etkinlikler.map(e => e.konum.split(',')[0].trim()))].sort();
+      const sehirler = [...new Set(etkinlikler.map(e => e.konum.split(',')[0].trim()))].filter(s => s !== 'Çevrimiçi').sort();
       sehirler.forEach(s => {
         filterSehir.appendChild(BeVoysComponents.createElement('option', { value: s, textContent: s }));
       });

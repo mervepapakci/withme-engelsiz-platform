@@ -35,25 +35,25 @@
 
         <!-- 2. Etkinlik Başlığı -->
         <div class="form-group">
-          <label class="form-label" for="baslik">Etkinlik Başlığı</label>
+          <label class="form-label" for="baslik">Etkinlik Başlığı *</label>
           <input class="form-input" type="text" id="baslik" name="baslik" placeholder="Etkinlik başlığını girin..." required>
         </div>
 
         <!-- 3. Açıklama -->
         <div class="form-group">
-          <label class="form-label" for="aciklama">Açıklama</label>
+          <label class="form-label" for="aciklama">Açıklama *</label>
           <textarea class="form-textarea" id="aciklama" name="aciklama" placeholder="Etkinlik açıklamasını yazın..." required></textarea>
         </div>
 
         <!-- 4. Organizatör -->
         <div class="form-group">
-          <label class="form-label" for="organizator">Organizatör / Oluşturan</label>
+          <label class="form-label" for="organizator">Organizatör / Oluşturan *</label>
           <input class="form-input" type="text" id="organizator" name="organizator" placeholder="Ad Soyad veya Kuruluş Adı" required>
         </div>
 
         <!-- 5. İletişim (E-posta) -->
         <div class="form-group">
-          <label class="form-label" for="eposta">İletişim (E-posta)</label>
+          <label class="form-label" for="eposta">İletişim (E-posta) *</label>
           <input class="form-input" type="email" id="eposta" name="eposta" placeholder="E-posta adresi" required>
         </div>
 
@@ -84,24 +84,34 @@
           </div>
         </div>
 
-        <!-- 10. Konum -->
-        <div class="form-group">
-          <label class="form-label" for="konum">Konum</label>
-          <input class="form-input" type="text" id="konum" name="konum" placeholder="Şehir, İlçe, Mahalle, Sokak..." required>
-          <button type="button" class="google-maps-btn" id="google-maps-btn">
-            <i data-lucide="map-pin" aria-hidden="true"></i>
-            Google Maps'ten Seç
-          </button>
+        <!-- 10. Konum (İl / İlçe / Mahalle) -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="il">İl *</label>
+            <input class="form-input" type="text" id="il" name="il" placeholder="İl girin..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ilce">İlçe *</label>
+            <input class="form-input" type="text" id="ilce" name="ilce" placeholder="İlçe girin..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mahalle">Mahalle</label>
+            <input class="form-input" type="text" id="mahalle" name="mahalle" placeholder="Mahalle girin...">
+          </div>
         </div>
+        <button type="button" class="google-maps-btn" id="google-maps-btn">
+          <i data-lucide="map-pin" aria-hidden="true"></i>
+          Google Maps'ten Seç
+        </button>
 
         <!-- 11. Tarih / Saat -->
         <div class="date-row">
           <div class="form-group">
-            <label class="form-label" for="tarih">Tarih</label>
+            <label class="form-label" for="tarih">Tarih *</label>
             <input class="form-input" type="date" id="tarih" name="tarih" required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="saat">Saat</label>
+            <label class="form-label" for="saat">Saat *</label>
             <input class="form-input" type="time" id="saat" name="saat" required>
           </div>
         </div>
@@ -179,8 +189,10 @@
 
       // Google Maps butonu
       document.getElementById('google-maps-btn').addEventListener('click', () => {
-        const konumInput = document.getElementById('konum');
-        const query = konumInput.value.trim() || 'Türkiye';
+        const il = document.getElementById('il').value.trim();
+        const ilce = document.getElementById('ilce').value.trim();
+        const mahalle = document.getElementById('mahalle').value.trim();
+        const query = [il, ilce, mahalle].filter(Boolean).join(', ') || 'Türkiye';
         window.open('https://www.google.com/maps/search/' + encodeURIComponent(query), '_blank');
       });
 
@@ -195,13 +207,16 @@
         const telefon = document.getElementById('telefon').value.trim();
         const sosyalMedya = document.getElementById('sosyalMedya').value.trim();
         const etkinlikLinki = document.getElementById('etkinlikLinki').value.trim();
-        const konum = document.getElementById('konum').value.trim();
+        const il = document.getElementById('il').value.trim();
+        const ilce = document.getElementById('ilce').value.trim();
+        const mahalle = document.getElementById('mahalle').value.trim();
+        const konum = [il, ilce, mahalle].filter(Boolean).join(', ');
         const tarih = document.getElementById('tarih').value;
         const saat = document.getElementById('saat').value;
         const engelTuru = document.getElementById('engelTuru').value;
 
-        if (!baslik || !aciklama || !organizator || !eposta || !konum || !tarih || !saat) {
-          BeVoysComponents.showToast('Lütfen zorunlu alanları doldurun.', 'error');
+        if (!baslik || !aciklama || !organizator || !eposta || !il || !ilce || !tarih || !saat) {
+          BeVoysComponents.showToast('Lütfen zorunlu alanları doldurun. (İl ve İlçe gerekli)', 'error');
           return;
         }
 

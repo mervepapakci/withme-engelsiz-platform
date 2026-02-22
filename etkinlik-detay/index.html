@@ -204,10 +204,10 @@
         body.appendChild(partSection);
       }
 
-      // Birlikte Gidelim butonu
+      // Ben de Gidiyorum butonu
       const birlikteBtn = BeVoysComponents.createElement('button', { className: 'btn btn-birlikte' });
       birlikteBtn.appendChild(BeVoysComponents.createIcon('hand-heart'));
-      birlikteBtn.appendChild(document.createTextNode('Birlikte Gidelim'));
+      birlikteBtn.appendChild(document.createTextNode('Ben de Gidiyorum'));
       birlikteBtn.addEventListener('click', async () => {
         birlikteBtn.disabled = true;
         birlikteBtn.textContent = 'Gönderiliyor...';
@@ -220,7 +220,7 @@
           birlikteBtn.disabled = false;
           birlikteBtn.textContent = '';
           birlikteBtn.appendChild(BeVoysComponents.createIcon('hand-heart'));
-          birlikteBtn.appendChild(document.createTextNode('Birlikte Gidelim'));
+          birlikteBtn.appendChild(document.createTextNode('Ben de Gidiyorum'));
           BeVoysComponents.refreshIcons();
         }
       });
