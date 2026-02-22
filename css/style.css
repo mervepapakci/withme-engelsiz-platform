@@ -374,6 +374,19 @@ h3 {
   font-size: 13px;
 }
 
+.btn-outline {
+  background: transparent;
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-primary);
+  width: auto;
+}
+
+.btn-outline:hover,
+.btn-outline:active {
+  background: var(--accent-primary);
+  color: var(--text-on-accent);
+}
+
 .btn-secondary {
   background: var(--bg-card);
   color: var(--text-primary);
@@ -955,6 +968,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.5;
+  margin: 0;
+}
+
+.forum-popup-oneri-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-primary);
   margin: 0;
 }
 

@@ -142,6 +142,13 @@
       addRow('calendar', 'Tarih:', zamanOnce(item.tarih));
       popup.appendChild(infoRows);
 
+      // Öneri (varsa)
+      if (item.oneri) {
+        popup.appendChild(ce('div', { className: 'forum-popup-divider' }));
+        popup.appendChild(ce('h4', { className: 'forum-popup-oneri-title', textContent: 'Çözüm Önerisi' }));
+        popup.appendChild(ce('p', { className: 'forum-popup-desc', textContent: item.oneri }));
+      }
+
       // Ayırıcı + destek butonu
       popup.appendChild(ce('div', { className: 'forum-popup-divider' }));
       const voteBtn = ce('button', { className: 'forum-popup-vote vote-btn', 'aria-label': 'Destek ver' });
