@@ -762,6 +762,7 @@ h3 {
 .filter-row .form-select {
   flex: 1;
   min-width: 0;
+  width: auto;
   height: 38px;
   font-size: 13px;
   padding: 0 12px;
