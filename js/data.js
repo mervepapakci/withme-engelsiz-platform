@@ -12,7 +12,9 @@ const BeVoysData = {
     sesiniDuyur: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat',
     sesiniDuyurListele: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-listele',
     sesiniDuyurDestek: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-destek',
-    geriBildirim: 'https://n8n.fatiherencetin.com/webhook/geri-bildirim'
+    geriBildirim: 'https://n8n.fatiherencetin.com/webhook/geri-bildirim',
+    stkListele: 'https://n8n.fatiherencetin.com/webhook/stk-listele',
+    haklarListele: 'https://n8n.fatiherencetin.com/webhook/haklar-listele'
   },
 
   // JSON verilerini yükle
@@ -78,8 +80,20 @@ const BeVoysData = {
     return etkinlikler.find(e => String(e.id) === String(id));
   },
 
-  // Hakları yükle
+  // Hakları yükle (n8n webhook varsa oradan, yoksa statik JSON'dan)
   async getHaklar() {
+    const url = this.N8N_WEBHOOKS.haklarListele;
+    if (url && !url.includes('YOUR_N8N_DOMAIN')) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        return Array.isArray(data) ? data : [];
+      } catch (error) {
+        console.error('Haklar yüklenemedi (webhook):', error);
+        return this.loadJSON('data/haklar.json');
+      }
+    }
     return this.loadJSON('data/haklar.json');
   },
 
@@ -89,8 +103,20 @@ const BeVoysData = {
     return haklar.find(h => h.id === parseInt(id));
   },
 
-  // STK'ları yükle
+  // STK'ları yükle (n8n webhook varsa oradan, yoksa statik JSON'dan)
   async getStklar() {
+    const url = this.N8N_WEBHOOKS.stkListele;
+    if (url && !url.includes('YOUR_N8N_DOMAIN')) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        return Array.isArray(data) ? data : [];
+      } catch (error) {
+        console.error('STKlar yüklenemedi (webhook):', error);
+        return this.loadJSON('data/stklar.json');
+      }
+    }
     return this.loadJSON('data/stklar.json');
   },
 
