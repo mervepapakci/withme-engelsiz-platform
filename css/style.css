@@ -1002,6 +1002,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: var(--text-primary);
   font-size: 15px;
   font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  width: 100%;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.forum-popup-vote:hover {
+  background: var(--bg-secondary);
+}
+
+.forum-popup-vote.voted {
+  color: var(--accent-primary);
 }
 
 .forum-popup-vote i {

@@ -141,12 +141,44 @@
       addRow('calendar', 'Tarih:', zamanOnce(item.tarih));
       popup.appendChild(infoRows);
 
-      // Ayırıcı + destek
+      // Ayırıcı + destek butonu
       popup.appendChild(ce('div', { className: 'forum-popup-divider' }));
-      const voteRow = ce('div', { className: 'forum-popup-vote' });
-      voteRow.appendChild(BeVoysComponents.createIcon('thumbs-up'));
-      voteRow.appendChild(ce('span', { textContent: (item.destek || 0) + ' Destek' }));
-      popup.appendChild(voteRow);
+      const voteBtn = ce('button', { className: 'forum-popup-vote vote-btn', 'aria-label': 'Destek ver' });
+      const card = document.querySelector('.forum-card[data-id="' + (item.id || '') + '"]');
+      const cardVoteBtn = card ? card.querySelector('.vote-btn') : null;
+      if (cardVoteBtn && cardVoteBtn.classList.contains('voted')) voteBtn.classList.add('voted');
+      voteBtn.appendChild(BeVoysComponents.createIcon('thumbs-up'));
+      const voteCountSpan = ce('span', { textContent: (item.destek || 0) + ' Destek' });
+      voteBtn.appendChild(voteCountSpan);
+      voteBtn.addEventListener('click', async () => {
+        const isVoted = voteBtn.classList.toggle('voted');
+        let count = parseInt(voteCountSpan.textContent);
+        voteCountSpan.textContent = (isVoted ? count + 1 : count - 1) + ' Destek';
+        // Arkadaki kartı da güncelle
+        if (card) {
+          const cBtn = card.querySelector('.vote-btn');
+          const cCount = card.querySelector('.vote-count');
+          if (cBtn) { isVoted ? cBtn.classList.add('voted') : cBtn.classList.remove('voted'); }
+          if (cCount) { cCount.textContent = isVoted ? parseInt(cCount.textContent) + 1 : parseInt(cCount.textContent) - 1; }
+        }
+        // item objesini güncelle
+        item.destek = isVoted ? (item.destek || 0) + 1 : (item.destek || 0) - 1;
+        try {
+          await BeVoysData.destekleSes(item.id);
+        } catch (err) {
+          // Geri al
+          voteBtn.classList.toggle('voted');
+          item.destek = isVoted ? item.destek - 1 : item.destek + 1;
+          voteCountSpan.textContent = item.destek + ' Destek';
+          if (card) {
+            const cBtn = card.querySelector('.vote-btn');
+            const cCount = card.querySelector('.vote-count');
+            if (cBtn) cBtn.classList.toggle('voted');
+            if (cCount) cCount.textContent = item.destek;
+          }
+        }
+      });
+      popup.appendChild(voteBtn);
 
       overlay.appendChild(popup);
       document.body.appendChild(overlay);
