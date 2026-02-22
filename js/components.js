@@ -63,10 +63,10 @@ const BeVoysComponents = {
     const current = this.getCurrentPage();
     const navItems = [
       { href: './', icon: 'house', label: 'Ana Sayfa', page: 'index' },
+      { href: 'derdini-anlat/', icon: 'message-square', label: 'Sesini Duyur', page: 'derdini-anlat' },
       { href: 'etkinlikler/', icon: 'calendar', label: 'Etkinlikler', pages: ['etkinlikler', 'etkinlik-detay', 'etkinlik-olustur'] },
       { href: 'stklar/', icon: 'users', label: 'STKlar', page: 'stklar' },
       { href: 'haklar/', icon: 'scale', label: 'Haklar', page: 'haklar' },
-      { href: 'derdini-anlat/', icon: 'message-square', label: 'Derdini Anlat', page: 'derdini-anlat' },
       { href: 'geri-bildirim/', icon: 'message-circle', label: 'Geri Bildirim', page: 'geri-bildirim' }
     ];
 

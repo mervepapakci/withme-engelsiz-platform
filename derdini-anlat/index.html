@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="../">
-  <title>BeVoys - Derdini Anlat</title>
+  <title>BeVoys - Sesini Duyur</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,12 +16,12 @@
       <a href="./" class="back-btn" aria-label="Geri">
         <i data-lucide="arrow-left" aria-hidden="true"></i>
       </a>
-      <h1>Derdini Anlat</h1>
+      <h1>Sesini Duyur</h1>
     </header>
 
     <main class="page-content">
       <div class="forum-top-row">
-        <h1 class="desktop-title">Derdini Anlat</h1>
+        <h1 class="desktop-title">Sesini Duyur</h1>
         <a href="derdini-anlat/yeni/" class="btn btn-primary btn-sm">
           <i data-lucide="plus" aria-hidden="true"></i>
           Yeni
@@ -29,13 +29,13 @@
       </div>
       <p class="desktop-subtitle">Yaşadığınız zorlukları paylaşın, sesinizi duyurun!</p>
 
-      <!-- Filter Chips -->
+      <!-- Filter Chips (Sorun Kategorisi) -->
       <div class="filter-chips mt-md" id="forum-filters" role="tablist">
         <button class="filter-chip active" data-filter="all" role="tab" aria-selected="true">Tümü</button>
-        <button class="filter-chip" data-filter="Fiziksel Engelli" role="tab">Fiziksel</button>
-        <button class="filter-chip" data-filter="Görme Engelli" role="tab">Görme</button>
-        <button class="filter-chip" data-filter="İşitme Engelli" role="tab">İşitme</button>
-        <button class="filter-chip" data-filter="Zihinsel Engelli" role="tab">Zihinsel</button>
+        <button class="filter-chip" data-filter="Ulaşım" role="tab">Ulaşım</button>
+        <button class="filter-chip" data-filter="Sağlık" role="tab">Sağlık</button>
+        <button class="filter-chip" data-filter="Eğitim" role="tab">Eğitim</button>
+        <button class="filter-chip" data-filter="Erişilebilirlik" role="tab">Erişilebilirlik</button>
         <button class="filter-chip" data-filter="Ayrımcılık" role="tab">Ayrımcılık</button>
         <button class="filter-chip" data-filter="filtrele" role="tab" id="filter-advanced-btn">
           <i data-lucide="sliders-horizontal" aria-hidden="true"></i> Filtrele
@@ -88,7 +88,7 @@
     function forumKartOlustur(item) {
       const ce = (tag, attrs, children) => BeVoysComponents.createElement(tag, attrs, children || []);
 
-      const card = ce('div', { className: 'forum-card', 'data-category': item.engelTuru || '', 'data-id': item.id || '' });
+      const card = ce('div', { className: 'forum-card', 'data-category': item.sorunKategorisi || '', 'data-id': item.id || '' });
 
       // Sol: Oy bölümü
       const vote = ce('div', { className: 'forum-vote' });
@@ -109,6 +109,9 @@
 
       // Meta bilgiler
       const meta = ce('div', { className: 'forum-meta' });
+      if (item.sorunKategorisi) {
+        meta.appendChild(ce('span', { className: 'forum-tag', textContent: item.sorunKategorisi }));
+      }
       if (item.engelTuru) {
         meta.appendChild(ce('span', { className: 'forum-tag', textContent: item.engelTuru }));
       }
@@ -136,7 +139,7 @@
       const filterEngel = document.getElementById('filter-engel');
 
       let activeChipFilter = 'all';
-      let allDertler = [];
+      let allPaylasimlar = [];
 
       // Şehir çıkar (konum'un virgülden önceki kısmı)
       function extractSehir(konum) {
@@ -149,9 +152,9 @@
         const sehir = filterSehir.value;
         const engel = filterEngel.value;
 
-        return allDertler.filter(item => {
-          // Chip filtresi
-          if (activeChipFilter !== 'all' && item.engelTuru !== activeChipFilter) return false;
+        return allPaylasimlar.filter(item => {
+          // Chip filtresi (sorun kategorisi)
+          if (activeChipFilter !== 'all' && item.sorunKategorisi !== activeChipFilter) return false;
           // Şehir dropdown
           if (sehir && extractSehir(item.konum) !== sehir) return false;
           // Engel türü dropdown
@@ -180,21 +183,21 @@
 
       // Veriyi yükle
       try {
-        allDertler = await BeVoysData.getDertler();
+        allPaylasimlar = await BeVoysData.getSesler();
         loadingEl.remove();
 
         // Dropdown'ları doldur
-        const sehirler = [...new Set(allDertler.map(d => extractSehir(d.konum)).filter(Boolean))].sort();
+        const sehirler = [...new Set(allPaylasimlar.map(d => extractSehir(d.konum)).filter(Boolean))].sort();
         sehirler.forEach(s => {
           filterSehir.appendChild(BeVoysComponents.createElement('option', { value: s, textContent: s }));
         });
 
-        const engelTurleri = [...new Set(allDertler.map(d => d.engelTuru).filter(Boolean))].sort();
+        const engelTurleri = [...new Set(allPaylasimlar.map(d => d.engelTuru).filter(Boolean))].sort();
         engelTurleri.forEach(t => {
           filterEngel.appendChild(BeVoysComponents.createElement('option', { value: t, textContent: t }));
         });
 
-        renderList(allDertler);
+        renderList(allPaylasimlar);
       } catch (err) {
         loadingEl.remove();
         const errEl = BeVoysComponents.createElement('div', { className: 'empty-state', textContent: 'Paylaşımlar yüklenirken bir hata oluştu.' });
@@ -247,7 +250,7 @@
         countEl.textContent = isVoted ? count + 1 : count - 1;
 
         try {
-          await BeVoysData.destekleDert(id);
+          await BeVoysData.destekleSes(id);
         } catch (err) {
           // Geri al
           btn.classList.toggle('voted');

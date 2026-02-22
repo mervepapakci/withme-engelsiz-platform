@@ -8,9 +8,9 @@ const BeVoysData = {
   N8N_WEBHOOKS: {
     etkinlikOlustur: 'https://YOUR_N8N_DOMAIN/webhook/etkinlik-olustur',
     birlikteGit: 'https://YOUR_N8N_DOMAIN/webhook/birlikte-git',
-    derdiniAnlat: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat',
-    derdiniAnlatListele: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-listele',
-    derdiniAnlatDestek: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-destek',
+    sesiniDuyur: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat',
+    sesiniDuyurListele: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-listele',
+    sesiniDuyurDestek: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-destek',
     geriBildirim: 'https://n8n.fatiherencetin.com/webhook/geri-bildirim'
   },
 
@@ -86,14 +86,14 @@ const BeVoysData = {
     return this.postToWebhook('etkinlikOlustur', formData);
   },
 
-  // Derdini Anlat -> n8n
-  async submitDert(formData) {
-    return this.postToWebhook('derdiniAnlat', formData);
+  // Sesini Duyur -> n8n
+  async submitSes(formData) {
+    return this.postToWebhook('sesiniDuyur', formData);
   },
 
-  // Derdini Anlat paylaşımlarını listele
-  async getDertler() {
-    const url = this.N8N_WEBHOOKS.derdiniAnlatListele;
+  // Sesini Duyur paylaşımlarını listele
+  async getSesler() {
+    const url = this.N8N_WEBHOOKS.sesiniDuyurListele;
     if (!url || url.includes('YOUR_N8N_DOMAIN')) {
       console.warn('n8n listele webhook URL yapılandırılmamış');
       return [];
@@ -104,14 +104,14 @@ const BeVoysData = {
       const data = await response.json();
       return Array.isArray(data) ? data : [];
     } catch (error) {
-      console.error('Dertler yüklenemedi:', error);
+      console.error('Paylaşımlar yüklenemedi:', error);
       return [];
     }
   },
 
-  // Derdini Anlat destek ver
-  async destekleDert(id) {
-    return this.postToWebhook('derdiniAnlatDestek', { id });
+  // Sesini Duyur destek ver
+  async destekleSes(id) {
+    return this.postToWebhook('sesiniDuyurDestek', { id });
   },
 
   // Birlikte Gidelim -> n8n

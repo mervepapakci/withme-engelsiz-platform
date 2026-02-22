@@ -23,7 +23,7 @@
       <h1 class="desktop-title">Yeni Paylaşım</h1>
       <p class="desktop-subtitle">Yaşadığınız zorlukları ve karşılaştığınız engelleri paylaşın.</p>
 
-      <form id="dert-form" class="form-card" novalidate>
+      <form id="paylasim-form" class="form-card" novalidate>
         <div class="form-group">
           <label class="form-label" for="baslik">Başlık</label>
           <input class="form-input" type="text" id="baslik" name="baslik" placeholder="Başlığınızı yazın...">
@@ -36,23 +36,38 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" for="engel-turu">Engel Türü (Opsiyonel)</label>
-            <select class="form-select" id="engel-turu" name="engelTuru">
-              <option value="">Engel türü seçin...</option>
-              <option value="Fiziksel Engelli">Fiziksel Engelli</option>
-              <option value="Görme Engelli">Görme Engelli</option>
-              <option value="İşitme Engelli">İşitme Engelli</option>
-              <option value="Zihinsel Engelli">Zihinsel Engelli</option>
-              <option value="Kronik Hastalık">Kronik Hastalık</option>
+            <label class="form-label" for="sorun-kategorisi">Sorun Kategorisi</label>
+            <select class="form-select" id="sorun-kategorisi" name="sorunKategorisi">
+              <option value="">Kategori seçin...</option>
+              <option value="Ulaşım">Ulaşım</option>
+              <option value="Sağlık">Sağlık</option>
+              <option value="Eğitim">Eğitim</option>
+              <option value="İstihdam">İstihdam</option>
+              <option value="Erişilebilirlik">Erişilebilirlik</option>
+              <option value="Kamu Hizmetleri">Kamu Hizmetleri</option>
+              <option value="Sosyal Hayat">Sosyal Hayat</option>
               <option value="Ayrımcılık">Ayrımcılık</option>
               <option value="Diğer">Diğer</option>
             </select>
-            <textarea class="form-textarea" id="engel-diger" name="engelDiger" placeholder="Engel türünü açıklayın..." style="display:none; height:60px; margin-top:6px;"></textarea>
           </div>
           <div class="form-group">
-            <label class="form-label" for="konum">Konum *</label>
-            <input class="form-input" type="text" id="konum" name="konum" placeholder="Şehir veya ilçe girin..." required>
+            <label class="form-label" for="engel-turu">Bireyin Engeli</label>
+            <select class="form-select" id="engel-turu" name="engelTuru">
+              <option value="">Engel türü seçin...</option>
+              <option value="Fiziksel Engel">Fiziksel Engel</option>
+              <option value="Görme Engeli">Görme Engeli</option>
+              <option value="İşitme Engeli">İşitme Engeli</option>
+              <option value="Zihinsel Engel">Zihinsel Engel</option>
+              <option value="Kronik Hastalık">Kronik Hastalık</option>
+              <option value="Çoklu Engel">Çoklu Engel</option>
+              <option value="Diğer">Diğer</option>
+            </select>
           </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="konum">Konum *</label>
+          <input class="form-input" type="text" id="konum" name="konum" placeholder="Şehir veya ilçe girin..." required>
         </div>
 
         <div class="form-row">
@@ -61,8 +76,15 @@
             <input class="form-input" type="text" id="isim" name="isim" placeholder="Adınız ve soyadınız..." required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="iletisim">İletişim (Telefon veya E-posta) *</label>
-            <input class="form-input" type="text" id="iletisim" name="iletisim" placeholder="Telefon veya e-posta adresiniz..." required>
+            <label class="form-label" for="telefon">Telefon</label>
+            <input class="form-input" type="tel" id="telefon" name="telefon" placeholder="05XX XXX XX XX">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="eposta">E-posta</label>
+            <input class="form-input" type="email" id="eposta" name="eposta" placeholder="ornek@mail.com">
           </div>
         </div>
 
@@ -104,15 +126,10 @@
         now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
       document.getElementById('tarih-otomatik').value = formatted;
 
-      // Diğer engel türü textarea toggle
+      const sorunSelect = document.getElementById('sorun-kategorisi');
       const engelSelect = document.getElementById('engel-turu');
-      const engelDiger = document.getElementById('engel-diger');
-      engelSelect.addEventListener('change', () => {
-        engelDiger.style.display = engelSelect.value === 'Diğer' ? '' : 'none';
-        if (engelSelect.value !== 'Diğer') engelDiger.value = '';
-      });
 
-      const form = document.getElementById('dert-form');
+      const form = document.getElementById('paylasim-form');
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -120,10 +137,11 @@
         const aciklama = document.getElementById('aciklama').value.trim();
         const konum = document.getElementById('konum').value.trim();
         const isim = document.getElementById('isim').value.trim();
-        const iletisim = document.getElementById('iletisim').value.trim();
+        const telefon = document.getElementById('telefon').value.trim();
+        const eposta = document.getElementById('eposta').value.trim();
 
-        if (!aciklama || !konum || !isim || !iletisim) {
-          BeVoysComponents.showToast('Lütfen zorunlu alanları doldurun.', 'error');
+        if (!aciklama || !konum || !isim || (!telefon && !eposta)) {
+          BeVoysComponents.showToast('Lütfen zorunlu alanları doldurun. (Telefon veya e-posta gerekli)', 'error');
           return;
         }
 
@@ -132,13 +150,16 @@
         submitBtn.textContent = 'Gönderiliyor...';
 
         try {
-          await BeVoysData.submitDert({
+          await BeVoysData.submitSes({
             baslik: document.getElementById('baslik').value.trim(),
             aciklama,
-            engelTuru: engelSelect.value === 'Diğer' ? 'Diğer: ' + engelDiger.value.trim() : engelSelect.value,
+            sorunKategorisi: sorunSelect.value,
+            engelTuru: engelSelect.value,
             konum,
             isim,
-            iletisim,
+            telefon,
+            eposta,
+            iletisim: [telefon, eposta].filter(Boolean).join(' • '),
             yasananTarih: document.getElementById('yasanan-tarih').value,
             anonim: document.getElementById('anonim').checked
           });
