@@ -117,12 +117,6 @@
         konumSpan.appendChild(document.createTextNode(item.konum));
         meta.appendChild(konumSpan);
       }
-      if (item.isim && item.isim !== 'Anonim') {
-        const isimSpan = ce('span', { className: 'forum-info' });
-        isimSpan.appendChild(BeVoysComponents.createIcon('user'));
-        isimSpan.appendChild(document.createTextNode(item.isim));
-        meta.appendChild(isimSpan);
-      }
       meta.appendChild(ce('span', { className: 'forum-time', textContent: zamanOnce(item.tarih) }));
       body.appendChild(meta);
       card.appendChild(body);
