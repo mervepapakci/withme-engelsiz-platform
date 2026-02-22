@@ -1330,6 +1330,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
 }
 
+.privacy-notice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: var(--spacing-sm);
+}
+
+.privacy-notice i {
+  width: 14px;
+  height: 14px;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
 /* ========================================
    Desktop Layout (768px+)
    ======================================== */
