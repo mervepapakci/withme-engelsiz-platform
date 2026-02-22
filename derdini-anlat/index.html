@@ -274,6 +274,10 @@
           if (!matchesFilter(item.engelTuru, engel)) return false;
           if (!matchesFilter(item.sorunKategorisi, sorun)) return false;
           return true;
+        }).sort((a, b) => {
+          const tarihFark = new Date(b.tarih || 0).getTime() - new Date(a.tarih || 0).getTime();
+          if (tarihFark !== 0) return tarihFark;
+          return (b.destek || 0) - (a.destek || 0);
         });
       }
 
@@ -306,7 +310,7 @@
           filterSehir.appendChild(BeVoysComponents.createElement('option', { value: s, textContent: s }));
         });
 
-        renderList(allPaylasimlar);
+        renderList(getFilteredData());
       } catch (err) {
         loadingEl.remove();
         const errEl = BeVoysComponents.createElement('div', { className: 'empty-state', textContent: 'Paylaşımlar yüklenirken bir hata oluştu.' });
