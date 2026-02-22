@@ -188,7 +188,7 @@
       const partHeader = BeVoysComponents.createElement('div', { className: 'participant-header' });
       partHeader.appendChild(BeVoysComponents.createIcon('users'));
       const partCountSpan = BeVoysComponents.createElement('span', {
-        textContent: currentKatilimci + ' kişi birlikte gitmek istiyor'
+        textContent: currentKatilimci + ' kişi gitmek istiyor'
       });
       partHeader.appendChild(partCountSpan);
       partSection.appendChild(partHeader);
@@ -223,7 +223,7 @@
 
           // Katılımcı sayısını güncelle
           currentKatilimci++;
-          partCountSpan.textContent = currentKatilimci + ' kişi birlikte gitmek istiyor';
+          partCountSpan.textContent = currentKatilimci + ' kişi gitmek istiyor';
 
           // Yeni avatar ekle (animasyonlu)
           if (currentKatilimci <= 6) {
