@@ -756,8 +756,20 @@ h3 {
 
 .filter-row {
   display: flex;
-  flex-wrap: wrap;
   gap: var(--spacing-sm);
+}
+
+.filter-row .form-select {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  font-size: 13px;
+  padding: 0 12px;
+}
+
+/* Date input takvim ikonu beyaz */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 .filter-chips::-webkit-scrollbar {
