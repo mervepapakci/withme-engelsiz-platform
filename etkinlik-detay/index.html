@@ -224,7 +224,21 @@
           // Katılımcı sayısını güncelle
           currentKatilimci++;
           partCountSpan.textContent = currentKatilimci + ' kişi birlikte gitmek istiyor';
-          renderAvatars(currentKatilimci);
+
+          // Yeni avatar ekle (animasyonlu)
+          if (currentKatilimci <= 6) {
+            const circle = BeVoysComponents.createElement('div', { className: 'avatar-circle avatar-new' });
+            circle.style.backgroundColor = colors[(currentKatilimci - 1) % colors.length];
+            avatarRow.appendChild(circle);
+          } else {
+            let moreSpan = avatarRow.querySelector('.avatar-more');
+            if (!moreSpan) {
+              moreSpan = BeVoysComponents.createElement('span', { className: 'avatar-more' });
+              avatarRow.appendChild(moreSpan);
+            }
+            moreSpan.textContent = '+' + (currentKatilimci - 6);
+          }
+
           partSection.style.display = '';
           BeVoysComponents.refreshIcons();
         } catch (err) {

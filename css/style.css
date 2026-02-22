@@ -1256,6 +1256,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-left: 0;
 }
 
+@keyframes avatar-pop-in {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.avatar-circle.avatar-new {
+  animation: avatar-pop-in 0.35s ease-out;
+}
+
+.avatar-more {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -8px;
+}
+
 /* --- Google Maps Button --- */
 .google-maps-btn {
   display: flex;
