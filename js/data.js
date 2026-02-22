@@ -6,8 +6,9 @@
 const BeVoysData = {
   // n8n Webhook URL'leri - Buraya kendi n8n instance URL'lerinizi yazın
   N8N_WEBHOOKS: {
-    etkinlikOlustur: 'https://YOUR_N8N_DOMAIN/webhook/etkinlik-olustur',
-    birlikteGit: 'https://YOUR_N8N_DOMAIN/webhook/birlikte-git',
+    etkinlikOlustur: 'https://n8n.fatiherencetin.com/webhook/etkinlik-olustur',
+    etkinlikListele: 'https://n8n.fatiherencetin.com/webhook/etkinlik-listele',
+    birlikteGit: 'https://n8n.fatiherencetin.com/webhook/birlikte-git',
     sesiniDuyur: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat',
     sesiniDuyurListele: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-listele',
     sesiniDuyurDestek: 'https://n8n.fatiherencetin.com/webhook/derdini-anlat-destek',
@@ -54,8 +55,20 @@ const BeVoysData = {
     }
   },
 
-  // Etkinlikleri yükle
+  // Etkinlikleri yükle (n8n webhook varsa oradan, yoksa statik JSON'dan)
   async getEtkinlikler() {
+    const url = this.N8N_WEBHOOKS.etkinlikListele;
+    if (url && !url.includes('YOUR_N8N_DOMAIN')) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        return Array.isArray(data) ? data : [];
+      } catch (error) {
+        console.error('Etkinlikler yüklenemedi (webhook):', error);
+        return this.loadJSON('data/etkinlikler.json');
+      }
+    }
     return this.loadJSON('data/etkinlikler.json');
   },
 

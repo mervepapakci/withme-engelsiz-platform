@@ -213,8 +213,8 @@
         birlikteBtn.textContent = 'Gönderiliyor...';
         try {
           await BeVoysData.birlikteGit({ etkinlikId: etkinlik.id, etkinlikBaslik: etkinlik.baslik });
-          BeVoysComponents.showToast('Teklif gönderildi! Diğer katılımcılar bilgilendirilecek.', 'success');
-          birlikteBtn.textContent = 'Teklif Gönderildi';
+          BeVoysComponents.showToast('Ekleme başarılı!', 'success');
+          birlikteBtn.textContent = 'Ekleme Başarılı';
         } catch (err) {
           BeVoysComponents.showToast('Bir hata oluştu, tekrar deneyin.', 'error');
           birlikteBtn.disabled = false;
