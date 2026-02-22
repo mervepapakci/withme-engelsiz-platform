@@ -539,6 +539,11 @@ h3 {
   color: var(--accent-primary);
 }
 
+.star-rating .star-item.active svg,
+.star-rating .star-item:hover svg {
+  fill: currentColor;
+}
+
 /* --- List Items --- */
 .list-item {
   display: flex;
