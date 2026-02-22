@@ -88,20 +88,85 @@
       return ay + ' ay önce';
     }
 
+    // İlk cümleyi al
+    function ilkCumle(text) {
+      if (!text) return '';
+      const match = text.match(/^[^.!?]+[.!?]/);
+      return match ? match[0] : (text.length > 120 ? text.substring(0, 120) + '…' : text);
+    }
+
+    // Popup göster
+    function popupGoster(item) {
+      const existing = document.querySelector('.forum-popup-overlay');
+      if (existing) existing.remove();
+
+      const ce = (tag, attrs) => BeVoysComponents.createElement(tag, attrs);
+
+      const overlay = ce('div', { className: 'forum-popup-overlay' });
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+
+      const popup = ce('div', { className: 'forum-popup' });
+
+      // Başlık + kapat
+      const header = ce('div', { className: 'forum-popup-header' });
+      header.appendChild(ce('h3', { textContent: item.baslik || 'Başlıksız' }));
+      const closeBtn = ce('button', { className: 'forum-popup-close', 'aria-label': 'Kapat' });
+      closeBtn.appendChild(BeVoysComponents.createIcon('x'));
+      closeBtn.addEventListener('click', () => overlay.remove());
+      header.appendChild(closeBtn);
+      popup.appendChild(header);
+
+      // Tam açıklama
+      popup.appendChild(ce('p', { className: 'forum-popup-desc', textContent: item.aciklama || '' }));
+
+      // Ayırıcı
+      popup.appendChild(ce('div', { className: 'forum-popup-divider' }));
+
+      // Bilgi satırları
+      const infoRows = ce('div', { className: 'forum-popup-info' });
+      const addRow = (icon, label, value) => {
+        if (!value) return;
+        const row = ce('div', { className: 'forum-popup-row' });
+        row.appendChild(BeVoysComponents.createIcon(icon));
+        row.appendChild(ce('span', { className: 'forum-popup-label', textContent: label }));
+        row.appendChild(ce('span', { className: 'forum-popup-value', textContent: value }));
+        infoRows.appendChild(row);
+      };
+      addRow('tag', 'Kategori:', item.sorunKategorisi);
+      addRow('accessibility', 'Engel Türü:', item.engelTuru);
+      addRow('map-pin', 'Konum:', item.konum);
+      addRow('calendar', 'Tarih:', zamanOnce(item.tarih));
+      popup.appendChild(infoRows);
+
+      // Ayırıcı + destek
+      popup.appendChild(ce('div', { className: 'forum-popup-divider' }));
+      const voteRow = ce('div', { className: 'forum-popup-vote' });
+      voteRow.appendChild(BeVoysComponents.createIcon('thumbs-up'));
+      voteRow.appendChild(ce('span', { textContent: (item.destek || 0) + ' Destek' }));
+      popup.appendChild(voteRow);
+
+      overlay.appendChild(popup);
+      document.body.appendChild(overlay);
+      BeVoysComponents.refreshIcons();
+    }
+
     // Tek bir forum kartı oluştur (güvenli DOM)
     function forumKartOlustur(item) {
       const ce = (tag, attrs, children) => BeVoysComponents.createElement(tag, attrs, children || []);
 
       const card = ce('div', { className: 'forum-card', 'data-category': item.sorunKategorisi || '', 'data-id': item.id || '' });
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.vote-btn')) return;
+        popupGoster(item);
+      });
 
       // Sol: İçerik
       const body = ce('div', { className: 'forum-body' });
       body.appendChild(ce('h3', { textContent: item.baslik || 'Başlıksız' }));
 
-      // Açıklamayı kısalt (200 karakter)
-      const aciklama = item.aciklama || '';
-      const kisa = aciklama.length > 200 ? aciklama.substring(0, 200) + '…' : aciklama;
-      body.appendChild(ce('p', { textContent: kisa }));
+      // Açıklamayı ilk cümleye kısalt
+      body.appendChild(ce('p', { textContent: ilkCumle(item.aciklama) }));
 
       // Meta bilgiler
       const meta = ce('div', { className: 'forum-meta' });
