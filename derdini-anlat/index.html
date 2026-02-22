@@ -94,15 +94,7 @@
 
       const card = ce('div', { className: 'forum-card', 'data-category': item.sorunKategorisi || '', 'data-id': item.id || '' });
 
-      // Sol: Oy bölümü
-      const vote = ce('div', { className: 'forum-vote' });
-      const voteBtn = ce('button', { className: 'vote-btn', 'aria-label': 'Destek ver' });
-      voteBtn.appendChild(BeVoysComponents.createIcon('arrow-up'));
-      vote.appendChild(voteBtn);
-      vote.appendChild(ce('span', { className: 'vote-count', textContent: String(item.destek || 0) }));
-      card.appendChild(vote);
-
-      // Sağ: İçerik
+      // Sol: İçerik
       const body = ce('div', { className: 'forum-body' });
       body.appendChild(ce('h3', { textContent: item.baslik || 'Başlıksız' }));
 
@@ -120,16 +112,28 @@
         meta.appendChild(ce('span', { className: 'forum-tag', textContent: item.engelTuru }));
       }
       if (item.konum) {
-        meta.appendChild(ce('span', { className: 'forum-time', textContent: item.konum }));
+        const konumSpan = ce('span', { className: 'forum-info' });
+        konumSpan.appendChild(BeVoysComponents.createIcon('map-pin'));
+        konumSpan.appendChild(document.createTextNode(item.konum));
+        meta.appendChild(konumSpan);
+      }
+      if (item.isim && item.isim !== 'Anonim') {
+        const isimSpan = ce('span', { className: 'forum-info' });
+        isimSpan.appendChild(BeVoysComponents.createIcon('user'));
+        isimSpan.appendChild(document.createTextNode(item.isim));
+        meta.appendChild(isimSpan);
       }
       meta.appendChild(ce('span', { className: 'forum-time', textContent: zamanOnce(item.tarih) }));
-      if (item.anonim === 'Evet') {
-        const anonSpan = ce('span', { className: 'forum-anon' });
-        anonSpan.appendChild(BeVoysComponents.createIcon('eye-off'));
-        meta.appendChild(anonSpan);
-      }
       body.appendChild(meta);
       card.appendChild(body);
+
+      // Sağ: Destek bölümü
+      const vote = ce('div', { className: 'forum-vote' });
+      const voteBtn = ce('button', { className: 'vote-btn', 'aria-label': 'Destek ver' });
+      voteBtn.appendChild(BeVoysComponents.createIcon('thumbs-up'));
+      vote.appendChild(voteBtn);
+      vote.appendChild(ce('span', { className: 'vote-count', textContent: String(item.destek || 0) }));
+      card.appendChild(vote);
 
       return card;
     }
