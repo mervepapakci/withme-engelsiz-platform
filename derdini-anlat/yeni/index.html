@@ -36,8 +36,8 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" for="sorun-kategorisi">Sorun Kategorisi</label>
-            <select class="form-select" id="sorun-kategorisi" name="sorunKategorisi">
+            <label class="form-label" for="sorun-kategorisi">Sorun Kategorisi *</label>
+            <select class="form-select" id="sorun-kategorisi" name="sorunKategorisi" required>
               <option value="">Kategori seçin...</option>
               <option value="Ulaşım">Ulaşım</option>
               <option value="Sağlık">Sağlık</option>
@@ -49,10 +49,11 @@
               <option value="Ayrımcılık">Ayrımcılık</option>
               <option value="Diğer">Diğer</option>
             </select>
+            <input class="form-input" type="text" id="sorun-diger" placeholder="Kategoriyi belirtin..." style="display:none; margin-top:6px;">
           </div>
           <div class="form-group">
-            <label class="form-label" for="engel-turu">Bireyin Engeli</label>
-            <select class="form-select" id="engel-turu" name="engelTuru">
+            <label class="form-label" for="engel-turu">Bireyin Engeli *</label>
+            <select class="form-select" id="engel-turu" name="engelTuru" required>
               <option value="">Engel türü seçin...</option>
               <option value="Fiziksel Engel">Fiziksel Engel</option>
               <option value="Görme Engeli">Görme Engeli</option>
@@ -62,6 +63,7 @@
               <option value="Çoklu Engel">Çoklu Engel</option>
               <option value="Diğer">Diğer</option>
             </select>
+            <input class="form-input" type="text" id="engel-diger" placeholder="Engel türünü belirtin..." style="display:none; margin-top:6px;">
           </div>
         </div>
 
@@ -88,23 +90,9 @@
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="yasanan-tarih">Yaşanan Tarih</label>
-            <input class="form-input" type="date" id="yasanan-tarih" name="yasananTarih">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Tarih (otomatik)</label>
-            <input class="form-input" type="text" id="tarih-otomatik" disabled>
-          </div>
-        </div>
-
-        <div class="toggle-row">
-          <span class="toggle-label">Anonim paylaş</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="anonim" name="anonim" checked>
-            <span class="toggle-slider"></span>
-          </label>
+        <div class="form-group">
+          <label class="form-label" for="yasanan-tarih">Yaşanan Tarih</label>
+          <input class="form-input" type="date" id="yasanan-tarih" name="yasananTarih">
         </div>
 
         <button type="submit" class="btn btn-primary">
@@ -120,14 +108,20 @@
   <script src="js/components.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Otomatik tarih
-      const now = new Date();
-      const formatted = now.toLocaleDateString('tr-TR') + ' - ' +
-        now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('tarih-otomatik').value = formatted;
-
       const sorunSelect = document.getElementById('sorun-kategorisi');
       const engelSelect = document.getElementById('engel-turu');
+      const sorunDiger = document.getElementById('sorun-diger');
+      const engelDiger = document.getElementById('engel-diger');
+
+      // "Diğer" seçilince text input göster/gizle
+      sorunSelect.addEventListener('change', () => {
+        sorunDiger.style.display = sorunSelect.value === 'Diğer' ? '' : 'none';
+        if (sorunSelect.value !== 'Diğer') sorunDiger.value = '';
+      });
+      engelSelect.addEventListener('change', () => {
+        engelDiger.style.display = engelSelect.value === 'Diğer' ? '' : 'none';
+        if (engelSelect.value !== 'Diğer') engelDiger.value = '';
+      });
 
       const form = document.getElementById('paylasim-form');
 
@@ -140,10 +134,29 @@
         const telefon = document.getElementById('telefon').value.trim();
         const eposta = document.getElementById('eposta').value.trim();
 
-        if (!aciklama || !konum || !isim || (!telefon && !eposta)) {
+        // Zorunlu alan kontrolleri
+        if (!aciklama || !sorunSelect.value || !engelSelect.value || !konum || !isim || (!telefon && !eposta)) {
           BeVoysComponents.showToast('Lütfen zorunlu alanları doldurun. (Telefon veya e-posta gerekli)', 'error');
           return;
         }
+
+        // "Diğer" seçiliyse text input dolu olmalı
+        if (sorunSelect.value === 'Diğer' && !sorunDiger.value.trim()) {
+          BeVoysComponents.showToast('Lütfen sorun kategorisini belirtin.', 'error');
+          return;
+        }
+        if (engelSelect.value === 'Diğer' && !engelDiger.value.trim()) {
+          BeVoysComponents.showToast('Lütfen engel türünü belirtin.', 'error');
+          return;
+        }
+
+        // Kategori değerlerini belirle
+        const sorunKategorisi = sorunSelect.value === 'Diğer'
+          ? 'Diğer: ' + sorunDiger.value.trim()
+          : sorunSelect.value;
+        const engelTuru = engelSelect.value === 'Diğer'
+          ? 'Diğer: ' + engelDiger.value.trim()
+          : engelSelect.value;
 
         const submitBtn = form.querySelector('[type="submit"]');
         submitBtn.disabled = true;
@@ -153,15 +166,14 @@
           await BeVoysData.submitSes({
             baslik: document.getElementById('baslik').value.trim(),
             aciklama,
-            sorunKategorisi: sorunSelect.value,
-            engelTuru: engelSelect.value,
+            sorunKategorisi,
+            engelTuru,
             konum,
             isim,
             telefon,
             eposta,
             iletisim: [telefon, eposta].filter(Boolean).join(' • '),
-            yasananTarih: document.getElementById('yasanan-tarih').value,
-            anonim: document.getElementById('anonim').checked
+            yasananTarih: document.getElementById('yasanan-tarih').value
           });
           BeVoysComponents.showToast('Paylaşımınız başarıyla gönderildi!', 'success');
           setTimeout(() => {

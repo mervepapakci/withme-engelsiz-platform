@@ -754,6 +754,12 @@ h3 {
   padding-bottom: var(--spacing-xs);
 }
 
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
 .filter-chips::-webkit-scrollbar {
   display: none;
 }

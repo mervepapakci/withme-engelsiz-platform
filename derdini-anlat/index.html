@@ -29,29 +29,17 @@
       </div>
       <p class="desktop-subtitle">Yaşadığınız zorlukları paylaşın, sesinizi duyurun!</p>
 
-      <!-- Filter Chips (Sorun Kategorisi) -->
-      <div class="filter-chips mt-md" id="forum-filters" role="tablist">
-        <button class="filter-chip active" data-filter="all" role="tab" aria-selected="true">Tümü</button>
-        <button class="filter-chip" data-filter="Ulaşım" role="tab">Ulaşım</button>
-        <button class="filter-chip" data-filter="Sağlık" role="tab">Sağlık</button>
-        <button class="filter-chip" data-filter="Eğitim" role="tab">Eğitim</button>
-        <button class="filter-chip" data-filter="Erişilebilirlik" role="tab">Erişilebilirlik</button>
-        <button class="filter-chip" data-filter="Ayrımcılık" role="tab">Ayrımcılık</button>
-        <button class="filter-chip" data-filter="filtrele" role="tab" id="filter-advanced-btn">
-          <i data-lucide="sliders-horizontal" aria-hidden="true"></i> Filtrele
-        </button>
-      </div>
-
-      <!-- Advanced Filters (hidden by default) -->
-      <div id="advanced-filters" class="mt-md" style="display:none;">
-        <div style="display:flex; flex-wrap:wrap; gap:var(--spacing-sm);">
-          <select class="form-select" id="filter-sehir" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:120px;">
-            <option value="">Tüm Şehirler</option>
-          </select>
-          <select class="form-select" id="filter-engel" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:120px;">
-            <option value="">Tüm Engel Türleri</option>
-          </select>
-        </div>
+      <!-- Filtreler -->
+      <div class="filter-row mt-md" id="forum-filters">
+        <select class="form-select" id="filter-sehir" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:100px;">
+          <option value="">Tüm Şehirler</option>
+        </select>
+        <select class="form-select" id="filter-engel" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:100px;">
+          <option value="">Tüm Engel Türleri</option>
+        </select>
+        <select class="form-select" id="filter-sorun" style="height:38px; font-size:13px; padding:0 12px; flex:1; min-width:100px;">
+          <option value="">Tüm Kategoriler</option>
+        </select>
       </div>
 
       <!-- Forum List -->
@@ -133,12 +121,10 @@
     document.addEventListener('DOMContentLoaded', async () => {
       const listEl = document.getElementById('forum-list');
       const loadingEl = document.getElementById('forum-loading');
-      const filters = document.getElementById('forum-filters');
-      const advancedFilters = document.getElementById('advanced-filters');
       const filterSehir = document.getElementById('filter-sehir');
       const filterEngel = document.getElementById('filter-engel');
+      const filterSorun = document.getElementById('filter-sorun');
 
-      let activeChipFilter = 'all';
       let allPaylasimlar = [];
 
       // Şehir çıkar (konum'un virgülden önceki kısmı)
@@ -151,14 +137,12 @@
       function getFilteredData() {
         const sehir = filterSehir.value;
         const engel = filterEngel.value;
+        const sorun = filterSorun.value;
 
         return allPaylasimlar.filter(item => {
-          // Chip filtresi (sorun kategorisi)
-          if (activeChipFilter !== 'all' && item.sorunKategorisi !== activeChipFilter) return false;
-          // Şehir dropdown
           if (sehir && extractSehir(item.konum) !== sehir) return false;
-          // Engel türü dropdown
           if (engel && item.engelTuru !== engel) return false;
+          if (sorun && item.sorunKategorisi !== sorun) return false;
           return true;
         });
       }
@@ -197,6 +181,11 @@
           filterEngel.appendChild(BeVoysComponents.createElement('option', { value: t, textContent: t }));
         });
 
+        const sorunKategorileri = [...new Set(allPaylasimlar.map(d => d.sorunKategorisi).filter(Boolean))].sort();
+        sorunKategorileri.forEach(k => {
+          filterSorun.appendChild(BeVoysComponents.createElement('option', { value: k, textContent: k }));
+        });
+
         renderList(allPaylasimlar);
       } catch (err) {
         loadingEl.remove();
@@ -204,38 +193,10 @@
         listEl.appendChild(errEl);
       }
 
-      // Filtre chips (event delegation)
-      filters.addEventListener('click', (e) => {
-        const chip = e.target.closest('.filter-chip');
-        if (!chip) return;
-
-        const filter = chip.dataset.filter;
-
-        // Filtrele butonu → toggle advanced panel
-        if (filter === 'filtrele') {
-          const isVisible = advancedFilters.style.display !== 'none';
-          advancedFilters.style.display = isVisible ? 'none' : '';
-          chip.classList.toggle('active', !isVisible);
-          return;
-        }
-
-        // Kategori chip'leri
-        filters.querySelectorAll('.filter-chip').forEach(c => {
-          if (c.dataset.filter !== 'filtrele') {
-            c.classList.remove('active');
-            c.setAttribute('aria-selected', 'false');
-          }
-        });
-        chip.classList.add('active');
-        chip.setAttribute('aria-selected', 'true');
-
-        activeChipFilter = filter;
-        applyFilters();
-      });
-
       // Dropdown filter change
       filterSehir.addEventListener('change', applyFilters);
       filterEngel.addEventListener('change', applyFilters);
+      filterSorun.addEventListener('change', applyFilters);
 
       // Destek butonu (event delegation)
       listEl.addEventListener('click', async (e) => {
