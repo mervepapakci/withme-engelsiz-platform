@@ -36,9 +36,25 @@
         </select>
         <select class="form-select" id="filter-engel">
           <option value="">Tüm Engel Türleri</option>
+          <option value="Fiziksel Engel">Fiziksel Engel</option>
+          <option value="Görme Engeli">Görme Engeli</option>
+          <option value="İşitme Engeli">İşitme Engeli</option>
+          <option value="Zihinsel Engel">Zihinsel Engel</option>
+          <option value="Kronik Hastalık">Kronik Hastalık</option>
+          <option value="Çoklu Engel">Çoklu Engel</option>
+          <option value="Diğer">Diğer</option>
         </select>
         <select class="form-select" id="filter-sorun">
           <option value="">Tüm Kategoriler</option>
+          <option value="Ulaşım">Ulaşım</option>
+          <option value="Sağlık">Sağlık</option>
+          <option value="Eğitim">Eğitim</option>
+          <option value="İstihdam">İstihdam</option>
+          <option value="Erişilebilirlik">Erişilebilirlik</option>
+          <option value="Kamu Hizmetleri">Kamu Hizmetleri</option>
+          <option value="Sosyal Hayat">Sosyal Hayat</option>
+          <option value="Ayrımcılık">Ayrımcılık</option>
+          <option value="Diğer">Diğer</option>
         </select>
       </div>
 
@@ -133,6 +149,14 @@
         return konum.split(',')[0].trim();
       }
 
+      // Değer eşleştirme (Diğer: ... değerlerini de yakalar)
+      function matchesFilter(itemValue, filterValue) {
+        if (!filterValue) return true;
+        if (!itemValue) return false;
+        if (filterValue === 'Diğer') return itemValue.startsWith('Diğer');
+        return itemValue === filterValue;
+      }
+
       // Filtrelenmiş veriyi getir
       function getFilteredData() {
         const sehir = filterSehir.value;
@@ -141,8 +165,8 @@
 
         return allPaylasimlar.filter(item => {
           if (sehir && extractSehir(item.konum) !== sehir) return false;
-          if (engel && item.engelTuru !== engel) return false;
-          if (sorun && item.sorunKategorisi !== sorun) return false;
+          if (!matchesFilter(item.engelTuru, engel)) return false;
+          if (!matchesFilter(item.sorunKategorisi, sorun)) return false;
           return true;
         });
       }
@@ -170,20 +194,10 @@
         allPaylasimlar = await BeVoysData.getSesler();
         loadingEl.remove();
 
-        // Dropdown'ları doldur
+        // Şehir dropdown'ını veriden doldur
         const sehirler = [...new Set(allPaylasimlar.map(d => extractSehir(d.konum)).filter(Boolean))].sort();
         sehirler.forEach(s => {
           filterSehir.appendChild(BeVoysComponents.createElement('option', { value: s, textContent: s }));
-        });
-
-        const engelTurleri = [...new Set(allPaylasimlar.map(d => d.engelTuru).filter(Boolean))].sort();
-        engelTurleri.forEach(t => {
-          filterEngel.appendChild(BeVoysComponents.createElement('option', { value: t, textContent: t }));
-        });
-
-        const sorunKategorileri = [...new Set(allPaylasimlar.map(d => d.sorunKategorisi).filter(Boolean))].sort();
-        sorunKategorileri.forEach(k => {
-          filterSorun.appendChild(BeVoysComponents.createElement('option', { value: k, textContent: k }));
         });
 
         renderList(allPaylasimlar);
