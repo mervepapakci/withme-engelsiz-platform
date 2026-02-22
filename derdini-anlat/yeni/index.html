@@ -67,9 +67,19 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="konum">Konum *</label>
-          <input class="form-input" type="text" id="konum" name="konum" placeholder="Şehir veya ilçe girin..." required>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="il">İl *</label>
+            <input class="form-input" type="text" id="il" name="il" placeholder="İl girin..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ilce">İlçe *</label>
+            <input class="form-input" type="text" id="ilce" name="ilce" placeholder="İlçe girin..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mahalle">Mahalle</label>
+            <input class="form-input" type="text" id="mahalle" name="mahalle" placeholder="Mahalle girin...">
+          </div>
         </div>
 
         <div class="form-row">
@@ -129,13 +139,15 @@
         e.preventDefault();
 
         const aciklama = document.getElementById('aciklama').value.trim();
-        const konum = document.getElementById('konum').value.trim();
+        const il = document.getElementById('il').value.trim();
+        const ilce = document.getElementById('ilce').value.trim();
+        const mahalle = document.getElementById('mahalle').value.trim();
         const isim = document.getElementById('isim').value.trim();
         const telefon = document.getElementById('telefon').value.trim();
         const eposta = document.getElementById('eposta').value.trim();
 
         // Zorunlu alan kontrolleri
-        if (!aciklama || !sorunSelect.value || !engelSelect.value || !konum || !isim || (!telefon && !eposta)) {
+        if (!aciklama || !sorunSelect.value || !engelSelect.value || !il || !ilce || !isim || (!telefon && !eposta)) {
           BeVoysComponents.showToast('Lütfen zorunlu alanları doldurun. (Telefon veya e-posta gerekli)', 'error');
           return;
         }
@@ -168,7 +180,7 @@
             aciklama,
             sorunKategorisi,
             engelTuru,
-            konum,
+            konum: [il, ilce, mahalle].filter(Boolean).join(', '),
             isim,
             telefon,
             eposta,
