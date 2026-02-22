@@ -103,7 +103,10 @@
       const ce = (tag, attrs) => BeVoysComponents.createElement(tag, attrs);
 
       const overlay = ce('div', { className: 'forum-popup-overlay' });
-      overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+      const kapat = () => { overlay.remove(); document.removeEventListener('keydown', escHandler); };
+      const escHandler = (e) => { if (e.key === 'Escape') kapat(); };
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) kapat(); });
+      document.addEventListener('keydown', escHandler);
 
       const popup = ce('div', { className: 'forum-popup' });
 
@@ -112,7 +115,7 @@
       header.appendChild(ce('h3', { textContent: item.baslik || 'Başlıksız' }));
       const closeBtn = ce('button', { className: 'forum-popup-close', 'aria-label': 'Kapat' });
       closeBtn.appendChild(BeVoysComponents.createIcon('x'));
-      closeBtn.addEventListener('click', () => overlay.remove());
+      closeBtn.addEventListener('click', kapat);
       header.appendChild(closeBtn);
       popup.appendChild(header);
 
