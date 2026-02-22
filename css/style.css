@@ -1067,6 +1067,62 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .forum-vote .vote-count {
     font-size: 16px;
   }
+
+  /* Popup desktop overrides */
+  .forum-popup-overlay {
+    padding: 60px;
+  }
+
+  .forum-popup {
+    max-width: 560px;
+    padding: 32px;
+    gap: 20px;
+  }
+
+  .forum-popup-header h3 {
+    font-size: 20px;
+  }
+
+  .forum-popup-close {
+    width: 36px;
+    height: 36px;
+  }
+
+  .forum-popup-desc {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .forum-popup-info {
+    gap: 12px;
+  }
+
+  .forum-popup-row {
+    gap: 10px;
+  }
+
+  .forum-popup-row i {
+    width: 18px;
+    height: 18px;
+  }
+
+  .forum-popup-label {
+    font-size: 14px;
+  }
+
+  .forum-popup-value {
+    font-size: 14px;
+  }
+
+  .forum-popup-vote {
+    gap: 10px;
+    font-size: 16px;
+  }
+
+  .forum-popup-vote i {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 /* --- Source Tag --- */
