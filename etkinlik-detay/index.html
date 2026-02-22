@@ -181,28 +181,33 @@
       body.appendChild(mapBtn);
 
       // Participant section
-      if (etkinlik.katilimciSayisi > 0) {
-        const partSection = BeVoysComponents.createElement('div', { className: 'participant-section' });
+      let currentKatilimci = parseInt(etkinlik.katilimciSayisi) || 0;
+      const partSection = BeVoysComponents.createElement('div', { className: 'participant-section' });
+      if (currentKatilimci === 0) partSection.style.display = 'none';
 
-        const partHeader = BeVoysComponents.createElement('div', { className: 'participant-header' });
-        partHeader.appendChild(BeVoysComponents.createIcon('users'));
-        partHeader.appendChild(BeVoysComponents.createElement('span', {
-          textContent: etkinlik.katilimciSayisi + ' kişi birlikte gitmek istiyor'
-        }));
-        partSection.appendChild(partHeader);
+      const partHeader = BeVoysComponents.createElement('div', { className: 'participant-header' });
+      partHeader.appendChild(BeVoysComponents.createIcon('users'));
+      const partCountSpan = BeVoysComponents.createElement('span', {
+        textContent: currentKatilimci + ' kişi birlikte gitmek istiyor'
+      });
+      partHeader.appendChild(partCountSpan);
+      partSection.appendChild(partHeader);
 
-        // Avatar circles
-        const avatarRow = BeVoysComponents.createElement('div', { className: 'avatar-row' });
-        const colors = ['#8B9A3B', '#5B9BD5', '#4CAF50', '#FFC107', '#808070', '#E85555'];
-        const count = Math.min(etkinlik.katilimciSayisi, 6);
-        for (let i = 0; i < count; i++) {
+      // Avatar circles
+      const avatarRow = BeVoysComponents.createElement('div', { className: 'avatar-row' });
+      const colors = ['#8B9A3B', '#5B9BD5', '#4CAF50', '#FFC107', '#808070', '#E85555'];
+      function renderAvatars(count) {
+        avatarRow.textContent = '';
+        const visible = Math.min(count, 6);
+        for (let i = 0; i < visible; i++) {
           const circle = BeVoysComponents.createElement('div', { className: 'avatar-circle' });
           circle.style.backgroundColor = colors[i % colors.length];
           avatarRow.appendChild(circle);
         }
-        partSection.appendChild(avatarRow);
-        body.appendChild(partSection);
       }
+      renderAvatars(currentKatilimci);
+      partSection.appendChild(avatarRow);
+      body.appendChild(partSection);
 
       // Ben de Gidiyorum butonu
       const birlikteBtn = BeVoysComponents.createElement('button', { className: 'btn btn-birlikte' });
@@ -215,6 +220,13 @@
           await BeVoysData.birlikteGit({ etkinlikId: etkinlik.id, etkinlikBaslik: etkinlik.baslik });
           BeVoysComponents.showToast('Ekleme başarılı!', 'success');
           birlikteBtn.textContent = 'Ekleme Başarılı';
+
+          // Katılımcı sayısını güncelle
+          currentKatilimci++;
+          partCountSpan.textContent = currentKatilimci + ' kişi birlikte gitmek istiyor';
+          renderAvatars(currentKatilimci);
+          partSection.style.display = '';
+          BeVoysComponents.refreshIcons();
         } catch (err) {
           BeVoysComponents.showToast('Bir hata oluştu, tekrar deneyin.', 'error');
           birlikteBtn.disabled = false;

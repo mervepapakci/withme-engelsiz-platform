@@ -72,10 +72,10 @@ const BeVoysData = {
     return this.loadJSON('data/etkinlikler.json');
   },
 
-  // Tek etkinlik getir
+  // Tek etkinlik getir (id string veya number olabilir, == ile karşılaştır)
   async getEtkinlik(id) {
     const etkinlikler = await this.getEtkinlikler();
-    return etkinlikler.find(e => e.id === parseInt(id));
+    return etkinlikler.find(e => String(e.id) === String(id));
   },
 
   // Hakları yükle

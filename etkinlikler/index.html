@@ -165,10 +165,11 @@
 
           meta.appendChild(BeVoysComponents.createElement('span', { className: 'spacer' }));
 
-          if (e.katilimciSayisi) {
+          const katilimci = parseInt(e.katilimciSayisi) || 0;
+          if (katilimci > 0) {
             const pCount = BeVoysComponents.createElement('span', { className: 'participant-count' });
             pCount.appendChild(BeVoysComponents.createIcon('users'));
-            pCount.appendChild(document.createTextNode(e.katilimciSayisi));
+            pCount.appendChild(document.createTextNode(katilimci));
             meta.appendChild(pCount);
           }
 
