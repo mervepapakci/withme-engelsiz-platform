@@ -1,87 +1,99 @@
-# withme-engelsiz-platform
-WithMe is an early-stage accessibility platform supporting people with disabilities through community, events, and access to rights and resources.
-# WithMe – Engelsiz Platform
+BeVoys-engelsiz-platform
 
-WithMe, engelli bireylerin günlük yaşamlarını desteklemek, haklara erişimlerini kolaylaştırmak ve topluluk temelli etkileşimi güçlendirmek amacıyla geliştirilen erken aşama bir erişilebilirlik platformudur.
+BeVoys, engelli bireyleri topluluk, etkinlikler ve haklara erişim yoluyla destekleyen erken aşama bir erişilebilirlik platformudur.
+
+BeVoys – Engelsiz Platform
+
+BeVoys, engelli bireylerin günlük yaşamlarını desteklemek, haklara erişimlerini kolaylaştırmak ve topluluk temelli etkileşimi güçlendirmek amacıyla geliştirilen erken aşama bir erişilebilirlik platformudur.
 
 Platform, kullanıcıların etkinliklere katılmasını, kendi etkinliklerini oluşturmasını, yaşadıkları zorlukları paylaşmasını ve destek alabilecekleri kurumlara ulaşmasını sağlar.
 
----
+Amaç
 
-## Amaç
+BeVoys’un amacı:
 
-WithMe’nin amacı:
+Engelli bireylerin yasal haklarına kolay erişmesini sağlamak
 
-- Engelli bireylerin yasal haklarına kolay erişmesini sağlamak  
-- Destek alabilecekleri STK’ları tek yerde sunmak  
-- Kullanıcıların etkinlik oluşturabilmesini ve etkinliklere katılabilmesini sağlamak  
-- Engelli bireylerin yaşadıkları sorunları anonim veya açık şekilde paylaşabilecekleri bir alan sunmak  
-- Gerçek kullanıcı geri bildirimleri toplayarak erişilebilirlik alanında veri oluşturmak  
+Destek alabilecekleri STK’ları tek yerde sunmak
 
----
+Kullanıcıların etkinlik oluşturabilmesini ve etkinliklere katılabilmesini sağlamak
 
-## MVP Özellikleri
+Engelli bireylerin yaşadıkları sorunları anonim veya açık şekilde paylaşabilecekleri bir alan sunmak
+
+Gerçek kullanıcı geri bildirimleri toplayarak erişilebilirlik alanında veri oluşturmak
+
+MVP Özellikleri
 
 Platformun mevcut MVP sürümünde bulunan özellikler:
 
-### Kullanıcı sistemi
-- Kullanıcı kayıt ve giriş
-- Kullanıcıya bağlı veri saklama
+Kullanıcı sistemi
 
-### Etkinlik sistemi
-- Etkinlik listeleme
-- Etkinlik oluşturma
-- Etkinliğe katılım isteği oluşturma
+Kullanıcı kayıt ve giriş
 
-### Derdini Anlat
-- Kullanıcıların yaşadıkları sorunları paylaşabilmesi
-- Anonim veya açık paylaşım seçeneği
-- Paylaşımların kaydedilmesi ve listelenmesi
+Kullanıcıya bağlı veri saklama
 
-### Yasal Haklar
-- Engelli bireylerin sahip olduğu hakların listelenmesi
-- Hak açıklamalarının görüntülenmesi
+Etkinlik sistemi
 
-### STK Listesi
-- Destek sağlayan STK’ların listelenmesi
-- Kurum bilgileri ve başvuru linkleri
+Etkinlik listeleme
 
-### Geri Bildirim
-- Kullanıcıların platform hakkında geri bildirim gönderebilmesi
+Etkinlik oluşturma
 
----
+Etkinliğe katılım isteği oluşturma
 
-## Proje Durumu
+Sesini Duyur
+
+Kullanıcıların yaşadıkları sorunları paylaşabilmesi
+
+Anonim veya açık paylaşım seçeneği
+
+Paylaşımların kaydedilmesi ve listelenmesi
+
+Yasal Haklar
+
+Engelli bireylerin sahip olduğu hakların listelenmesi
+
+Hak açıklamalarının görüntülenmesi
+
+STK Listesi
+
+Destek sağlayan STK’ların listelenmesi
+
+Kurum bilgileri ve başvuru linkleri
+
+Geri Bildirim
+
+Kullanıcıların platform hakkında geri bildirim gönderebilmesi
+
+Proje Durumu
 
 Bu proje şu anda MVP (Minimum Viable Product) aşamasındadır.
 
 Amaç:
 
-- Gerçek kullanıcı geri bildirimleri toplamak  
-- Platform ihtiyacını doğrulamak  
-- Ürünü gerçek kullanım senaryolarında test etmek  
+Gerçek kullanıcı geri bildirimleri toplamak
 
----
+Platform ihtiyacını doğrulamak
 
-## Hedef
+Ürünü gerçek kullanım senaryolarında test etmek
 
-WithMe, uzun vadede engelli bireylerin:
+Hedef
 
-- destek bulabileceği  
-- etkinliklere katılabileceği  
-- deneyimlerini paylaşabileceği  
-- ve haklarına daha kolay erişebileceği  
+BeVoys, uzun vadede engelli bireylerin:
+
+destek bulabileceği
+
+etkinliklere katılabileceği
+
+deneyimlerini paylaşabileceği
+
+ve haklarına daha kolay erişebileceği
 
 merkezi bir erişilebilirlik platformu olmayı hedeflemektedir.
 
----
+Proje Adı
 
-## Proje Adı
+BeVoys – Engelsiz Platform
 
-WithMe – Engelsiz Platform
-
----
-
-## İletişim
+İletişim
 
 Proje şu anda erken aşamadadır ve geliştirilmeye devam etmektedir.
